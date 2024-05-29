@@ -1,0 +1,17 @@
+{
+    "name": "AIV_FI_UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c9b59cca14b315b4684f1aaac9524f38",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
