@@ -78,6 +78,14 @@ public class Controller : MonoBehaviour
         {
             ability.Init(this);
         }
+        if (isPossessed)
+        {
+            internalOnPosses();
+        }
+        else
+        {
+            internalOnUnposses();
+        }
     }
     public void internalOnPosses()
     {
@@ -94,18 +102,6 @@ public class Controller : MonoBehaviour
         foreach (var ability in abilities)
         {
             ability.enabled = false;
-        }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (isPossessed)
-        {
-            internalOnPosses();
-        }
-        else
-        {
-            internalOnUnposses();
         }
     }
     #endregion
