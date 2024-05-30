@@ -48,12 +48,6 @@ public class Controller : MonoBehaviour
     public Action<float> OnDirectionChanged;
     #endregion
 
-    #region Action
-    public Action OnPosses;
-    public Action OnUnposses;
-    public Action OnMove;
-    #endregion
-
     #region RigidbodyMethods
     public Vector3 GetVelocity()
     {
@@ -79,29 +73,42 @@ public class Controller : MonoBehaviour
         foreach (var ability in abilities)
         {
             ability.Init(this);
-            //To check saved data if ability is unlocked
-            //ability.enabled = true;
-        }
-        if (isPossessed)
-        {
-            internalOnPosses();
         }
     }
     public void internalOnPosses()
     {
-        OnPosses?.Invoke();
         PlayerState.Get().PlayerTransform = transform;
+        foreach (var ability in abilities)
+        {
+            ability.enabled = true;
+        }
+    }
+    public void internalUnposses()
+    {
+        foreach (var ability in abilities)
+        {
+            ability.enabled = false;
+        }
     }
     // Start is called before the first frame update
     void Start()
     {
-
+        if (isPossessed)
+        {
+            internalOnPosses();
+        }
+        else
+        {
+            internalUnposses();
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        OnMove?.Invoke();
-    }
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (isPossessed)
+    //    {
+    //        OnMove?.Invoke();
+    //    }
+    //}
     #endregion
 }
