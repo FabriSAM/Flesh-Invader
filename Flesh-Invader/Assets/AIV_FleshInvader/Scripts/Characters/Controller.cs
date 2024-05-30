@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Controller : MonoBehaviour
 {
@@ -67,6 +68,14 @@ public class Controller : MonoBehaviour
     {
         SetVelocity(Vector2.zero);
         characterRigidbody.AddForce(impulse, ForceMode.Impulse);
+    }
+
+    public void SetRotation(Vector3 targetPoint, float rotSpeed)
+    {
+        var lookPos = targetPoint - transform.position;
+        Quaternion lookRot = Quaternion.LookRotation(lookPos);
+        lookRot.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, lookRot.eulerAngles.y, transform.rotation.eulerAngles.z);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotSpeed);
     }
     #endregion
 
