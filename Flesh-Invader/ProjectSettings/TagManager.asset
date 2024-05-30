@@ -16,8 +16,8 @@ TagManager:
   - Ground
   - StaticEnv
   - DynamicEnv
-  - EnemyBullet
-  - PlayerBullet
+  - EnemyDamager
+  - PlayerDamager
   - 
   - 
   - 
