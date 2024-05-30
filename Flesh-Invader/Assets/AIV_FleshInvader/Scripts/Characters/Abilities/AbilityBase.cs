@@ -22,8 +22,6 @@ public abstract class AbilityBase:MonoBehaviour
     public virtual void Init(Controller characterController)
     {
         this.characterController = characterController;
-        characterController.OnPosses += OnInputEnabled;
-        characterController.OnUnposses += OnInputDisabled;
     }
     #endregion
 }

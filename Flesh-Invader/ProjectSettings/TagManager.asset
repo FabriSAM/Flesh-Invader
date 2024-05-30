@@ -11,13 +11,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Ground
+  - StaticEnv
+  - DynamicEnv
+  - EnemyBullet
+  - PlayerBullet
   - 
   - 
   - 

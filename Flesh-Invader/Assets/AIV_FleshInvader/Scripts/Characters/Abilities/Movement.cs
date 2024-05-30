@@ -29,12 +29,12 @@ public class Movement : AbilityBase
     #region Override
     public override void OnInputDisabled()
     {
-        characterController.OnMove -= Move;
+        
     }
 
     public override void OnInputEnabled()
     {
-        characterController.OnMove += Move;
+        
     }
     public override void StopAbility()
     {
@@ -44,6 +44,10 @@ public class Movement : AbilityBase
     {
         base.Init(characterController);
         moveAction = InputManager.Player.Movement;
+    }
+    private void Update()
+    {
+        Move();
     }
     #endregion
 }

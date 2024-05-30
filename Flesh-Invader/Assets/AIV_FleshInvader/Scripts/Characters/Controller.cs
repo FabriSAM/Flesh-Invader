@@ -35,6 +35,10 @@ public class Controller : MonoBehaviour
     { 
         get { return characterRigidbody; } 
     }
+    public bool IsPossessed
+    {
+        get { return isPossessed; }
+    }
     #endregion
 
     #region PlayerMovement
@@ -46,12 +50,6 @@ public class Controller : MonoBehaviour
     public Action OnWalkStarted;
     public Action OnWalkEnded;
     public Action<float> OnDirectionChanged;
-    #endregion
-
-    #region Action
-    public Action OnPosses;
-    public Action OnUnposses;
-    public Action OnMove;
     #endregion
 
     #region RigidbodyMethods
@@ -79,29 +77,32 @@ public class Controller : MonoBehaviour
         foreach (var ability in abilities)
         {
             ability.Init(this);
-            //To check saved data if ability is unlocked
-            //ability.enabled = true;
         }
         if (isPossessed)
         {
             internalOnPosses();
         }
+        else
+        {
+            internalOnUnposses();
+        }
     }
     public void internalOnPosses()
     {
-        OnPosses?.Invoke();
+        isPossessed = true;
         PlayerState.Get().PlayerTransform = transform;
+        foreach (var ability in abilities)
+        {
+            ability.enabled = true;
+        }
     }
-    // Start is called before the first frame update
-    void Start()
+    public void internalOnUnposses()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        OnMove?.Invoke();
+        isPossessed = false;
+        foreach (var ability in abilities)
+        {
+            ability.enabled = false;
+        }
     }
     #endregion
 }
