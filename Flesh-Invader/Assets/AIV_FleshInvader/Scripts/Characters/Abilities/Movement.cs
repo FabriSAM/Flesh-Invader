@@ -43,8 +43,6 @@ public class Movement : AbilityBase
     public override void Init(Controller characterController)
     {
         base.Init(characterController);
-        characterController.OnPosses += OnInputEnabled;
-        characterController.OnUnposses += OnInputDisabled;
         moveAction = InputManager.Player.Movement;
     }
     #endregion

@@ -62,8 +62,6 @@ public class Controller : MonoBehaviour
 
     public void SetVelocity(Vector3 velocity)
     {
-        //characterRigidbody.velocity = velocity;
-        //characterRigidbody.velocity = new Vector3(transform.forward.z * velocity.x, 0, transform.right.x * velocity.z);
         characterRigidbody.velocity = transform.TransformDirection(new Vector3(velocity.x, characterRigidbody.velocity.y, velocity.z));
     }
 
@@ -86,8 +84,13 @@ public class Controller : MonoBehaviour
         }
         if (isPossessed)
         {
-            OnPosses?.Invoke();
+            internalOnPosses();
         }
+    }
+    public void internalOnPosses()
+    {
+        OnPosses?.Invoke();
+        PlayerState.Get().PlayerTransform = transform;
     }
     // Start is called before the first frame update
     void Start()
