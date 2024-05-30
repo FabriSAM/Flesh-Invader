@@ -70,6 +70,10 @@ public class Controller : MonoBehaviour
     }
     #endregion
 
+    #region Object Interactions
+    public Action OnInteractPerformed;
+    #endregion
+
     #region Mono
     private void Awake()
     {
