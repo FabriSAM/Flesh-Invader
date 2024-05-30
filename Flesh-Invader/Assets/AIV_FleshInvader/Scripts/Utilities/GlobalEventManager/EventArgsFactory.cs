@@ -21,7 +21,7 @@ namespace NotserializableEventManager {
 
         }
 
-        public static EventArgs PlayerHealthUpdatedFactory(int maxHP, int currentHP) {
+        public static EventArgs PlayerHealthUpdatedFactory(float maxHP, float currentHP) {
             EventArgs message = new EventArgs();
             message.variables = new object[2];
             message.variables[0] = maxHP;
@@ -29,9 +29,22 @@ namespace NotserializableEventManager {
             return message;
         }
 
-        public static void PlayerHealthUpdatedParser(EventArgs message, out int maxHP, out int currentHP) {
-            maxHP = (int)message.variables[0];
-            currentHP = (int)message.variables[1];
+        public static void PlayerHealthUpdatedParser(EventArgs message, out float maxHP, out float currentHP) {
+            maxHP = (float)message.variables[0];
+            currentHP = (float)message.variables[1];
+        }
+
+        public static EventArgs PlayerXPUpdatedFactory(float maxXP, float currentXP) {
+            EventArgs message = new EventArgs();
+            message.variables = new object[2];
+            message.variables[0] = maxXP;
+            message.variables[1] = currentXP;
+            return message;
+        }
+
+        public static void PlayerXPUpdatedParser(EventArgs message, out float maxXP, out float currentXP) {
+            maxXP = (float)message.variables[0];
+            currentXP = (float)message.variables[1];
         }
 
         public static EventArgs StartDialogueFactory(int dialogueID, int entryID) {
