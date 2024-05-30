@@ -35,6 +35,10 @@ public class Controller : MonoBehaviour
     { 
         get { return characterRigidbody; } 
     }
+    public bool IsPossessed
+    {
+        get { return isPossessed; }
+    }
     #endregion
 
     #region PlayerMovement
@@ -77,14 +81,16 @@ public class Controller : MonoBehaviour
     }
     public void internalOnPosses()
     {
+        isPossessed = true;
         PlayerState.Get().PlayerTransform = transform;
         foreach (var ability in abilities)
         {
             ability.enabled = true;
         }
     }
-    public void internalUnposses()
+    public void internalOnUnposses()
     {
+        isPossessed = false;
         foreach (var ability in abilities)
         {
             ability.enabled = false;
@@ -99,16 +105,8 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            internalUnposses();
+            internalOnUnposses();
         }
     }
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (isPossessed)
-    //    {
-    //        OnMove?.Invoke();
-    //    }
-    //}
     #endregion
 }
