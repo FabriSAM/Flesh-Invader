@@ -2,7 +2,8 @@
     "name": "AIV_FI_Env",
     "rootNamespace": "",
     "references": [
-        "AIV_FI_CombatSystem"
+        "AIV_FI_CombatSystem",
+        "AIV_FI_Character"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
