@@ -1,0 +1,26 @@
+.health-bar .unity-progress-bar__container {
+	min-height: 20px;
+	height: 22px;
+}
+
+.xp-bar .unity-progress-bar__container {
+	min-height: 10px;
+	height: 12px;
+}
+
+.health-bar .unity-progress-bar__background, .xp-bar .unity-progress-bar__background {
+	border-radius: 3px;
+	background-color: #444444;
+}
+
+.health-bar .unity-progress-bar__progress, .xp-bar .unity-progress-bar__progress {
+	border-radius: 3px;
+}
+
+.health-bar .unity-progress-bar__progress {
+	background-color: lime;
+}
+
+.xp-bar .unity-progress-bar__progress {
+	background-color: #0066ff;
+}
