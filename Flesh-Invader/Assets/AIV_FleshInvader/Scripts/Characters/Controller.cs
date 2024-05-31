@@ -102,6 +102,7 @@ public class Controller : MonoBehaviour
     }
     public void internalOnPosses()
     {
+        gameObject.layer = LayerMask.NameToLayer("Player");
         isPossessed = true;
         PlayerState.Get().PlayerTransform = transform;
         foreach (var ability in abilities)
@@ -111,6 +112,7 @@ public class Controller : MonoBehaviour
     }
     public void internalOnUnposses()
     {
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
         foreach (var ability in abilities)
         {
