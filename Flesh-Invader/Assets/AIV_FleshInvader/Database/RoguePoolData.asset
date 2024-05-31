@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2b8612a4154f040a3c27171982b125, type: 3}
   m_Name: RoguePoolData
   m_EditorClassIdentifier: 
-  poolKey: 
-  prefab: {fileID: 0}
-  poolNumber: 0
-  resizablePool: 0
+  poolKey: Rogue
+  prefab: {fileID: 1459255521996219516, guid: 45c2d5eba31524a46a85a95aec8671cb, type: 3}
+  poolNumber: 40
+  resizablePool: 1
