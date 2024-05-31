@@ -47,7 +47,7 @@ namespace NotserializableEventManager {
             currentXP = (float)message.variables[1];
         }
 
-        public static EventArgs StartDialogueFactory(int dialogueID, int entryID) {
+        public static EventArgs StartDialogueFactory(uint dialogueID, int entryID) {
             EventArgs message = new EventArgs();
             message.variables = new object[2];
             message.variables[0] = dialogueID;
@@ -55,11 +55,23 @@ namespace NotserializableEventManager {
             return message;
         }
 
-        public static void StartDialogueParser(EventArgs message, out int dialogueID, out int entryID) {
-            dialogueID = (int)message.variables[0];
+        public static void StartDialogueParser(EventArgs message, out uint dialogueID, out int entryID) {
+            dialogueID = (uint)message.variables[0];
             entryID = (int)message.variables[1];
         }
 
+        public static EventArgs DialoguePerformedFactory(uint dialogueID)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = dialogueID;
+            return message;
+        }
+
+        public static void DialoguePerformedParser(EventArgs message, out uint dialogueID)
+        {
+            dialogueID = (uint)message.variables[0];
+        }
     }
 
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8692694805347141257}
   - component: {fileID: 4016330398744442372}
   - component: {fileID: 2285539832084404391}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SecurityWallGate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,6 +82,14 @@ PrefabInstance:
     - target: {fileID: 119688, guid: 0b5e78b4ee90a9143b1f1397a259e3fa, type: 3}
       propertyPath: m_Name
       value: SA_Prop_SecurityWallGate_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 119688, guid: 0b5e78b4ee90a9143b1f1397a259e3fa, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 165822, guid: 0b5e78b4ee90a9143b1f1397a259e3fa, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 412348, guid: 0b5e78b4ee90a9143b1f1397a259e3fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -198,6 +206,14 @@ PrefabInstance:
     - target: {fileID: 2744176213042792296, guid: a02a9ae4afb379a43b04ae50dd99721f, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2744176213042792296, guid: a02a9ae4afb379a43b04ae50dd99721f, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105006424691296609, guid: a02a9ae4afb379a43b04ae50dd99721f, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8763727701410147305, guid: a02a9ae4afb379a43b04ae50dd99721f, type: 3}
       propertyPath: m_Pivot.x

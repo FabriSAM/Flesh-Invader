@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5470135531005800519}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Abilities
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 7202770769680176666}
   - component: {fileID: 6915587014575824952}
   - component: {fileID: 1237347988673683209}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CharacterBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7293638421599397433}
   - component: {fileID: 7789214993259242629}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Movement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2554088700077501029}
   - component: {fileID: 362315181448641258}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Interact
   m_TagString: Untagged
   m_Icon: {fileID: 0}

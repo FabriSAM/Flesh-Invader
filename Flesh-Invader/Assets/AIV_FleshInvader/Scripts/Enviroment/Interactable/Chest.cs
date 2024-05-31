@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class Chest : MonoBehaviour
     Collider trigger;
     [SerializeField]
     GameObject canvas;
+    [SerializeField]
+    private uint dialogueID;
     #endregion
 
     #region Variables
@@ -57,7 +60,7 @@ public class Chest : MonoBehaviour
     }
     void OnOpen()
     {
-        //TO DO
+        GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
     }
     #endregion
 }
