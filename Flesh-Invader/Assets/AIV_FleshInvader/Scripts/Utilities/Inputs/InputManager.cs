@@ -21,13 +21,9 @@ public static class InputManager
         get { return input.UI; }
     }
 
-    public static float Player_Horizontal 
+    public static Vector2 Player_Move 
     {
-        get { return input.Player.Movement.ReadValue<Vector2>().x; }
-    }
-    public static float Player_Vertical
-    {
-        get { return input.Player.Movement.ReadValue<Vector2>().y; }
+        get { return input.Player.Movement.ReadValue<Vector2>(); }
     }
     public static bool Player_Interact_IsPressed 
     {

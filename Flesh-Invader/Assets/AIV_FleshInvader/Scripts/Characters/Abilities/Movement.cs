@@ -28,11 +28,12 @@ public class Movement : AbilityBase
     #region PrivateMethods
     private void Move()
     {
-        characterController.ComputedDirection = moveAction.ReadValue<Vector2>();
-        Vector3 velocity = new Vector3 (characterController.ComputedDirection.x,0,characterController.ComputedDirection.y).normalized * speed;
-        characterController.SetVelocity(velocity);
-
-
+        Vector2 inputDirection = InputManager.Player_Move;
+        Vector3 directionMovement=(transform.right*inputDirection.x+transform.forward*inputDirection.y).normalized;
+        characterController.SetVelocity(directionMovement*speed);
+        //characterController.ComputedDirection = moveAction.ReadValue<Vector2>();
+        //Vector3 velocity = new Vector3 (characterController.ComputedDirection.x,0,characterController.ComputedDirection.y).normalized * speed;
+        //characterController.SetVelocity(velocity);
     }
 
     private void Rotate()
@@ -66,9 +67,8 @@ public class Movement : AbilityBase
     public override void Init(Controller characterController)
     {
         base.Init(characterController);
-        moveAction = InputManager.Player.Movement;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         Move();
         Rotate();

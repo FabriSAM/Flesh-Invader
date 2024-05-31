@@ -43,14 +43,8 @@ public class Controller : MonoBehaviour
     #endregion
 
     #region PlayerMovement
-    public Vector2 ComputedDirection
-    {
-        get;
-        set;
-    }
     public Action OnWalkStarted;
     public Action OnWalkEnded;
-    public Action<float> OnDirectionChanged;
     #endregion
 
     #region RigidbodyMethods
@@ -61,12 +55,12 @@ public class Controller : MonoBehaviour
 
     public void SetVelocity(Vector3 velocity)
     {
-        characterRigidbody.velocity = transform.TransformDirection(new Vector3(velocity.x, characterRigidbody.velocity.y, velocity.z));
+        characterRigidbody.velocity = new Vector3(velocity.x, characterRigidbody.velocity.y, velocity.z);
     }
 
     public void SetImpulse(Vector3 impulse)
     {
-        SetVelocity(Vector2.zero);
+        SetVelocity(Vector3.zero);
         characterRigidbody.AddForce(impulse, ForceMode.Impulse);
     }
 

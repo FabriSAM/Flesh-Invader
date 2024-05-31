@@ -41,7 +41,7 @@ public class FixedCamera : MonoBehaviour
     {
         newPos = PlayerState.Get().PlayerTransform.position + offset;
         currentPos = gameObject.transform.position;
-        LerpCameraMovement();
+        AnchorCameraMovement();
         //float sqrDistance = Vector3.SqrMagnitude(newPos - currentPos);
         //Debug.Log(sqrDistance);
         //if (sqrDistance >= anchorDistance * anchorDistance)
