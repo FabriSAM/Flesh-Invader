@@ -5,10 +5,20 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
+[Serializable]
+public struct Pipo
+{
+   [SerializeField] float numeroDiPipi;
+}
+
 public abstract class Character : MonoBehaviour
 {
     protected Controller controller;
     protected NavMeshAgent agent;
+
+    [Header("Stats")]
+    //[SerializeField] PlayerInformation characterInfo;
+    [SerializeField] Pipo pipo;
 
     [Header("Speeds")]
     [SerializeField] float baseSpeed;
@@ -58,7 +68,6 @@ public abstract class Character : MonoBehaviour
     }
     #endregion
 
-
     #region States
     private State SetUpPatrol()
     {
@@ -88,8 +97,8 @@ public abstract class Character : MonoBehaviour
     private State SetUpStutter()
     {
         State stutter = new State();
-        TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponent<MeshRenderer>(), testStutterMaterial);
-        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(GetComponent<Rigidbody>(), new Vector3(0, 0, 0), false);
+        TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<MeshRenderer>(), testStutterMaterial);
+        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
 
         stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
         return stutter;
@@ -100,8 +109,8 @@ public abstract class Character : MonoBehaviour
     private void Start()
     {
         StateMachine FSM = GetComponentInChildren<StateMachine>();
-        agent = GetComponent<NavMeshAgent>();
-
+        agent = GetComponentInParent<NavMeshAgent>();
+        
         State patrol = SetUpPatrol();
         State chase = SetUpChase();
         State stutter = SetUpStutter();
