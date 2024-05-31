@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class Character : MonoBehaviour
 {
-    Controller controller;
+    protected Controller controller;
+    protected NavMeshAgent agent;
+
+
+    [Header("Stats")]
+    //[SerializeField] PlayerInformation characterInfo;
 
     [Header("Speeds")]
     [SerializeField] float baseSpeed;
@@ -32,7 +38,7 @@ public abstract class Character : MonoBehaviour
     private Transition StartChase(State prev, State next)
     {
         Transition transition = new Transition();
-        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(transform, PlayerState.Get().PlayerTransform,
+        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
             distanceToFollowPlayer, COMPARISON.LESSEQUAL);
         transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
         return transition;
@@ -41,7 +47,7 @@ public abstract class Character : MonoBehaviour
     private Transition StopChase(State prev, State next)
     {
         Transition transition = new Transition();
-        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(transform, PlayerState.Get().PlayerTransform,
+        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
             distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
         transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
         return transition;
@@ -56,7 +62,6 @@ public abstract class Character : MonoBehaviour
     }
     #endregion
 
-
     #region States
     private State SetUpPatrol()
     {
@@ -64,9 +69,8 @@ public abstract class Character : MonoBehaviour
    
         PatrolPositions = new Vector3[patrolPointNumber];
 
-        //ChangeSpeedAction setPatrolSpeed = new ChangeSpeedAction(GetComponent<Rigidbody>(),new Vector3(baseSpeed,0,0), false);
-        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(transform.position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
-        PatrolAction patrolAction = new PatrolAction(gameObject, PatrolPositions, patrolAcceptableRadius, baseSpeed);
+        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(PlayerState.Get().PlayerTransform.position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
+        PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, patrolAcceptableRadius, baseSpeed);
 
         patrol.SetUpMe(new StateAction[] { /*setPatrolSpeed,*/ generatePatrolPoints, patrolAction });
 
@@ -77,7 +81,7 @@ public abstract class Character : MonoBehaviour
     {
         State chase = new State();
 
-        ChaseTargetAction chaseTarget = new ChaseTargetAction(gameObject, chaseSpeed);
+        ChaseTargetAction chaseTarget = new ChaseTargetAction(agent, chaseSpeed);
 
         chase.SetUpMe(new StateAction[] { chaseTarget });
         return chase;
@@ -86,8 +90,8 @@ public abstract class Character : MonoBehaviour
     private State SetUpStutter()
     {
         State stutter = new State();
-        TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponent<MeshRenderer>(), testStutterMaterial);
-        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(GetComponent<Rigidbody>(), new Vector3(0, 0, 0), false);
+        TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<MeshRenderer>(), testStutterMaterial);
+        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
 
         stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
         return stutter;
@@ -95,9 +99,11 @@ public abstract class Character : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    private void OnEnable()
     {
         StateMachine FSM = GetComponentInChildren<StateMachine>();
+        agent = GetComponentInParent<NavMeshAgent>();
+        
         State patrol = SetUpPatrol();
         State chase = SetUpChase();
         State stutter = SetUpStutter();

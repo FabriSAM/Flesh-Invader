@@ -5,22 +5,19 @@ using UnityEngine.AI;
 
 public class PatrolAction : StateAction
 {
-    private GameObject patroller;
-    //private NavMeshAgent navMeshAgent;
 
     private Vector3[] patrolPositions;
     private int positionIndex;
     private float acceptableRadius;
 
     private Vector3 currentTransformToReach;
-    private Rigidbody rigidbody;
+    private NavMeshAgent navMeshAgent;
+
     private float patrolSpeed;
 
-    public PatrolAction(GameObject patroller, Vector3[] patrolPositions, float acceptableRadius, float patrolSpeed)
+    public PatrolAction(NavMeshAgent patroller, Vector3[] patrolPositions, float acceptableRadius, float patrolSpeed)
     {
-        this.patroller = patroller;
-        //navMeshAgent = patroller.GetComponent<navMeshAgent>();
-        rigidbody = patroller.GetComponent<Rigidbody>();
+        navMeshAgent = patroller;
 
         this.patrolPositions = patrolPositions;
         this.acceptableRadius = acceptableRadius;
@@ -32,14 +29,14 @@ public class PatrolAction : StateAction
         if (patrolPositions.Length != 0)
             currentTransformToReach = patrolPositions[0];
         else 
-            currentTransformToReach = patroller.transform.position;
+            currentTransformToReach = navMeshAgent.transform.position;
         InternalSetVelocity();
     }
 
     public override void OnUpdate()
     {
         InternalSetVelocity();
-        Vector3 positionToReachLocal = patroller.transform.InverseTransformPoint(currentTransformToReach);
+        Vector3 positionToReachLocal = navMeshAgent.transform.InverseTransformPoint(currentTransformToReach);
        
         if (Vector3.SqrMagnitude(positionToReachLocal) < acceptableRadius * acceptableRadius)
         {
@@ -49,6 +46,7 @@ public class PatrolAction : StateAction
 
     private void Switch()
     {
+        navMeshAgent.speed = 0;
         positionIndex++;
         if (positionIndex >= patrolPositions.Length)
             positionIndex = 0;
@@ -57,7 +55,11 @@ public class PatrolAction : StateAction
 
     private void InternalSetVelocity()
     {
-        Vector3 direction = (currentTransformToReach - patroller.transform.position);
-        rigidbody.velocity = direction.normalized * patrolSpeed;
+        navMeshAgent.destination = currentTransformToReach;
+        navMeshAgent.speed = this.patrolSpeed;
+        
+        //Vector3 direction = (currentTransformToReach - patroller.transform.position);
+        //rigidbody.velocity = direction.normalized * patrolSpeed;
+
     }
 }

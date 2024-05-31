@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GeneratePatrolPointAction : StateAction
 {
@@ -19,12 +20,19 @@ public class GeneratePatrolPointAction : StateAction
 
     public override void OnEnter()
     {
+        NavMeshHit hit;     
         for (int i = 0; i<patrolPointsNumber; i++)
         {
-            patrolPositionsToFill[i] = centerPosition + new Vector3(
-                Random.Range(-patrolRadius, patrolRadius), 
-                0,
-                Random.Range(-patrolRadius, patrolRadius));
+            NavMesh.SamplePosition(
+                centerPosition + 
+                new Vector3
+                (
+                    Random.Range(-1f,1f), 0, Random.Range(-1f,1f)
+                ).normalized,
+                out hit, patrolRadius,1
+            );
+
+            patrolPositionsToFill[i] = centerPosition + hit.position;
 
         }
     }
