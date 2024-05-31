@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 452410949}
   - component: {fileID: 452410948}
   - component: {fileID: 452410947}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,6 +280,18 @@ PrefabInstance:
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662197831030634176, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662197831030634176, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
+      propertyPath: cameraSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662197831030634176, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
+      propertyPath: anchorDistance
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -474,6 +486,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7240822271535128126, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789214993259242629, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
+      propertyPath: speed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8595605962424499629, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
