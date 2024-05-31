@@ -69,8 +69,7 @@ public abstract class Character : MonoBehaviour
    
         PatrolPositions = new Vector3[patrolPointNumber];
 
-        //ChangeSpeedAction setPatrolSpeed = new ChangeSpeedAction(GetComponent<Rigidbody>(),new Vector3(baseSpeed,0,0), false);
-        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
+        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(PlayerState.Get().PlayerTransform.position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
         PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, patrolAcceptableRadius, baseSpeed);
 
         patrol.SetUpMe(new StateAction[] { /*setPatrolSpeed,*/ generatePatrolPoints, patrolAction });
@@ -100,7 +99,7 @@ public abstract class Character : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    private void OnEnable()
     {
         StateMachine FSM = GetComponentInChildren<StateMachine>();
         agent = GetComponentInParent<NavMeshAgent>();

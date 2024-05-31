@@ -191,12 +191,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 1459255521996219516}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 5
+  m_Radius: 2
   m_Speed: 10
   m_Acceleration: 60
   avoidancePriority: 50
   m_AngularSpeed: 180
-  m_StoppingDistance: 5
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -249,15 +249,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bd8800da89ce64594adf9c313a9bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterTransform: {fileID: 3711381827548582195}
   baseSpeed: 25
   chaseSpeed: 15
   distanceToFollowPlayer: 50
-  distanceToStopFollowPlayer: 51
+  distanceToStopFollowPlayer: 60
   distanceToStartAttack: 5
   distanceToStopAttack: 6
   patrolAcceptableRadius: 5
-  patrolPointsGenerationRadius: 15
+  patrolPointsGenerationRadius: 5
   patrolPointNumber: 4
   stutterTime: 2
   testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
