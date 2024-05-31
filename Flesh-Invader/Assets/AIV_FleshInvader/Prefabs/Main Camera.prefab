@@ -105,3 +105,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aaaebb3dd75ac74aa8cbca2bde8afd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraSpeed: 4

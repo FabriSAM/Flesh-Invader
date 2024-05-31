@@ -7,10 +7,7 @@ public class FixedCamera : MonoBehaviour
 {
     [SerializeField]
     private float cameraSpeed;
-    [SerializeField]
-    private float anchorDistance;
-    [SerializeField]
-    private bool outOfRange;
+
     #region Private Members
     private Vector3 offset;
     private Vector3 newPos;
@@ -27,7 +24,6 @@ public class FixedCamera : MonoBehaviour
     {
         CameraMovement();
     }
-
     private void LerpCameraMovement()
     {
         gameObject.transform.position = Vector3.Lerp(currentPos, newPos, cameraSpeed * Time.deltaTime);
@@ -41,29 +37,6 @@ public class FixedCamera : MonoBehaviour
     {
         newPos = PlayerState.Get().PlayerTransform.position + offset;
         currentPos = gameObject.transform.position;
-        AnchorCameraMovement();
-        //float sqrDistance = Vector3.SqrMagnitude(newPos - currentPos);
-        //Debug.Log(sqrDistance);
-        //if (sqrDistance >= anchorDistance * anchorDistance)
-        //{
-        //    outOfRange = true;
-        //}
-        //if(outOfRange)
-        //{
-        //    LerpCameraMovement();
-        //    if (sqrDistance <= 0.02)
-        //    {
-        //        outOfRange=false;
-        //    }
-        //    return;
-        //}
-        //AnchorCameraMovement();
-        //if (sqrDistance <= anchorDistance*anchorDistance)
-        //{
-        //    AnchorCameraMovement();
-
-        //    return;
-        //}
-        //LerpCameraMovement();
+        LerpCameraMovement();
     }
 }
