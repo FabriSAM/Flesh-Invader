@@ -249,8 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bd8800da89ce64594adf9c313a9bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipo:
-    numeroDiPipi: 0
+  CharacterTransform: {fileID: 3711381827548582195}
   baseSpeed: 25
   chaseSpeed: 15
   distanceToFollowPlayer: 50

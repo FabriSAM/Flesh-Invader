@@ -219,6 +219,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7501876639713217753, guid: 45c2d5eba31524a46a85a95aec8671cb, type: 3}
+      propertyPath: CharacterTransform
+      value: 
+      objectReference: {fileID: 1417964470}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -668,6 +672,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &1417964470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3711381827548582195, guid: 45c2d5eba31524a46a85a95aec8671cb, type: 3}
+  m_PrefabInstance: {fileID: 171368422}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1580535021
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +752,7 @@ GameObject:
   - component: {fileID: 1695856624}
   - component: {fileID: 1695856623}
   - component: {fileID: 1695856622}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

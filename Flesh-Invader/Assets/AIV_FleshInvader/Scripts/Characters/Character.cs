@@ -5,20 +5,14 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-[Serializable]
-public struct Pipo
-{
-   [SerializeField] float numeroDiPipi;
-}
-
 public abstract class Character : MonoBehaviour
 {
     protected Controller controller;
     protected NavMeshAgent agent;
 
+
     [Header("Stats")]
     //[SerializeField] PlayerInformation characterInfo;
-    [SerializeField] Pipo pipo;
 
     [Header("Speeds")]
     [SerializeField] float baseSpeed;
@@ -44,7 +38,7 @@ public abstract class Character : MonoBehaviour
     private Transition StartChase(State prev, State next)
     {
         Transition transition = new Transition();
-        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(transform, PlayerState.Get().PlayerTransform,
+        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
             distanceToFollowPlayer, COMPARISON.LESSEQUAL);
         transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
         return transition;
@@ -53,7 +47,7 @@ public abstract class Character : MonoBehaviour
     private Transition StopChase(State prev, State next)
     {
         Transition transition = new Transition();
-        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(transform, PlayerState.Get().PlayerTransform,
+        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
             distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
         transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
         return transition;
@@ -76,7 +70,7 @@ public abstract class Character : MonoBehaviour
         PatrolPositions = new Vector3[patrolPointNumber];
 
         //ChangeSpeedAction setPatrolSpeed = new ChangeSpeedAction(GetComponent<Rigidbody>(),new Vector3(baseSpeed,0,0), false);
-        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(transform.position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
+        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
         PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, patrolAcceptableRadius, baseSpeed);
 
         patrol.SetUpMe(new StateAction[] { /*setPatrolSpeed,*/ generatePatrolPoints, patrolAction });

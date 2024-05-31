@@ -28,11 +28,16 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
 
     private void SpawnCharacter()
     {
-        Character characterToSpawn = Pooler.Instance.GetPooledObject(characterType[Random.Range(0, characterType.Length)]).GetComponent<Character>();
-        Vector3 spawnOffset = Random.insideUnitSphere * spawnRadius; 
-        spawnOffset.y = 0;
-        characterToSpawn.transform.position = PlayerState.Get().transform.position + spawnOffset;
-        characterToSpawn.gameObject.SetActive(true);
+        PoolData pool = characterType[Random.Range(0, characterType.Length)];
+        GameObject obj =  Pooler.Instance.GetPooledObject(pool);
+        Character characterToSpawn = obj.GetComponentInChildren<Character>();
+        if (characterToSpawn != null)
+        {
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnRadius; 
+            spawnOffset.y = 0;
+            characterToSpawn.transform.position = PlayerState.Get().transform.position + spawnOffset;
+            obj.SetActive(true);
+        }
     }
 
 
