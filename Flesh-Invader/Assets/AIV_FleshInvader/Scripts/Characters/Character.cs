@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class Character : MonoBehaviour
 {
-    Controller controller;
+    protected Controller controller;
+    protected NavMeshAgent agent;
 
     [Header("Speeds")]
     [SerializeField] float baseSpeed;
@@ -66,7 +68,7 @@ public abstract class Character : MonoBehaviour
 
         //ChangeSpeedAction setPatrolSpeed = new ChangeSpeedAction(GetComponent<Rigidbody>(),new Vector3(baseSpeed,0,0), false);
         GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(transform.position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
-        PatrolAction patrolAction = new PatrolAction(gameObject, PatrolPositions, patrolAcceptableRadius, baseSpeed);
+        PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, patrolAcceptableRadius, baseSpeed);
 
         patrol.SetUpMe(new StateAction[] { /*setPatrolSpeed,*/ generatePatrolPoints, patrolAction });
 
@@ -77,7 +79,7 @@ public abstract class Character : MonoBehaviour
     {
         State chase = new State();
 
-        ChaseTargetAction chaseTarget = new ChaseTargetAction(gameObject, chaseSpeed);
+        ChaseTargetAction chaseTarget = new ChaseTargetAction(agent, chaseSpeed);
 
         chase.SetUpMe(new StateAction[] { chaseTarget });
         return chase;
@@ -98,6 +100,8 @@ public abstract class Character : MonoBehaviour
     private void Start()
     {
         StateMachine FSM = GetComponentInChildren<StateMachine>();
+        agent = GetComponent<NavMeshAgent>();
+
         State patrol = SetUpPatrol();
         State chase = SetUpChase();
         State stutter = SetUpStutter();
