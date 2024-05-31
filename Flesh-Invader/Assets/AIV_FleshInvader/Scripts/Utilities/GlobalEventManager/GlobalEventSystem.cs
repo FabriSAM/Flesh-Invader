@@ -5,7 +5,8 @@ using UnityEngine;
         LockPlayer,
         PlayerDeath,
         PlayerHealthUpdated,
-        StartDialogue
+        StartDialogue,
+        PlayerXPUpdated
     }
 
     public class EventArgs {
