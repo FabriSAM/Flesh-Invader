@@ -213,8 +213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType:
   - {fileID: 11400000, guid: f4d1a44fa525cc64fb609be284e94eaf, type: 2}
+  - {fileID: 11400000, guid: 647ddcc3997bac64984946b76e500c0d, type: 2}
   spawnRadius: 100
-  spawnTime: 2
+  spawnTime: 0.3
   spawnTimeCounter: 0
 --- !u!1 &437291406
 GameObject:
@@ -472,7 +473,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
+  - {fileID: 2100000, guid: 2652eaefba62e3d47820654d8583d7dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -734,7 +735,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a127b0b9854188b4fb299aa2b91f2b70, type: 2}
+  - {fileID: 2100000, guid: fb8768f0758a2aa439bb4a07f67dfb8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
