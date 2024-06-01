@@ -60,21 +60,16 @@ namespace NotserializableEventManager {
             entryID = (int)message.variables[1];
         }
 
-        // TO-DO
-        // Make EnemyStatistics and EnemyNarrative a complete collection of all parameters, instead of using single parameters
-        // inside EnemyStatistics template. We will pass the structures only, and they will have every needed information
-        public static void PossessionExecutedFactory(EnemyStatistics characterStatsInfo, EnemyNarrative characterNarrInfo)
+        public static void PossessionExecutedFactory(EnemyInfo enemyInfo)
         {
             EventArgs message = new EventArgs();
-            message.variables = new object[2];
-            message.variables[0] = characterStatsInfo;
-            message.variables[1] = characterNarrInfo;
+            message.variables = new object[1];
+            message.variables[0] = enemyInfo;
         }
 
-        public static void PossessionExecutedParser(EventArgs message, out EnemyStatistics characterStatsInfo, EnemyNarrative characterNarrInfo)
+        public static void PossessionExecutedParser(EventArgs message, out EnemyInfo enemyInfo)
         {
-            characterStatsInfo = (EnemyStatistics)message.variables[0];
-            characterNarrInfo = (EnemyNarrative)message.variables[1];
+            enemyInfo =  (EnemyInfo) message.variables[0];
         }
     }
 

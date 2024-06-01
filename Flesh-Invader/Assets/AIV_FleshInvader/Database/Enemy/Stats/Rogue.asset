@@ -12,21 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf26f3daef0e364fa858200edf4542d, type: 3}
   m_Name: Rogue
   m_EditorClassIdentifier: 
-  enemyType: 1
-  health: 6
-  damage: 10
-  speed: 12
-  xp: 9
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  passiveAbilityDescription: Lockpick
-  baseAbilityDescription: Melee
-  distanceToFollowPlayer: 50
-  distanceToStopFollowPlayer: 75
-  distanceToStartAttack: 5
-  distanceToStopAttack: 8
-  patrolAcceptableRadius: 5
-  patrolPointsGenerationRadius: 20
-  patrolPointNumber: 4
-  chaseSpeedMultiplier: 1.7
-  stutterTime: 2
-  testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
+  charInfo:
+    charStats:
+      EnemyType: 1
+      Health: 8
+      Damage: 5
+      Speed: 12
+      Xp: 9
+      CanLockpick: 1
+    charStatesStats:
+      distanceToFollowPlayer: 50
+      distanceToStopFollowPlayer: 75
+      distanceToStartAttack: 50
+      distanceToStopAttack: 60
+      patrolAcceptableRadius: 5
+      patrolPointsGenerationRadius: 20
+      patrolPointNumber: 4
+      chaseSpeedMultiplier: 1.8
+      stutterTime: 2
+      testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}

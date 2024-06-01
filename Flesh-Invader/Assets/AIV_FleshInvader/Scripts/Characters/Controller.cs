@@ -104,9 +104,7 @@ public class Controller : MonoBehaviour
         {
             ability.enabled = true;
         }
-        
-        // HERE ?
-        // To cast PossessionExecuted Event
+        Debug.Log("Possessed");
     }
     public void internalOnUnposses()
     {

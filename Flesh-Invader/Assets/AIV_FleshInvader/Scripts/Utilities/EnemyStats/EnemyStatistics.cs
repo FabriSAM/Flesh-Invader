@@ -4,6 +4,18 @@ using UnityEngine;
 [Serializable]
 public struct EnemyStatistics
 {
-    private float health;
-    private float speed;
+    [SerializeField]
+    public EnemyType EnemyType;
+    [Header("Stats")]
+    [SerializeField]
+    public float Health;
+    [SerializeField]
+    public float Damage;
+    [SerializeField]
+    public float Speed;
+    [SerializeField]
+    public float Xp;
+
+    [SerializeField]
+    public bool CanLockpick;
 }

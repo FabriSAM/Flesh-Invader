@@ -5,13 +5,13 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour, IPossessable
 {
     protected Controller controller;
     protected NavMeshAgent agent;
 
     [Header("Stats")]
-    [SerializeField] EnemyStatisticsTemplate characterStartingInfo;
+    [SerializeField] private EnemyStatisticsTemplate characterStartingInfo;
 
     #region ProtectedVariables
     [Header("Speeds")]
@@ -25,10 +25,10 @@ public abstract class Character : MonoBehaviour
     protected float distanceToStopFollowPlayer;
     protected float distanceToStartAttack;
     protected float distanceToStopAttack;
-   
+
     protected float patrolAcceptableRadius;
     protected float patrolPointsGenerationRadius;
-    protected int   patrolPointNumber;
+    protected int patrolPointNumber;
     protected Vector3[] PatrolPositions;
 
     [Header("Stutter")]
@@ -37,6 +37,11 @@ public abstract class Character : MonoBehaviour
 
     #endregion
 
+    #region ProtectedProperties
+    public EnemyInfo CharacterInfo {get { return characterStartingInfo.CharInfo; }}
+    #endregion
+
+    #region FSM
     #region Transition
     private Transition StartChase(State prev, State next)
     {
@@ -122,7 +127,13 @@ public abstract class Character : MonoBehaviour
         patrolPointNumber = characterStartingInfo.PatrolPointNumber;
 
     }
+    #endregion
 
+    #region Mono
+    private void Awake()
+    {
+        controller = GetComponentInParent<Controller>();
+    }
 
     private void OnEnable()
     {
@@ -140,6 +151,19 @@ public abstract class Character : MonoBehaviour
         FSM.Init(new State[] {patrol, stutter, chase }, patrol);
     }
 
+    #endregion
+
     public abstract void CastAbility();
- 
+
+    public void Possess()
+    {
+        controller.internalOnPosses();
+        enabled = false;
+    }
+
+    public void UnPossess()
+    {
+        controller.internalOnUnposses();
+
+    }
 }
