@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : InteractableBase
+public class AlienObject : InteractableBase
 {
     #region SerializeFields
     [SerializeField]
@@ -44,4 +44,5 @@ public class Chest : InteractableBase
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
     }
     #endregion
+
 }
