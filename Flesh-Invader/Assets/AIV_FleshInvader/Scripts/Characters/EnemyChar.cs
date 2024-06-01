@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,35 +6,43 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Character : MonoBehaviour
+public abstract class EnemyChar : MonoBehaviour, IPossessable
 {
     protected Controller controller;
     protected NavMeshAgent agent;
 
-
     [Header("Stats")]
-    //[SerializeField] PlayerInformation characterInfo;
+    [SerializeField] private EnemyStatisticsTemplate characterStartingInfo;
 
+    #region ProtectedVariables
     [Header("Speeds")]
-    [SerializeField] float baseSpeed;
-    [SerializeField] float chaseSpeed;
+    protected float baseSpeed;
+    protected float chaseSpeedMultiplier;
+    protected float chaseSpeed;
+
 
     protected Transform TargetTransform;
-    [SerializeField] protected float distanceToFollowPlayer;
-    [SerializeField] protected float distanceToStopFollowPlayer;
-    [SerializeField] protected float distanceToStartAttack;
-    [SerializeField] protected float distanceToStopAttack;
-   
-    [Header("Patrol")]
-    [SerializeField] protected float patrolAcceptableRadius;
-    [SerializeField] protected float patrolPointsGenerationRadius;
-    [SerializeField] protected int patrolPointNumber;
+    protected float distanceToFollowPlayer;
+    protected float distanceToStopFollowPlayer;
+    protected float distanceToStartAttack;
+    protected float distanceToStopAttack;
+
+    protected float patrolAcceptableRadius;
+    protected float patrolPointsGenerationRadius;
+    protected int patrolPointNumber;
     protected Vector3[] PatrolPositions;
 
     [Header("Stutter")]
     [SerializeField] protected float stutterTime;
     [SerializeField] protected Material testStutterMaterial;
 
+    #endregion
+
+    #region ProtectedProperties
+    public EnemyInfo CharacterInfo {get { return characterStartingInfo.CharInfo; }}
+    #endregion
+
+    #region FSM
     #region Transition
     private Transition StartChase(State prev, State next)
     {
@@ -57,6 +66,8 @@ public abstract class Character : MonoBehaviour
     {
         Transition transition = new Transition();
         WaitTimeCondition timeCondition = new WaitTimeCondition(stutterTime);
+        //SetAnimatorParameterAction setStutterAnimation = new SetAnimatorParameterAction(GetComponentInParent<Animator>(),
+        //    new AnimatorParameterStats("GeneralIntParameter", AnimatorParameterType.INTEGER, 5));
         transition.SetUpMe(prev, next, new Condition[] { timeCondition });
         return transition;
     }
@@ -69,10 +80,11 @@ public abstract class Character : MonoBehaviour
    
         PatrolPositions = new Vector3[patrolPointNumber];
 
-        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(PlayerState.Get().PlayerTransform.position, patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
+        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position, 
+            patrolPointsGenerationRadius, patrolPointNumber, PatrolPositions);
         PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, patrolAcceptableRadius, baseSpeed);
 
-        patrol.SetUpMe(new StateAction[] { /*setPatrolSpeed,*/ generatePatrolPoints, patrolAction });
+        patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction });
 
         return patrol;
     }
@@ -99,11 +111,38 @@ public abstract class Character : MonoBehaviour
 
     #endregion
 
+    private void CharacterStatsConfiguration()
+    {
+        // To change respecting random multipliers
+        baseSpeed = characterStartingInfo.Speed;
+        chaseSpeedMultiplier = characterStartingInfo.ChaseSpeedMultiplier;
+        chaseSpeed = characterStartingInfo.Speed * chaseSpeedMultiplier;
+
+        distanceToFollowPlayer = characterStartingInfo.DistanceToFollowPlayer;
+        distanceToStopFollowPlayer = characterStartingInfo.DistanceToStopFollowPlayer;
+        distanceToStartAttack = characterStartingInfo.DistanceToStartAttack;
+        distanceToStopAttack = characterStartingInfo.DistanceToStopAttack;
+
+        patrolAcceptableRadius = characterStartingInfo.PatrolAcceptableRadius;
+        patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
+        patrolPointNumber = characterStartingInfo.PatrolPointNumber;
+
+    }
+    #endregion
+
+    #region Mono
+    private void Awake()
+    {
+        controller = GetComponentInParent<Controller>();
+    }
+
     private void OnEnable()
     {
         StateMachine FSM = GetComponentInChildren<StateMachine>();
         agent = GetComponentInParent<NavMeshAgent>();
         
+        CharacterStatsConfiguration();
+
         State patrol = SetUpPatrol();
         State chase = SetUpChase();
         State stutter = SetUpStutter();
@@ -113,5 +152,23 @@ public abstract class Character : MonoBehaviour
         FSM.Init(new State[] {patrol, stutter, chase }, patrol);
     }
 
- 
+    #endregion
+
+    public abstract void CastAbility();
+
+    public void Possess()
+    {
+        controller.internalOnPosses();
+        GlobalEventSystem.CastEvent(
+            EventName.PossessionExecuted, 
+            EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
+            );
+        enabled = false;
+    }
+
+    public void UnPossess()
+    {
+        controller.internalOnUnposses();
+
+    }
 }

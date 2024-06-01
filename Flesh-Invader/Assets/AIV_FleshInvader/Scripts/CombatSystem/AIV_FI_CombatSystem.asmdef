@@ -1,3 +1,16 @@
 {
-	"name": "AIV_FI_CombatSystem"
+    "name": "AIV_FI_CombatSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c9b59cca14b315b4684f1aaac9524f38"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba2b8612a4154f040a3c27171982b125, type: 3}
-  m_Name: PoolData_Enemy
+  m_Script: {fileID: 11500000, guid: c739dac263819304c97de64b60c6bc00, type: 3}
+  m_Name: EnemyDatabase
   m_EditorClassIdentifier: 
-  poolKey: 
-  prefab: {fileID: 1459255521996219516, guid: 6f758cb170b4cfe40b11082ab637180c, type: 3}
-  poolNumber: 20
-  resizablePool: 1
+  enemyStatisticsTemplates:
+  - {fileID: 11400000, guid: 607a2515958162645bdd3a260e3ac209, type: 2}
+  - {fileID: 11400000, guid: 410fa8618462f06478ca532db7663627, type: 2}

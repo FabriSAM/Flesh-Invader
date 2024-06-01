@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c739dac263819304c97de64b60c6bc00, type: 3}
-  m_Name: EnemyDB
+  m_Script: {fileID: 11500000, guid: ba2b8612a4154f040a3c27171982b125, type: 3}
+  m_Name: BossPoolData
   m_EditorClassIdentifier: 
-  enemyStatisticsTemplates:
-  - {fileID: 11400000, guid: 607a2515958162645bdd3a260e3ac209, type: 2}
+  poolKey: Boss
+  prefab: {fileID: 5380751241265888436, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+  poolNumber: 30
+  resizablePool: 1

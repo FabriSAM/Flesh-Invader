@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdf26f3daef0e364fa858200edf4542d, type: 3}
-  m_Name: Boss
+  m_Name: Rogue
   m_EditorClassIdentifier: 
   charInfo:
     charStats:
-      EnemyType: 0
-      Health: 10
+      EnemyType: 1
+      Health: 8
       Damage: 5
-      Speed: 8
-      Xp: 10
-      CanLockpick: 0
+      Speed: 12
+      Xp: 9
+      CanLockpick: 1
     charStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
@@ -29,5 +29,5 @@ MonoBehaviour:
       patrolPointsGenerationRadius: 20
       patrolPointNumber: 4
       chaseSpeedMultiplier: 1.8
-      stutterTime: 1
-      testStutterMaterial: {fileID: 0}
+      stutterTime: 2
+      testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}

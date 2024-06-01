@@ -27,12 +27,12 @@ public class GeneratePatrolPointAction : StateAction
                 centerPosition + 
                 new Vector3
                 (
-                    Random.Range(-1f,1f), 0, Random.Range(-1f,1f)
-                ).normalized,
-                out hit, patrolRadius,1
+                    Random.Range(-1f,1f), 0.0001f, Random.Range(-1f,1f)
+                ).normalized * patrolRadius,
+                out hit, 2000, 1
             );
 
-            patrolPositionsToFill[i] = centerPosition + hit.position;
+            patrolPositionsToFill[i] = hit.position;
 
         }
     }

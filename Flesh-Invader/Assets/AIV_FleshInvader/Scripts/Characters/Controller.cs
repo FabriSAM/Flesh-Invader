@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -96,6 +97,7 @@ public class Controller : MonoBehaviour
         {
             ability.RegisterInput();
         }
+        Debug.Log("Possessed");
     }
     public void InternalOnUnposses()
     {
