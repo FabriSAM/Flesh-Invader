@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterSpawner : MonoBehaviour, IPoolRequester
 {
     [SerializeField] private PoolData[] characterType;
+    [SerializeField] private EnemyNarrativeTemplate enemyNar;
     [SerializeField] protected float spawnRadius;
     [SerializeField] protected float spawnTime;
     [SerializeField] protected float spawnTimeCounter;
@@ -31,6 +32,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         PoolData pool = characterType[Random.Range(0, characterType.Length)];
         GameObject obj =  Pooler.Instance.GetPooledObject(pool);
         Character characterToSpawn = obj.GetComponentInChildren<Character>();
+
         if (characterToSpawn != null)
         {
             Vector2 spawnOffset2D = Random.insideUnitCircle * spawnRadius;
