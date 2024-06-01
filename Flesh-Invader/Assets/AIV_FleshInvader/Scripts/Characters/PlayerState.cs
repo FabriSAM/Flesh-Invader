@@ -11,9 +11,19 @@ public class PlayerState : MonoBehaviour
     #region PrivateMembers
     private Transform playerTransform;
     #endregion
-
     #region Properties
-    public Transform PlayerTransform { get { return playerTransform; } set { playerTransform = value; } }
+    public Transform PlayerTransform 
+    { 
+        get 
+        { 
+            if(playerTransform == null)
+            {
+                return gameObject.transform; 
+            }
+            return playerTransform; 
+        } 
+        set { playerTransform = value; } 
+    }
     public GenericController GenericController { get { return genericController; } }
     #endregion
 

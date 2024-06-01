@@ -21,8 +21,7 @@ public class Movement : AbilityBase
 
     private void Start()
     {
-        cam = Camera.main;
-        
+        cam = Camera.main;   
     }
 
     #region PrivateMethods
@@ -35,8 +34,9 @@ public class Movement : AbilityBase
 
     private void Rotate()
     {
+        if (cam == null) return;
         Vector3 mouse = InputManager.Player.MousePosition.ReadValue<Vector2>();
-        Ray castPoint = Camera.main.ScreenPointToRay(mouse);
+        Ray castPoint = cam.ScreenPointToRay(mouse);
         RaycastHit hit;
         if(Physics.Raycast(castPoint, out hit, Mathf.Infinity))
         {
