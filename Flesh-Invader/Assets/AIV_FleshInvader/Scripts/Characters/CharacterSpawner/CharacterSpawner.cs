@@ -33,9 +33,9 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         Character characterToSpawn = obj.GetComponentInChildren<Character>();
         if (characterToSpawn != null)
         {
-            Vector3 spawnOffset = Random.insideUnitSphere * spawnRadius; 
-            spawnOffset.y = 0;
-            characterToSpawn.transform.position = PlayerState.Get().transform.position + spawnOffset;
+            Vector2 spawnOffset2D = Random.insideUnitCircle * spawnRadius;
+            Vector3 spawnOffset = new Vector3(spawnOffset2D.x,0,spawnOffset2D.y);
+            obj.transform.position = PlayerState.Get().PlayerTransform.position + spawnOffset;
             obj.SetActive(true);
         }
     }

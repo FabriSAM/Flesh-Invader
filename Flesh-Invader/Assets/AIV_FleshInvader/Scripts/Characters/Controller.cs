@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -103,6 +104,9 @@ public class Controller : MonoBehaviour
         {
             ability.enabled = true;
         }
+        
+        // HERE ?
+        // To cast PossessionExecuted Event
     }
     public void internalOnUnposses()
     {

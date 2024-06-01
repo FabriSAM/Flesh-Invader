@@ -249,15 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bd8800da89ce64594adf9c313a9bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 25
-  chaseSpeed: 15
-  distanceToFollowPlayer: 50
-  distanceToStopFollowPlayer: 60
-  distanceToStartAttack: 5
-  distanceToStopAttack: 6
-  patrolAcceptableRadius: 5
-  patrolPointsGenerationRadius: 5
-  patrolPointNumber: 4
+  characterStartingInfo: {fileID: 11400000, guid: 410fa8618462f06478ca532db7663627, type: 2}
   stutterTime: 2
   testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
 --- !u!114 &8350794714460825368
@@ -364,7 +356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7310687582353456093
 Transform:
   m_ObjectHideFlags: 0

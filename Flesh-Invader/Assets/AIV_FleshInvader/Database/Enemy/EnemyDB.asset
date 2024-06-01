@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStatisticsTemplates:
   - {fileID: 11400000, guid: 607a2515958162645bdd3a260e3ac209, type: 2}
+  - {fileID: 11400000, guid: 410fa8618462f06478ca532db7663627, type: 2}
