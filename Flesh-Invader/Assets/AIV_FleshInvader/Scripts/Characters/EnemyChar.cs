@@ -158,7 +158,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     public void Possess()
     {
-        controller.internalOnPosses();
+        controller.InternalOnPosses();
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
             EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
@@ -168,7 +168,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     public void UnPossess()
     {
-        controller.internalOnUnposses();
+        controller.InternalOnUnposses();
 
     }
 }
