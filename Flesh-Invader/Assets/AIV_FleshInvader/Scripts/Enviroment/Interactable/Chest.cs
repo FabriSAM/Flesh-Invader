@@ -23,22 +23,6 @@ public class Chest : InteractableBase
     #endregion
 
     #region OverrideBaseClass
-    protected override void InternalOnTriggerEnter(Collider other, bool status)
-    {
-        if (other.TryGetComponent(out controller))
-        {
-            canvas.SetActive(status);
-            if (status)
-            {
-                SubscribeInteract();
-            }
-            else
-            {
-                UnscribeInteract();
-            }
-
-        }
-    }
     protected override void OnOpen()
     {
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));

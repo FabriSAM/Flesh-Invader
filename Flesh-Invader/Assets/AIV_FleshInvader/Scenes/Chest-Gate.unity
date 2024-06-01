@@ -291,6 +291,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6915587014575824952, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
+      propertyPath: isPossessed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7240822271535128126, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.67
@@ -532,6 +536,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
+--- !u!65 &1140930076 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 5026784414776744300, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
+  m_PrefabInstance: {fileID: 1751568292041689776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1289931886
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +904,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2993387292153053785, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
+      propertyPath: trigger
+      value: 
+      objectReference: {fileID: 1140930076}
     - target: {fileID: 2993387292153053785, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
       propertyPath: dialogueID
       value: 1
