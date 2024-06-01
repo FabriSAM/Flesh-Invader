@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
+    #region SerializeField
+    [SerializeField]
+    GenericController genericController;
+    #endregion
     #region PrivateMembers
     private Transform playerTransform;
     #endregion
 
     #region Properties
     public Transform PlayerTransform { get { return playerTransform; } set { playerTransform = value; } }
+    public GenericController GenericController { get { return genericController; } }
     #endregion
 
     #region StaticMembers

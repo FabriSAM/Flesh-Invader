@@ -13,9 +13,9 @@ public abstract class AbilityBase:MonoBehaviour
     #endregion //ProtectedMembers
 
     #region AbstractMembers
-    public abstract void OnInputDisabled();
-    public abstract void OnInputEnabled();
     public abstract void StopAbility();
+    public abstract void RegisterInput();
+    public abstract void UnRegisterInput();
     #endregion //AbstractMembers
 
     #region VirtualMembers

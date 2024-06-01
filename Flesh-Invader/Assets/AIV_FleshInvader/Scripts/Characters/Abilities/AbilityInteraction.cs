@@ -10,14 +10,6 @@ public class AbilityInteraction : AbilityBase
     protected InputAction moveAction;
     #endregion
     #region Override
-    public override void OnInputDisabled()
-    {
-        throw new System.NotImplementedException();
-    }
-    public override void OnInputEnabled()
-    {
-        throw new System.NotImplementedException();
-    }
     public override void StopAbility()
     {
         throw new System.NotImplementedException();
@@ -25,13 +17,21 @@ public class AbilityInteraction : AbilityBase
     public override void Init(Controller characterController)
     {
         base.Init(characterController);
-        InputManager.Player.Interact.performed += InteractionPerformed;
     }
 
+    public override void RegisterInput()
+    {
+        PlayerState.Get().GenericController.Interact += Interaction;
+    }
+
+    public override void UnRegisterInput()
+    {
+        PlayerState.Get().GenericController.Interact += Interaction;
+    }
     #endregion
 
     #region Callback
-    private void InteractionPerformed(InputAction.CallbackContext context)
+    private void Interaction()
     {
         Debug.Log("Interaction");
         StartInteract();
@@ -41,5 +41,6 @@ public class AbilityInteraction : AbilityBase
     {
         characterController.OnInteractPerformed?.Invoke();
     }
+
     #endregion
 }

@@ -15,8 +15,6 @@ public class Controller : MonoBehaviour
     protected Collider characterPhysicsCollider;
     [SerializeField]
     protected bool isPossessed;
-    [SerializeField]
-    protected Camera characterCamera;
     #endregion //References
 
     #region PrivateAttributes
@@ -40,11 +38,6 @@ public class Controller : MonoBehaviour
     {
         get { return isPossessed; }
     }
-    #endregion
-
-    #region PlayerMovement
-    public Action OnWalkStarted;
-    public Action OnWalkEnded;
     #endregion
 
     #region RigidbodyMethods
@@ -87,30 +80,30 @@ public class Controller : MonoBehaviour
         }
         if (isPossessed)
         {
-            internalOnPosses();
+            InternalOnPosses();
         }
         else
         {
-            internalOnUnposses();
+            InternalOnUnposses();
         }
     }
-    public void internalOnPosses()
+    public void InternalOnPosses()
     {
         gameObject.layer = LayerMask.NameToLayer("Player");
         isPossessed = true;
         PlayerState.Get().PlayerTransform = transform;
         foreach (var ability in abilities)
         {
-            ability.enabled = true;
+            ability.RegisterInput();
         }
     }
-    public void internalOnUnposses()
+    public void InternalOnUnposses()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
         foreach (var ability in abilities)
         {
-            ability.enabled = false;
+            ability.UnRegisterInput();
         }
     }
     #endregion
