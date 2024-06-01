@@ -241,10 +241,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterBase
       objectReference: {fileID: 0}
-    - target: {fileID: 6915587014575824952, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
-      propertyPath: isPossessed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7240822271535128126, guid: 440b33956ff2de04bbb058bd60e1bd42, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.67
@@ -480,7 +476,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623578809}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfddb26d603899345b78dcfb2e7f1b23, type: 3}
   m_Name: 
