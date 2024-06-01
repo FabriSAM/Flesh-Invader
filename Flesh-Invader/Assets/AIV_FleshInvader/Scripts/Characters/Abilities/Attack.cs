@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Attack : AbilityBase
 {
-    public override void OnInputDisabled()
+
+    public override void RegisterInput()
     {
        
     }
 
-    public override void OnInputEnabled()
+    public override void StopAbility()
     {
-        
+       
     }
 
-    public override void StopAbility()
+    public override void UnRegisterInput()
     {
        
     }

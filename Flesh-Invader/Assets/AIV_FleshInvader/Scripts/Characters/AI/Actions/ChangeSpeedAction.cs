@@ -5,15 +5,15 @@ using UnityEngine.AI;
 
 public class ChangeSpeedAction : StateAction
 {
-    private Rigidbody rigidbody;
-    private Vector3 speed;
+    private NavMeshAgent agent;
+    private float speed;
     private bool everyFrame;
 
 
-    public ChangeSpeedAction(Rigidbody rigidbody, Vector3 newSpeed, bool everyFrame)
+    public ChangeSpeedAction(NavMeshAgent agent, float speed, bool everyFrame)
     {
-        this.rigidbody = rigidbody;
-        this.speed = newSpeed;
+        this.agent = agent;
+        this.speed = speed;
         this.everyFrame = everyFrame;
     }
 
@@ -30,6 +30,6 @@ public class ChangeSpeedAction : StateAction
 
     private void InternalSetVelocity()
     {
-        rigidbody.velocity = speed;
+        agent.speed = speed;
     }
 }

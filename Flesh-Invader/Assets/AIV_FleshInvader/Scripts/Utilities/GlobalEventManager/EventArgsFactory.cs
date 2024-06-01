@@ -71,6 +71,18 @@ namespace NotserializableEventManager {
         public static void DialoguePerformedParser(EventArgs message, out uint dialogueID)
         {
             dialogueID = (uint)message.variables[0];
+
+        public static EventArgs PossessionExecutedFactory(EnemyInfo enemyInfo)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = enemyInfo;
+            return message;
+        }
+
+        public static void PossessionExecutedParser(EventArgs message, out EnemyInfo enemyInfo)
+        {
+            enemyInfo =  (EnemyInfo) message.variables[0];
         }
     }
 

@@ -21,8 +21,7 @@ public class Movement : AbilityBase
 
     private void Start()
     {
-        cam = Camera.main;
-        
+        cam = Camera.main;   
     }
 
     #region PrivateMethods
@@ -31,15 +30,13 @@ public class Movement : AbilityBase
         Vector2 inputDirection = InputManager.Player_Move;
         Vector3 directionMovement=(transform.right*inputDirection.x+transform.forward*inputDirection.y).normalized;
         characterController.SetVelocity(directionMovement*speed);
-        //characterController.ComputedDirection = moveAction.ReadValue<Vector2>();
-        //Vector3 velocity = new Vector3 (characterController.ComputedDirection.x,0,characterController.ComputedDirection.y).normalized * speed;
-        //characterController.SetVelocity(velocity);
     }
 
     private void Rotate()
     {
+        if (cam == null) return;
         Vector3 mouse = InputManager.Player.MousePosition.ReadValue<Vector2>();
-        Ray castPoint = Camera.main.ScreenPointToRay(mouse);
+        Ray castPoint = cam.ScreenPointToRay(mouse);
         RaycastHit hit;
         if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
@@ -48,18 +45,14 @@ public class Movement : AbilityBase
         }
         
     }
+    private void CharacterMovement()
+    {
+        Move();
+        Rotate();
+    }
     #endregion
 
     #region Override
-    public override void OnInputDisabled()
-    {
-        
-    }
-
-    public override void OnInputEnabled()
-    {
-        
-    }
     public override void StopAbility()
     {
         
@@ -68,10 +61,15 @@ public class Movement : AbilityBase
     {
         base.Init(characterController);
     }
-    private void FixedUpdate()
+
+    public override void RegisterInput()
     {
-        Move();
-        Rotate();
+        PlayerState.Get().GenericController.Move += CharacterMovement;
+    }
+
+    public override void UnRegisterInput()
+    {
+        PlayerState.Get().GenericController.Move -= CharacterMovement;
     }
     #endregion
 }

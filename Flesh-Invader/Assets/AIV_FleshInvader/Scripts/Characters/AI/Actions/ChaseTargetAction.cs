@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ChaseTargetAction : StateAction
 {
-    private Rigidbody chaserRigidbody;
+    private NavMeshAgent chaserAgent;
     private float chaseSpeed;
 
-    public ChaseTargetAction(GameObject chaser, float chaseSpeed)
+    public ChaseTargetAction(NavMeshAgent chaser, float chaseSpeed)
     {
-        chaserRigidbody = chaser.GetComponent<Rigidbody>();
+        chaserAgent = chaser;
         this.chaseSpeed = chaseSpeed;
     }
 
     public override void OnUpdate()
     {
-        chaserRigidbody.velocity = (PlayerState.Get().PlayerTransform.position - chaserRigidbody.position).normalized * chaseSpeed;
+        chaserAgent.destination = PlayerState.Get().PlayerTransform.position;
+        chaserAgent.speed = chaseSpeed;
     }
 }
