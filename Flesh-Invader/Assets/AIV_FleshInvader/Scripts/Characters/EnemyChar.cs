@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Character : MonoBehaviour, IPossessable
+public abstract class EnemyChar : MonoBehaviour, IPossessable
 {
     protected Controller controller;
     protected NavMeshAgent agent;
@@ -158,6 +159,10 @@ public abstract class Character : MonoBehaviour, IPossessable
     public void Possess()
     {
         controller.internalOnPosses();
+        GlobalEventSystem.CastEvent(
+            EventName.PossessionExecuted, 
+            EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
+            );
         enabled = false;
     }
 

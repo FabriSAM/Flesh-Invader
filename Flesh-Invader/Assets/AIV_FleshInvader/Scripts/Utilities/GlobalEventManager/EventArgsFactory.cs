@@ -60,11 +60,12 @@ namespace NotserializableEventManager {
             entryID = (int)message.variables[1];
         }
 
-        public static void PossessionExecutedFactory(EnemyInfo enemyInfo)
+        public static EventArgs PossessionExecutedFactory(EnemyInfo enemyInfo)
         {
             EventArgs message = new EventArgs();
             message.variables = new object[1];
             message.variables[0] = enemyInfo;
+            return message;
         }
 
         public static void PossessionExecutedParser(EventArgs message, out EnemyInfo enemyInfo)

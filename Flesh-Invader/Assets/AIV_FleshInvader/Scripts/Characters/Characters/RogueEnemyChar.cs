@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RogueCharacter : Character
+public class RogueEnemyChar : EnemyChar
 {
     public override void CastAbility()
     {

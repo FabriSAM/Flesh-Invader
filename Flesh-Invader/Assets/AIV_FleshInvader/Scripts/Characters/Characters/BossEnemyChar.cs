@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossCharacter : Character
+public class BossEnemyChar : EnemyChar
 {
     public override void CastAbility()
     {
