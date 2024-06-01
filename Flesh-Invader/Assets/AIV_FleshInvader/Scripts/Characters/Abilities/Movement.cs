@@ -38,7 +38,7 @@ public class Movement : AbilityBase
         Vector3 mouse = InputManager.Player.MousePosition.ReadValue<Vector2>();
         Ray castPoint = cam.ScreenPointToRay(mouse);
         RaycastHit hit;
-        if(Physics.Raycast(castPoint, out hit, Mathf.Infinity))
+        if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
             characterController.SetRotation(hitPoint, rotSpeed);

@@ -2,19 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gate : MonoBehaviour
+public class Gate : InteractableBase
 {
-    #region SerializeFields
+    #region SerializedField
     [SerializeField]
-    GameObject gate;
-    [SerializeField]
-    Collider trigger;
-    [SerializeField]
-    GameObject canvas;
+    protected GameObject gate;
     #endregion
 
     #region Variables
-    private Controller controller;
     private Coroutine open;
     #endregion
 
@@ -30,8 +25,8 @@ public class Gate : MonoBehaviour
     }
     #endregion
 
-    #region InternalMethods
-    private void InternalOnTriggerEnter(Collider other, bool status)
+    #region OverrideBaseClass
+    protected override void InternalOnTriggerEnter(Collider other, bool status)
     {
         if (other.TryGetComponent(out controller))
         {
@@ -47,21 +42,13 @@ public class Gate : MonoBehaviour
 
         }
     }
-    #endregion
-
-    #region PrivateMethods
-    private void SubscribeInteract()
-    {
-        controller.OnInteractPerformed += OnOpen;
-    }
-    private void UnscribeInteract()
-    {
-        controller.OnInteractPerformed -= OnOpen;
-    }
-    private void OnOpen()
+    protected override void OnOpen()
     {
         open = StartCoroutine(OpenDoor());
     }
+    #endregion
+
+    #region PrivateMethods
     private void CompleteOpen()
     {
         StopCoroutine(open);

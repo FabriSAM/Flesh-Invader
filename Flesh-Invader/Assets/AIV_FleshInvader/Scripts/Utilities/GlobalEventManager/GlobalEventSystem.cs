@@ -6,7 +6,8 @@ using UnityEngine;
         PlayerDeath,
         PlayerHealthUpdated,
         StartDialogue,
-        PlayerXPUpdated,
+        PlayerXPUpdated, 
+        DialoguePerformed,
         PossessionExecuted
     }
 
