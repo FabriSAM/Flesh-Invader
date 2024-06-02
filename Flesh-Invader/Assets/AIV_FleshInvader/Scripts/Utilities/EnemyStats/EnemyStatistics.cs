@@ -12,7 +12,13 @@ public struct EnemyStatistics
     [SerializeField]
     public float Damage;
     [SerializeField]
-    public float Speed;
+    public float MinDamageMultiplier;
+    [SerializeField]
+    public float MaxDamageMultiplier;
+    [SerializeField]
+    public float BaseSpeed;
+    [SerializeField]
+    public float ChaseSpeed;
     [SerializeField]
     public float Xp;
 

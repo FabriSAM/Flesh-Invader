@@ -13,12 +13,16 @@ public struct EnemyPoolProbabilityDict
 public class CharacterSpawner : MonoBehaviour, IPoolRequester
 {
     [SerializeField] private PoolData[] characterType;
+    // Hipotetically we could use a special PoolData array to bring some special enemyPool that have to spawn independently from zone
+    //[SerializeField] private PoolData[] specialCharacterType
+    //[SerializeField] private EnemyPoolProbabilityDict specialSpawnProbability;
 
     [SerializeField] protected float spawnRadius;
     [SerializeField] protected float spawnTime;
-    [SerializeField] protected float spawnTimeCounter;
+    protected float spawnTimeCounter;
 
-    [SerializeField] protected EnemyPoolProbabilityDict spawnProbability;
+    [SerializeField] private EnemyPoolProbabilityDict spawnProbability;
+
 
 
     public PoolData[] Datas
@@ -28,6 +32,9 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
     public float SpawnRadius { get { return spawnRadius; } set { spawnRadius = value; } }
     public float SpawnTime { get { return SpawnTime; } set { SpawnTime = value; } }
 
+    public EnemyPoolProbabilityDict SpawnProbability { 
+        get => spawnProbability; 
+        set => spawnProbability = value; }
 
     private void Update()
     {
@@ -38,6 +45,22 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
             spawnTimeCounter = 0;
             SpawnCharacter();
         }
+    }
+    private string SelectEnemyPoolByProbability()
+    {
+        float probabilityValue = UnityEngine.Random.Range(0f, 1f);
+        foreach (ObjectByProbability<string> item in SpawnProbability.poolProbability)
+        {
+
+            if(item.IsInRange(probabilityValue))
+            {
+                Debug.Log("Probability: " + probabilityValue);
+
+                return item.result;
+            }
+        }
+
+        return "Probability Not Found";
     }
 
     private void SpawnCharacter()
@@ -57,20 +80,4 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         }
     }
 
-    private string SelectEnemyPoolByProbability()
-    {
-        float probabilityValue = UnityEngine.Random.Range(0f, 1f);
-        foreach (ObjectByProbability<string> item in spawnProbability.poolProbability)
-        {
-
-            if(item.IsInRange(probabilityValue))
-            {
-                Debug.Log("Probability: " + probabilityValue);
-
-                return item.result;
-            }
-        }
-
-        return "Probability Not Found";
-    }
 }

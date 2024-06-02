@@ -17,6 +17,8 @@ MonoBehaviour:
       EnemyType: 1
       Health: 8
       Damage: 5
+      MinDamageMultiplier: 0.85
+      MaxDamageMultiplier: 1.25
       Speed: 12
       Xp: 9
       CanLockpick: 1
