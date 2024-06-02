@@ -28,7 +28,7 @@ public abstract class InteractableBase : MonoBehaviour
     protected void InternalOnTriggerEnter(Collider other, bool status)
     {
         if (!other.TryGetComponent(out controller)) return;
-        if (!other.TryGetComponent(out character)) return;
+        //if (!other.TryGetComponent(out character)) return;
 
         canvas.SetActive(status);
         if (status)

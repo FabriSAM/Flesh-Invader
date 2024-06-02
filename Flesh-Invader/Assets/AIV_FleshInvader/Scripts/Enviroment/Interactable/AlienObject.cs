@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlienObject : InteractableBase
+public class AlienObject : InteractableBase, ICollectable
 {
     #region SerializeFields
     [SerializeField]
     private uint dialogueID;
+    #endregion
+
+    #region Variables
+    PlayerStateMission missionController;
     #endregion
 
     #region Callback
@@ -26,6 +30,28 @@ public class AlienObject : InteractableBase
     protected override void OnOpen()
     {
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
+        Collect();
+        UnscribeInteract();
+    }
+
+    public void Collect()
+    {
+        missionController.Collected();
+        gameObject.SetActive(false);
+    }
+
+    public void AddMission()
+    {
+        missionController.AddMe();
+    }
+
+    #endregion
+
+    #region Mono
+    void Awake()
+    {
+        missionController = PlayerState.Get().GetComponentInChildren<PlayerStateMission>();
+        AddMission();
     }
     #endregion
 
