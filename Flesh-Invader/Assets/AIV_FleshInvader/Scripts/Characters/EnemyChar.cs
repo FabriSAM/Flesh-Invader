@@ -20,23 +20,30 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     protected float chaseSpeedMultiplier;
     protected float chaseSpeed;
 
-
     protected Transform TargetTransform;
-    protected float distanceToFollowPlayer;
-    protected float distanceToStopFollowPlayer;
-    protected float distanceToStartAttack;
-    protected float distanceToStopAttack;
 
+    #region PCAVariables
     protected float patrolAcceptableRadius;
     protected float patrolPointsGenerationRadius;
     protected int patrolPointNumber;
     protected Vector3[] PatrolPositions;
 
-    [Header("Stutter")]
-    [SerializeField] protected float stutterTime;
-    [SerializeField] protected Material testStutterMaterial;
+    protected float distanceToFollowPlayer;
+    protected float distanceToStopFollowPlayer;
+
+    protected float distanceToStartAttack;
+    protected float distanceToStopAttack;
+    protected float attackDamage;
+    #endregion
+
+    #region StutterVariables
+    protected float stutterTime;
+    protected Material testStutterMaterial;
+    #endregion
 
     protected bool IsUnpossessable;
+
+
 
     #endregion
 
@@ -116,6 +123,10 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     private void CharacterStatsConfiguration()
     {
         // To change respecting random multipliers
+        patrolAcceptableRadius = characterStartingInfo.PatrolAcceptableRadius;
+        patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
+        patrolPointNumber = characterStartingInfo.PatrolPointNumber;
+
         baseSpeed = characterStartingInfo.Speed;
         chaseSpeedMultiplier = characterStartingInfo.ChaseSpeedMultiplier;
         chaseSpeed = characterStartingInfo.Speed * chaseSpeedMultiplier;
@@ -125,9 +136,10 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         distanceToStartAttack = characterStartingInfo.DistanceToStartAttack;
         distanceToStopAttack = characterStartingInfo.DistanceToStopAttack;
 
-        patrolAcceptableRadius = characterStartingInfo.PatrolAcceptableRadius;
-        patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
-        patrolPointNumber = characterStartingInfo.PatrolPointNumber;
+        stutterTime = CharacterInfo.CharStatesStats.stutterTime;
+        testStutterMaterial = CharacterInfo.CharStatesStats.testStutterMaterial;
+
+        attackDamage = CharacterInfo.CharStats.Damage;
 
         // Unpossessable EnemyChar behavior
         ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
