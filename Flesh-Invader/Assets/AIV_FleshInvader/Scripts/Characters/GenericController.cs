@@ -13,8 +13,7 @@ public class GenericController : MonoBehaviour
     #endregion
 
     #region PrivateMembers
-    private bool canUsePossession;
-    private Coroutine possesCoroutine;
+    private float currentTimeCache;
     #endregion
 
     #region Action
@@ -28,7 +27,7 @@ public class GenericController : MonoBehaviour
     #region Mono
     void Awake()
     {
-        canUsePossession = true;
+        currentTimeCache = -possessionCD;
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
     }
@@ -41,24 +40,15 @@ public class GenericController : MonoBehaviour
     #region InputCallBack
     private void PossessionPerformed(InputAction.CallbackContext context)
     {
-        if (canUsePossession)
+        if (Time.time-currentTimeCache>=possessionCD)
         {
-            possesCoroutine = StartCoroutine(PossesCoroutine());
+            currentTimeCache = Time.time;
             Posses?.Invoke();
         }
     }
     public void InteractionPerformed(InputAction.CallbackContext context)
     {
         Interact?.Invoke();
-    }
-    #endregion
-
-    #region Coroutine
-    private IEnumerator PossesCoroutine()
-    {
-        canUsePossession = false;
-        yield return new WaitForSeconds(possessionCD);
-        canUsePossession = true;
     }
     #endregion
 }
