@@ -5,13 +5,14 @@ using UnityEngine;
 
 [Serializable]
 public struct LevelStruct
-{
-    private int currentXP;
-    private int nextLevelXp;
+{    
+    private float currentXP;
+    [SerializeField]
+    private float nextLevelXp;
 
     private int currentLevel;
 
-    public int CurrentXP { get { return currentXP; } set { currentXP = value; } }
-    public int NextLevelXp {  get { return nextLevelXp; } set { nextLevelXp = value; } }
-    public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
+    public float CurrentXP { get { return currentXP; } set { currentXP = value; Debug.Log("CurrentXP: " + currentXP); } }
+    public float NextLevelXp {  get { return nextLevelXp; } set { nextLevelXp = value; Debug.Log("CurrentXP: " + currentXP); } }
+    public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; Debug.Log("CurrentXP: " + currentXP); } }
 }

@@ -5,19 +5,22 @@ using UnityEngine;
 
 public class PlayerStateLevel : MonoBehaviour
 {
+    [SerializeField]
     private LevelStruct level;
     
     public void SetXP(int xpToAdd)
     {
         
-        if(level.CurrentXP + xpToAdd > level.NextLevelXp)
+        if(level.CurrentXP + xpToAdd >= level.NextLevelXp)
         {
             level.CurrentXP = level.CurrentXP + xpToAdd - level.NextLevelXp;
             level.CurrentLevel++;
-            return;
+            
         }
-
-        level.CurrentXP += xpToAdd;
+        else
+        {
+            level.CurrentXP += xpToAdd;
+        }
 
         GlobalEventSystem.CastEvent(EventName.PlayerXPUpdated,
             EventArgsFactory.PlayerXPUpdatedFactory(level));
