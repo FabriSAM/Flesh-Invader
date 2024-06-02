@@ -12,10 +12,12 @@ public abstract class InteractableBase : MonoBehaviour
     protected GameObject canvas;
     #endregion
 
+    #region Variables
     protected Controller controller;
     protected EnemyChar character;
+    #endregion
 
-
+    #region ProtectedMethods
     protected void SubscribeInteract()
     {
         controller.OnInteractPerformed += OnOpen;
@@ -29,6 +31,7 @@ public abstract class InteractableBase : MonoBehaviour
     {
         if (!other.TryGetComponent(out controller)) return;
         //if (!other.TryGetComponent(out character)) return;
+        //if(!character.CharacterInfo.CharStats.CanLockpick) return;
 
         canvas.SetActive(status);
         if (status)
@@ -44,4 +47,5 @@ public abstract class InteractableBase : MonoBehaviour
     {
         return true;
     }
+    #endregion
 }
