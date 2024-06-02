@@ -31,8 +31,69 @@ Transform:
   m_Children:
   - {fileID: 7293638421599397433}
   - {fileID: 2554088700077501029}
+  - {fileID: 5398708008632786863}
   m_Father: {fileID: 7240822271535128126}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1973764214477602238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5398708008632786863}
+  - component: {fileID: 8072963102206669575}
+  - component: {fileID: 8143535023230365812}
+  m_Layer: 6
+  m_Name: Possession
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5398708008632786863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973764214477602238}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5470135531005800519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8072963102206669575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973764214477602238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23883c323afa7fe458834cbaabba4a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletsType:
+  - {fileID: 11400000, guid: 9ed00cec2ed99da4180ee391d405c330, type: 2}
+  bulletSpeed: 10
+--- !u!114 &8143535023230365812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973764214477602238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd9b23390ed74074ab36805a072ca6d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3420069970753337308
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +218,6 @@ MonoBehaviour:
   characterRigidbody: {fileID: 1237347988673683209}
   characterPhysicsCollider: {fileID: 7202770769680176666}
   isPossessed: 1
-  characterCamera: {fileID: 0}
 --- !u!54 &1237347988673683209
 Rigidbody:
   m_ObjectHideFlags: 0

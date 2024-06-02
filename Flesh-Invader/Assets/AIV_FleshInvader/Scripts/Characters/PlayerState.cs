@@ -33,7 +33,7 @@ public class PlayerState : MonoBehaviour
     #region Action
     public Action onLevelChange;
     #endregion
-
+    
     #region StaticMembers
     private static PlayerState instance;
 
@@ -60,7 +60,6 @@ public class PlayerState : MonoBehaviour
     private void Start()
     {
         if (instance != this) return;
-       //Da implementare successivamente 
     }
     #endregion
 }
