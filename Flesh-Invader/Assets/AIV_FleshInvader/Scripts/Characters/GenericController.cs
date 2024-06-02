@@ -31,7 +31,10 @@ public class GenericController : MonoBehaviour
         canUsePossession = true;
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
+        InputManager.Player.Attack.performed += AttackPerformed;
     }
+
+
     void FixedUpdate()
     {
         Move?.Invoke();
@@ -39,6 +42,10 @@ public class GenericController : MonoBehaviour
     #endregion
 
     #region InputCallBack
+    private void AttackPerformed(InputAction.CallbackContext context)
+    {
+        Attack?.Invoke();
+    }
     private void PossessionPerformed(InputAction.CallbackContext context)
     {
         if (canUsePossession)
