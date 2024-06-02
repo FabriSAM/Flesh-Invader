@@ -9,7 +9,8 @@ public class BossEnemyChar : EnemyChar
 
     public override void CastAbility()
     {
-        throw new System.NotImplementedException("BOSS: Ability not implemented");
+        //throw new System.NotImplementedException("BOSS: Ability not implemented");
+          
     }
 
     public override void Possess()
