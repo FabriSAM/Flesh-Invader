@@ -2,11 +2,11 @@ using NotserializableEventManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class XPBar : MonoBehaviour {
+public class UI_XPBar : MonoBehaviour {
 
     private ProgressBar xpBar;
 
-    public XPBar() { }
+    public UI_XPBar() { }
 
     private void Awake() {
         xpBar = GetComponent<UIDocument>().rootVisualElement.Q<ProgressBar>("xp-bar");
@@ -21,7 +21,8 @@ public class XPBar : MonoBehaviour {
     }
 
     private void OnXPUpdate(EventArgs message) {
-        EventArgsFactory.PlayerXPUpdatedParser(message, out float maxXP, out float currentXP);
-        xpBar.value = Mathf.Clamp((currentXP / maxXP), 0, 1);
+        EventArgsFactory.PlayerXPUpdatedParser(message, out LevelStruct level);
+        
+        xpBar.value = Mathf.Clamp((level.CurrentXP / level.NextLevelXp), 0, 1);
     }
 }

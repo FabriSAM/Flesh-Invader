@@ -30,6 +30,10 @@ public class PlayerState : MonoBehaviour
     public GenericController GenericController { get { return genericController; } }
     #endregion
 
+    #region Action
+    public Action onLevelChange;
+    #endregion
+    
     #region StaticMembers
     private static PlayerState instance;
 

@@ -17,6 +17,8 @@ MonoBehaviour:
       EnemyType: 0
       Health: 10
       Damage: 5
+      MinDamageMultiplier: 0.75
+      MaxDamageMultiplier: 1.35
       Speed: 8
       Xp: 10
       CanLockpick: 0
@@ -31,4 +33,7 @@ MonoBehaviour:
       patrolPointNumber: 4
       chaseSpeedMultiplier: 1.8
       stutterTime: 1
-      testStutterMaterial: {fileID: 0}
+      testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
+    charNarrativeStats:
+      abilityDescription: Boss Ability
+      sprite: Boss Sprite

@@ -6,10 +6,8 @@ using UnityEngine;
 [Serializable]
 public class EnemyInfo
 {
-    [SerializeField] private EnemyStatistics charStats;
-    [SerializeField] private EnemyStateStats charStatesStats;
+    [SerializeField] public EnemyStatistics CharStats;
+    [SerializeField] public EnemyStateStats CharStatesStats;
+    [SerializeField] public EnemyNarrative  CharNarrativeStats;
 
-
-    public EnemyStatistics CharStats { get => charStats; set => charStats = value; }
-    public EnemyStateStats CharStatesStats { get => charStatesStats; set => charStatesStats = value; }
 }

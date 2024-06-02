@@ -1,11 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public struct EnemyNarrative
 {
-    private string sprite;
-    private string abilityDescription;
+    [SerializeField] public Sprite icon;
+    [SerializeField] public string enemyTypeDescription;
+    [SerializeField] public string baseAttackDescription;
+    [SerializeField] public string passiveSkillDescription;
 }

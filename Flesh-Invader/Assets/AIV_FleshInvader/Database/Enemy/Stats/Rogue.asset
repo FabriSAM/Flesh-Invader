@@ -17,6 +17,8 @@ MonoBehaviour:
       EnemyType: 1
       Health: 8
       Damage: 5
+      MinDamageMultiplier: 0.85
+      MaxDamageMultiplier: 1.25
       Speed: 12
       Xp: 9
       CanLockpick: 1
@@ -31,4 +33,7 @@ MonoBehaviour:
       patrolPointNumber: 4
       chaseSpeedMultiplier: 1.8
       stutterTime: 2
-      testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
+      testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
+    charNarrativeStats:
+      abilityDescription: Rogue Ability
+      sprite: Rogue sprite

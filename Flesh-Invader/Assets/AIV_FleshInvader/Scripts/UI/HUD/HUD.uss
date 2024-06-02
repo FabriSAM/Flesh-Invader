@@ -24,3 +24,7 @@
 .xp-bar .unity-progress-bar__progress {
 	background-color: #0066ff;
 }
+
+.test-button {
+	height: 20px;
+}
