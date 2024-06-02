@@ -14,13 +14,13 @@
             </ui:VisualElement>
             <ui:VisualElement name="class-skills-container" style="flex-grow: 1; flex-direction: row;">
                 <ui:VisualElement name="class-container" style="flex-grow: 1; justify-content: center; align-items: center;">
-                    <ui:Label tabindex="-1" text="Class:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="class" style="-unity-font: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=790008c900f37fc4d87715cc46e66c25&amp;type=3#NotInter-Regular&apos;);" />
+                    <ui:Label tabindex="-1" text="Class:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="class" style="-unity-font: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=790008c900f37fc4d87715cc46e66c25&amp;type=3#NotInter-Regular&apos;); font-size: 10px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="base-attack-container" style="flex-grow: 1; align-items: center; justify-content: center;">
-                    <ui:Label tabindex="-1" text="Base attack:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="base-attack" />
+                    <ui:Label tabindex="-1" text="Base attack:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="base-attack" style="font-size: 10px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="passive-skill-container" style="flex-grow: 1; justify-content: center; align-items: center;">
-                    <ui:Label tabindex="-1" text="Passive:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="passive-skill" style="-unity-font: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=790008c900f37fc4d87715cc46e66c25&amp;type=3#NotInter-Regular&apos;);" />
+                    <ui:Label tabindex="-1" text="Passive:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="passive-skill" style="-unity-font: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=790008c900f37fc4d87715cc46e66c25&amp;type=3#NotInter-Regular&apos;); font-size: 10px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
