@@ -9,9 +9,11 @@ public class PlayerState : MonoBehaviour
     [SerializeField]
     GenericController genericController;
     #endregion
+
     #region PrivateMembers
     private Transform playerTransform;
     #endregion
+
     #region Properties
     public Transform PlayerTransform 
     { 
@@ -27,7 +29,6 @@ public class PlayerState : MonoBehaviour
     }
     public GenericController GenericController { get { return genericController; } }
     #endregion
-
 
     #region StaticMembers
     private static PlayerState instance;
@@ -55,7 +56,6 @@ public class PlayerState : MonoBehaviour
     private void Start()
     {
         if (instance != this) return;
-       //Da implementare successivamente 
     }
     #endregion
 }
