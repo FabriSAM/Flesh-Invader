@@ -18,4 +18,8 @@ public struct EnemyStatistics
 
     [SerializeField]
     public bool CanLockpick;
+    [Tooltip("Probability of spawn this enemyChar with the unposessable characteristic, calculated from 0 (Always Possessable) to value, with a max of 1 (Always Unpossessable)")]
+    [SerializeField]
+    [Range(0,1)]
+    public float UnpossessableProbability;
 }

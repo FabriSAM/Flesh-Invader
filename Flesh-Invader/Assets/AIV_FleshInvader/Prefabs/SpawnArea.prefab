@@ -105,7 +105,14 @@ MonoBehaviour:
   characterType:
   - {fileID: 11400000, guid: f4d1a44fa525cc64fb609be284e94eaf, type: 2}
   - {fileID: 11400000, guid: 647ddcc3997bac64984946b76e500c0d, type: 2}
-  enemyNar: {fileID: 11400000, guid: 956b5206690d534489235c4f0b8ed0ad, type: 2}
   spawnRadius: 100
-  spawnTime: 0.3
+  spawnTime: 0.5
   spawnTimeCounter: 0
+  spawnProbability:
+    poolProbability:
+    - Min: 0
+      Max: 0.8
+      resultingString: Rogue
+    - Min: 0.8
+      Max: 1
+      resultingString: Boss

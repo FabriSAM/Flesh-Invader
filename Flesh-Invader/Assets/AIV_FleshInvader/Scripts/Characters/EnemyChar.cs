@@ -36,6 +36,8 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     [SerializeField] protected float stutterTime;
     [SerializeField] protected Material testStutterMaterial;
 
+    protected bool IsUnpossessable;
+
     #endregion
 
     #region ProtectedProperties
@@ -127,6 +129,20 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
         patrolPointNumber = characterStartingInfo.PatrolPointNumber;
 
+        // Unpossessable EnemyChar behavior
+        ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
+        unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;
+
+        IsUnpossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
+        if(IsUnpossessable)
+        {
+            Debug.Log("Spawn unposessable enemyChar");
+
+            // Unpossessable Enemy differences with normal enemy
+            transform.parent.localScale *= 3;
+            patrolAcceptableRadius *= 3;
+            patrolPointsGenerationRadius *= 1.5f;
+        }
     }
     #endregion
 
@@ -158,6 +174,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     public void Possess()
     {
+
         controller.InternalOnPosses();
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
