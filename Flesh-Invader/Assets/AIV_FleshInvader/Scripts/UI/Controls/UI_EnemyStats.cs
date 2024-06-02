@@ -32,7 +32,7 @@ public class UI_EnemyStats : MonoBehaviour
         Debug.Log("UI_EnemyStats PossessionExecuted");
         EventArgsFactory.PossessionExecutedParser(message, out EnemyInfo enemyInfo);
         damages.text = "Damages: " + enemyInfo.CharStats.Damage;
-        speed.text = "Speed: " + enemyInfo.CharStats.Speed;
+        speed.text = "Speed: " + enemyInfo.CharStats.BaseSpeed;
         _class.text = $"Class: {enemyInfo.CharNarrativeStats.enemyTypeDescription}";
         baseAttack.text = $"Base attack: {enemyInfo.CharNarrativeStats.baseAttackDescription}";
         passiveSkill.text = $"Passive skill: {enemyInfo.CharNarrativeStats.passiveSkillDescription}";

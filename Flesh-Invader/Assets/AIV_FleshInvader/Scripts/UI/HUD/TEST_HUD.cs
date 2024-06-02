@@ -67,7 +67,7 @@ public class TEST_HUD : MonoBehaviour
             EnemyStatistics enemyStatistics = new EnemyStatistics();
             enemyStatistics.EnemyType = EnemyType.Boss;
             enemyStatistics.Damage = 25;
-            enemyStatistics.Speed = 10;
+            enemyStatistics.BaseSpeed = 10;
             EnemyNarrative enemyNarrative = new EnemyNarrative();
             enemyNarrative.icon = Resources.Load<Sprite>("Assets/AIV_FleshInvader/Images/mafiaBoss.png");
             //enemyNarrative.icon = Resources.Load<Texture2D>("Assets/AIV_FleshInvader/Images/mafiaBoss.png");
@@ -83,7 +83,7 @@ public class TEST_HUD : MonoBehaviour
             EnemyStatistics enemyStatistics = new EnemyStatistics();
             enemyStatistics.EnemyType = EnemyType.Thief;
             enemyStatistics.Damage = 34;
-            enemyStatistics.Speed = 7;
+            enemyStatistics.BaseSpeed = 7;
             EnemyNarrative enemyNarrative = new EnemyNarrative();
             //enemyNarrative.icon = Resources.Load<Texture2D>("Assets/AIV_FleshInvader/Images/thief.png");
             enemyNarrative.icon = Resources.Load<Sprite>("Assets/AIV_FleshInvader/Images/thief.png");
