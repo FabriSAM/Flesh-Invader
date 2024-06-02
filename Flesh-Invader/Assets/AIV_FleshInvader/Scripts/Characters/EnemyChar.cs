@@ -191,7 +191,8 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     private void CalculateDamage()
     {
-        characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier);
+        int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
+        characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
     }
     #endregion
 
