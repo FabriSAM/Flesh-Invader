@@ -120,42 +120,6 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     #endregion
 
-    private void CharacterStatsConfiguration()
-    {
-        // To change respecting random multipliers
-        patrolAcceptableRadius = characterStartingInfo.PatrolAcceptableRadius;
-        patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
-        patrolPointNumber = characterStartingInfo.PatrolPointNumber;
-
-        baseSpeed = characterStartingInfo.Speed;
-        chaseSpeedMultiplier = characterStartingInfo.ChaseSpeedMultiplier;
-        chaseSpeed = characterStartingInfo.Speed * chaseSpeedMultiplier;
-
-        distanceToFollowPlayer = characterStartingInfo.DistanceToFollowPlayer;
-        distanceToStopFollowPlayer = characterStartingInfo.DistanceToStopFollowPlayer;
-        distanceToStartAttack = characterStartingInfo.DistanceToStartAttack;
-        distanceToStopAttack = characterStartingInfo.DistanceToStopAttack;
-
-        stutterTime = CharacterInfo.CharStatesStats.stutterTime;
-        testStutterMaterial = CharacterInfo.CharStatesStats.testStutterMaterial;
-
-        attackDamage = CharacterInfo.CharStats.Damage;
-
-        // Unpossessable EnemyChar behavior
-        ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
-        unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;
-
-        IsUnpossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
-        if(IsUnpossessable)
-        {
-            Debug.Log("Spawn unposessable enemyChar");
-
-            // Unpossessable Enemy differences with normal enemy
-            transform.parent.localScale *= 3;
-            patrolAcceptableRadius *= 3;
-            patrolPointsGenerationRadius *= 1.5f;
-        }
-    }
     #endregion
 
     #region Mono
@@ -180,6 +144,50 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         FSM.Init(new State[] {patrol, stutter, chase }, patrol);
     }
 
+    #endregion
+
+    #region Initialization
+    private void CharacterStatsConfiguration()
+    {
+        // To change respecting random multipliers
+        patrolAcceptableRadius = characterStartingInfo.PatrolAcceptableRadius;
+        patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
+        patrolPointNumber = characterStartingInfo.PatrolPointNumber;
+
+        baseSpeed = characterStartingInfo.Speed;
+        chaseSpeedMultiplier = characterStartingInfo.ChaseSpeedMultiplier;
+        chaseSpeed = characterStartingInfo.Speed * chaseSpeedMultiplier;
+
+        distanceToFollowPlayer = characterStartingInfo.DistanceToFollowPlayer;
+        distanceToStopFollowPlayer = characterStartingInfo.DistanceToStopFollowPlayer;
+        distanceToStartAttack = characterStartingInfo.DistanceToStartAttack;
+        distanceToStopAttack = characterStartingInfo.DistanceToStopAttack;
+
+        stutterTime = CharacterInfo.CharStatesStats.stutterTime;
+        testStutterMaterial = CharacterInfo.CharStatesStats.testStutterMaterial;
+        CalculateDamage();
+
+        // Unpossessable EnemyChar behavior
+        ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
+        unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;
+
+        IsUnpossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
+        if (IsUnpossessable)
+        {
+            Debug.Log("Spawn unposessable enemyChar");
+
+            // Unpossessable Enemy differences with normal enemy
+            transform.parent.localScale *= 3;
+            patrolPointsGenerationRadius *= 3;
+        }
+    }
+
+    private void CalculateDamage()
+    {
+        attackDamage = CharacterInfo.CharStats.Damage;
+        //attackDamage *= PlayerState.Get().PlayerLevel;
+        attackDamage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier);
+    }
     #endregion
 
     public abstract void CastAbility();
