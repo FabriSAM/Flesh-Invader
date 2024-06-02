@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolKey: PossessionBullet
   prefab: {fileID: 3042579758161720879, guid: e3ced140c889c51438582a20338de8e0, type: 3}
-  poolNumber: 10
+  poolNumber: 5
   resizablePool: 1
