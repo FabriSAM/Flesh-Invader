@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/AIV_FleshInvader/Scenes/MainMenu.unity
+    guid: 2dd33d4d3a474da4a89c28584c25fdf2
+  - enabled: 1
+    path: Assets/AIV_FleshInvader/Scenes/Chest-Gate.unity
+    guid: 95d5f1f63ae4b4a48b00d510ca676f89
   m_configObjects: {}
