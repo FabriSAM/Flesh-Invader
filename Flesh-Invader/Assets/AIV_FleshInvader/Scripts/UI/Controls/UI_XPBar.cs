@@ -2,11 +2,11 @@ using NotserializableEventManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class XPBar : MonoBehaviour {
+public class UI_XPBar : MonoBehaviour {
 
     private ProgressBar xpBar;
 
-    public XPBar() { }
+    public UI_XPBar() { }
 
     private void Awake() {
         xpBar = GetComponent<UIDocument>().rootVisualElement.Q<ProgressBar>("xp-bar");
