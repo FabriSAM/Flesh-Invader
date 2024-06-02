@@ -21,7 +21,8 @@ public class XPBar : MonoBehaviour {
     }
 
     private void OnXPUpdate(EventArgs message) {
-        EventArgsFactory.PlayerXPUpdatedParser(message, out float maxXP, out float currentXP);
-        xpBar.value = Mathf.Clamp((currentXP / maxXP), 0, 1);
+        EventArgsFactory.PlayerXPUpdatedParser(message, out LevelStruct level);
+        
+        xpBar.value = Mathf.Clamp((level.CurrentXP / level.NextLevelXp), 0, 1);
     }
 }
