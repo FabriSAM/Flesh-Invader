@@ -1,16 +1,14 @@
 using NotserializableEventManager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UI_Mission : MonoBehaviour
+public class UI_MissionLabel : MonoBehaviour
 {
     private Label mission;
 
     private void Awake()
     {
-        mission = GetComponent<UIDocument>().rootVisualElement.Q<Label>("message");
+        mission = GetComponent<UIDocument>().rootVisualElement.Q<Label>("mission-label");
     }
 
     private void OnEnable()

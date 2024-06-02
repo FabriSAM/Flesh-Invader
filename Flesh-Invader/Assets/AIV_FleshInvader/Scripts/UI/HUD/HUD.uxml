@@ -2,16 +2,13 @@
     <ui:Template name="EnemyPossessedPanel" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/EnemyStats.uxml?fileID=9197481963319205126&amp;guid=a444e0e515ecb58489259e0ce1cd5a92&amp;type=3#EnemyStats" />
     <ui:Template name="HealthBar" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/HealthBar.uxml?fileID=9197481963319205126&amp;guid=c97b0b7ed26254448b885933604dc289&amp;type=3#HealthBar" />
     <ui:Template name="XPBar" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/XPBar.uxml?fileID=9197481963319205126&amp;guid=82f1ecd8b2c55d841a33142628d66121&amp;type=3#XPBar" />
-    <ui:Template name="Mission" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/Mission.uxml?fileID=9197481963319205126&amp;guid=92d9e74c637b2a94585efe1831f8cd6e&amp;type=3#Mission" />
+    <ui:Template name="LevelLabel" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/LevelLabel.uxml?fileID=9197481963319205126&amp;guid=6d7535404f2187348835e43de63c9867&amp;type=3#LevelLabel" />
+    <ui:Template name="Mission" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/MissionLabel.uxml?fileID=9197481963319205126&amp;guid=92d9e74c637b2a94585efe1831f8cd6e&amp;type=3#MissionLabel" />
     <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/HUD.uss?fileID=7433441132597879392&amp;guid=bfa7795f6b70bac4ca507f21c8842bdb&amp;type=3#HUD" />
     <ui:VisualElement name="root" style="height: 100%; width: 100%;">
-        <ui:VisualElement name="header" style="flex-grow: 0; flex-basis: 30%; flex-direction: row; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+        <ui:VisualElement name="header" style="flex-grow: 0; flex-basis: 25%; flex-direction: row; padding-top: 15px; padding-right: 15px; padding-bottom: 0; padding-left: 15px;">
             <ui:VisualElement name="enemy-stats" style="flex-grow: 1; flex-basis: 50%; justify-content: center; align-items: center;">
                 <ui:Instance template="EnemyPossessedPanel" name="EnemyStats" />
-                <ui:VisualElement name="TEST" style="flex-grow: 1; flex-direction: row; justify-content: center;">
-                    <ui:Button text="Boss" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possess-boss" enable-rich-text="false" class="test-button" />
-                    <ui:Button text="Thief" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possess-thief" enable-rich-text="true" class="test-button" />
-                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="player-stats" style="flex-basis: 50%;">
                 <ui:VisualElement name="health" style="flex-direction: row;">
@@ -22,17 +19,23 @@
                     <ui:Label tabindex="-1" text="XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="xp-label" style="width: 15%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     <ui:Instance template="XPBar" name="xp-bar" style="width: 85%; justify-content: center;" />
                 </ui:VisualElement>
-                <ui:Instance template="Mission" name="mission" style="margin-right: 20px;" />
-                <ui:VisualElement name="TEST" style="flex-grow: 1; flex-direction: row; justify-content: center;">
-                    <ui:Button text="+Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="increase-health" class="test-button" />
-                    <ui:Button text="-Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="decrease-health" class="test-button" />
-                    <ui:Button text="+XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="increase-xp" class="test-button" />
-                    <ui:Button text="-XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="decrease-xp" enable-rich-text="false" class="test-button" />
+                <ui:VisualElement name="level-mission-container" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                    <ui:Instance template="LevelLabel" name="level-label" />
+                    <ui:Instance template="Mission" name="mission-label" style="margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="body" style="flex-grow: 0; flex-basis: 50%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-            <ui:VisualElement name="spacer" style="flex-grow: 0; padding-top: 15px; flex-basis: 20px;" />
+        <ui:VisualElement name="body" style="flex-grow: 0; flex-basis: 55%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+            <ui:VisualElement name="TEST" style="flex-grow: 1; flex-direction: row; justify-content: center;">
+                <ui:Button text="Boss" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possess-boss" enable-rich-text="false" class="test-button" />
+                <ui:Button text="Thief" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possess-thief" enable-rich-text="true" class="test-button" />
+                <ui:Button text="+Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="increase-health" class="test-button" />
+                <ui:Button text="-Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="decrease-health" class="test-button" />
+                <ui:Button text="+XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="increase-xp" class="test-button" />
+                <ui:Button text="-XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="decrease-xp" enable-rich-text="false" class="test-button" />
+                <ui:Button text="Mission" parse-escape-sequences="true" display-tooltip-when-elided="true" name="found-mission-object" enable-rich-text="false" class="test-button" />
+                <ui:Button text="+Level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="next-level" enable-rich-text="false" class="test-button" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="footer" style="flex-grow: 0; flex-basis: 20%;" />
     </ui:VisualElement>

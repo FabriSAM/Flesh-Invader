@@ -2,11 +2,11 @@ using NotserializableEventManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class HealthBar : MonoBehaviour {
+public class UI_HealthBar : MonoBehaviour {
 
     private ProgressBar healthBar;
 
-    public HealthBar() { }
+    public UI_HealthBar() { }
 
     private void Awake() {
         healthBar = GetComponent<UIDocument>().rootVisualElement.Q<ProgressBar>("health-bar");
