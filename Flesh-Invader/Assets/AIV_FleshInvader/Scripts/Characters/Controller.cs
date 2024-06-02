@@ -15,6 +15,8 @@ public class Controller : MonoBehaviour
     [SerializeField]
     protected Collider characterPhysicsCollider;
     [SerializeField]
+    protected MeleeCollider[] meleeColliders;
+    [SerializeField]
     protected bool isPossessed;
     #endregion //References
 
@@ -87,6 +89,11 @@ public class Controller : MonoBehaviour
         {
             InternalOnUnposses();
         }
+
+        foreach (MeleeCollider collider in meleeColliders)
+        {
+            collider.DamageableHitted += OnMeleeHitted;
+        }
     }
     public void InternalOnPosses()
     {
@@ -97,6 +104,7 @@ public class Controller : MonoBehaviour
         {
             ability.RegisterInput();
         }
+        SetDamagerCollidersLayerType("EnemyDamager");
         Debug.Log("Possessed");
     }
     public void InternalOnUnposses()
@@ -106,6 +114,26 @@ public class Controller : MonoBehaviour
         foreach (var ability in abilities)
         {
             ability.UnRegisterInput();
+        }
+        SetDamagerCollidersLayerType("PlayerDamager");
+    }
+    #endregion
+
+    #region Callbacks
+    private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
+    {
+
+    }
+    #endregion
+
+    #region Private Methods
+    private void SetDamagerCollidersLayerType(string newLayer)
+    {
+        foreach (MeleeCollider collider in meleeColliders)
+        {
+            Collider currentCollider = collider.GetComponent<Collider>();
+            if (currentCollider == null) continue;
+            currentCollider.gameObject.layer = LayerMask.NameToLayer(newLayer);
         }
     }
     #endregion
