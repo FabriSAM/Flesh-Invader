@@ -20,6 +20,7 @@ MonoBehaviour:
       Speed: 8
       Xp: 10
       CanLockpick: 0
+      UnpossessableProbability: 0.05
     charStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
