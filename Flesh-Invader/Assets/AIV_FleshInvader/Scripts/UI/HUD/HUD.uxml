@@ -7,7 +7,7 @@
     <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/HUD.uss?fileID=7433441132597879392&amp;guid=bfa7795f6b70bac4ca507f21c8842bdb&amp;type=3#HUD" />
     <ui:VisualElement name="root" style="height: 100%; width: 100%;">
         <ui:VisualElement name="header" style="flex-grow: 0; flex-basis: 25%; flex-direction: row; padding-top: 15px; padding-right: 15px; padding-bottom: 0; padding-left: 15px;">
-            <ui:VisualElement name="enemy-stats" style="flex-grow: 1; flex-basis: 50%; justify-content: center; align-items: center;">
+            <ui:VisualElement name="enemy-stats" style="flex-grow: 1; flex-basis: 50%; justify-content: center; align-items: flex-start;">
                 <ui:Instance template="EnemyPossessedPanel" name="EnemyStats" />
             </ui:VisualElement>
             <ui:VisualElement name="player-stats" style="flex-basis: 50%;">

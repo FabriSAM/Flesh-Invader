@@ -19,7 +19,7 @@ public class TEST_HUD : MonoBehaviour
     private int maxXP = 10;
     private int currentXP = 0;
     private int totalMissionObjects = 5;
-    private int currentMissionObjects = -1;
+    private int currentMissionObjects = 0;
     private int currentLevel = 1;
 
     private void Awake() {
@@ -68,8 +68,15 @@ public class TEST_HUD : MonoBehaviour
             enemyStatistics.EnemyType = EnemyType.Boss;
             enemyStatistics.Damage = 25;
             enemyStatistics.Speed = 10;
+            EnemyNarrative enemyNarrative = new EnemyNarrative();
+            enemyNarrative.icon = Resources.Load<Sprite>("Assets/AIV_FleshInvader/Images/mafiaBoss.png");
+            //enemyNarrative.icon = Resources.Load<Texture2D>("Assets/AIV_FleshInvader/Images/mafiaBoss.png");
+            enemyNarrative.enemyTypeDescription = "Mafia Boss";
+            enemyNarrative.baseAttackDescription = "Baciamo le mani";
+            enemyNarrative.passiveSkillDescription = "Mafiosità";
             EnemyInfo enemyInfo = new EnemyInfo();
             enemyInfo.CharStats = enemyStatistics;
+            enemyInfo.CharNarrativeStats = enemyNarrative;
             GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
         };
         possessThief.clickable.clicked += delegate {
@@ -77,8 +84,15 @@ public class TEST_HUD : MonoBehaviour
             enemyStatistics.EnemyType = EnemyType.Thief;
             enemyStatistics.Damage = 34;
             enemyStatistics.Speed = 7;
+            EnemyNarrative enemyNarrative = new EnemyNarrative();
+            //enemyNarrative.icon = Resources.Load<Texture2D>("Assets/AIV_FleshInvader/Images/thief.png");
+            enemyNarrative.icon = Resources.Load<Sprite>("Assets/AIV_FleshInvader/Images/thief.png");
+            enemyNarrative.enemyTypeDescription = "Thief";
+            enemyNarrative.baseAttackDescription = "I steel u";
+            enemyNarrative.passiveSkillDescription = "Cleptomaniac";
             EnemyInfo enemyInfo = new EnemyInfo();
             enemyInfo.CharStats = enemyStatistics;
+            enemyInfo.CharNarrativeStats= enemyNarrative;
             GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
         };
         mission.clickable.clicked += delegate {
