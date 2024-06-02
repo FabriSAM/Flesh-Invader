@@ -122,7 +122,9 @@ public class Controller : MonoBehaviour
     #region Callbacks
     private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
     {
-
+        // TODO: Make Implement TakeDamage function. The controller (or other GameObject?) should implement IDamager and IDamageable
+        // Need to specify a DamageContainer. Maybe add it to Database?
+        //otherDamageable.TakeDamage();
     }
     #endregion
 
