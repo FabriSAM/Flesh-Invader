@@ -8,9 +8,11 @@ public class PlayerStateLevel : MonoBehaviour
     [SerializeField]
     private LevelStruct level;
     
-    public void SetXP(int xpToAdd)
+    private float xpMultiplier = 1f;
+
+    public void SetXP(float xpToAdd)
     {
-        
+        xpToAdd *= xpMultiplier;
         if(level.CurrentXP + xpToAdd >= level.NextLevelXp)
         {
             level.CurrentXP = level.CurrentXP + xpToAdd - level.NextLevelXp;
@@ -29,5 +31,10 @@ public class PlayerStateLevel : MonoBehaviour
     public int GetXP()
     {
         return level.CurrentLevel;
+    }
+
+    public void SetXPMultiplyer(float newMultyplier)
+    {
+        xpMultiplier = newMultyplier;
     }
 }
