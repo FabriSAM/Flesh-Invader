@@ -31,4 +31,7 @@ MonoBehaviour:
       patrolPointNumber: 4
       chaseSpeedMultiplier: 1.8
       stutterTime: 2
-      testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
+      testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
+    charNarrativeStats:
+      abilityDescription: Rogue Ability
+      sprite: Rogue sprite

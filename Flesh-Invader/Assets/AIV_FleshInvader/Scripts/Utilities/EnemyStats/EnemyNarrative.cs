@@ -6,6 +6,6 @@ using UnityEngine;
 [Serializable]
 public struct EnemyNarrative
 {
-    private string sprite;
-    private string abilityDescription;
+    [SerializeField] private string abilityDescription;
+    [SerializeField] private string sprite;
 }
