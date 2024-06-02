@@ -8,7 +8,8 @@ using UnityEngine;
         StartDialogue,
         PlayerXPUpdated, 
         DialoguePerformed,
-        PossessionExecuted
+        PossessionExecuted,
+        MissionUpdated
     }
 
     public class EventArgs {

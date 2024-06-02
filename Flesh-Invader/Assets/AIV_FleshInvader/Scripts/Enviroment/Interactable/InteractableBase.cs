@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public abstract class InteractableBase : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public abstract class InteractableBase : MonoBehaviour
     #endregion
 
     protected Controller controller;
+    protected EnemyChar character;
 
 
     protected void SubscribeInteract()
@@ -23,5 +25,23 @@ public abstract class InteractableBase : MonoBehaviour
         controller.OnInteractPerformed -= OnOpen;
     }
     protected abstract void OnOpen();
-    protected abstract void InternalOnTriggerEnter(Collider other, bool status);
+    protected void InternalOnTriggerEnter(Collider other, bool status)
+    {
+        if (!other.TryGetComponent(out controller)) return;
+        //if (!other.TryGetComponent(out character)) return;
+
+        canvas.SetActive(status);
+        if (status)
+        {
+            SubscribeInteract();
+        }
+        else
+        {
+            UnscribeInteract();
+        }
+    }
+    protected bool CanOpen()
+    {
+        return true;
+    }
 }
