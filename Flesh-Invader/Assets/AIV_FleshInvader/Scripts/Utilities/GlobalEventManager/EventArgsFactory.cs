@@ -41,17 +41,18 @@ namespace NotserializableEventManager {
         #endregion
 
         #region PlayerXpUpdated
-        public static EventArgs PlayerXPUpdatedFactory(float maxXP, float currentXP) {
+
+        public static EventArgs PlayerXPUpdatedFactory(LevelStruct level)
+        {
             EventArgs message = new EventArgs();
-            message.variables = new object[2];
-            message.variables[0] = maxXP;
-            message.variables[1] = currentXP;
+            message.variables = new object[1];
+            message.variables[0] = level;
             return message;
         }
 
-        public static void PlayerXPUpdatedParser(EventArgs message, out float maxXP, out float currentXP) {
-            maxXP = (float)message.variables[0];
-            currentXP = (float)message.variables[1];
+        public static void PlayerXPUpdatedParser(EventArgs message, out LevelStruct level)
+        {
+            level = (LevelStruct)message.variables[0];
         }
         #endregion
 
@@ -113,6 +114,22 @@ namespace NotserializableEventManager {
         {
             maxValue = (int)message.variables[0];
             currentValue = (int)message.variables[1];
+        }
+        #endregion
+
+        #region PossessionAbilityState
+        public static EventArgs PossessionAbilityStateFactory(bool state)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = state;
+
+            return message;
+        }
+
+        public static void PossessionAbilityStateParser(EventArgs message, out bool state)
+        {
+            state = (bool)message.variables[0];
         }
         #endregion
     }

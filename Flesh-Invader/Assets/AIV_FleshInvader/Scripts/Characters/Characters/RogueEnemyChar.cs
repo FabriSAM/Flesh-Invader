@@ -6,6 +6,6 @@ public class RogueEnemyChar : EnemyChar
 {
     public override void CastAbility()
     {
-        throw new System.NotImplementedException("ROGUE: Ability not implemented");
+        //throw new System.NotImplementedException("ROGUE: Ability not implemented");
     }
 }

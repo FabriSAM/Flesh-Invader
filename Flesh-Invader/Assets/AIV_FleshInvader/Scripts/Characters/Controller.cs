@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class Controller : MonoBehaviour
+public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
 {
     #region References
     [SerializeField]
@@ -15,11 +15,18 @@ public class Controller : MonoBehaviour
     [SerializeField]
     protected Collider characterPhysicsCollider;
     [SerializeField]
+    protected MeleeCollider[] meleeColliders;
+    [SerializeField]
+    protected HealthModule healthModule;
+    [SerializeField]
     protected bool isPossessed;
     #endregion //References
+    
 
     #region PrivateAttributes
     private AbilityBase[] abilities;
+    private PlayerStateHealth playerStateHealth;
+    private DamageContainer meleeContainer;
     #endregion
 
     #region ReferenceGetter
@@ -39,6 +46,17 @@ public class Controller : MonoBehaviour
     {
         get { return isPossessed; }
     }
+    public DamageContainer MeleeContainer
+    {
+        get { return meleeContainer; }
+        protected set { meleeContainer = value; }
+    }
+    public PlayerStateHealth PlayerStateHealth
+    {
+        get { return playerStateHealth; }
+    }
+
+    public EnemyInfo CharacterInfo => throw new NotImplementedException();
     #endregion
 
     #region RigidbodyMethods
@@ -71,10 +89,19 @@ public class Controller : MonoBehaviour
     public Action OnInteractPerformed;
     #endregion
 
+    public Action attack;
+    public Action OnCharacterPossessed;
+    public Action OnCharacterUnpossessed;
+    public Action<DamageContainer> OnControllerDamageTaken;
+    public Action OnControllerDeath;
+
     #region Mono
     private void Awake()
     {
         abilities = GetComponentsInChildren<AbilityBase>();
+        playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
+        healthModule.OnDamageTaken += OnInternalDamageTaken;
+        healthModule.OnDeath += OnInternalDeath;
         foreach (var ability in abilities)
         {
             ability.Init(this);
@@ -87,6 +114,11 @@ public class Controller : MonoBehaviour
         {
             InternalOnUnposses();
         }
+
+        foreach (MeleeCollider collider in meleeColliders)
+        {
+            collider.DamageableHitted += OnMeleeHitted;
+        }
     }
     public void InternalOnPosses()
     {
@@ -97,6 +129,10 @@ public class Controller : MonoBehaviour
         {
             ability.RegisterInput();
         }
+        SetDamagerCollidersLayerType("EnemyDamager");
+
+        OnCharacterPossessed?.Invoke();
+
         Debug.Log("Possessed");
     }
     public void InternalOnUnposses()
@@ -107,6 +143,66 @@ public class Controller : MonoBehaviour
         {
             ability.UnRegisterInput();
         }
+        SetDamagerCollidersLayerType("PlayerDamager");
+
+        OnCharacterUnpossessed?.Invoke();
+    }
+    #endregion
+
+    #region Callbacks
+    private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
+    {
+        // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
+        otherDamageable.TakeDamage(meleeContainer);
+    }
+    #endregion
+
+    #region Private Methods
+    private void SetDamagerCollidersLayerType(string newLayer)
+    {
+        foreach (MeleeCollider collider in meleeColliders)
+        {
+            Collider currentCollider = collider.GetComponent<Collider>();
+            if (currentCollider == null) continue;
+            currentCollider.gameObject.layer = LayerMask.NameToLayer(newLayer);
+        }
+    }
+    #endregion
+
+    #region Interface Methods
+    public void TakeDamage(DamageContainer damage)
+    {
+        if (IsPossessed)
+        {
+            if (playerStateHealth == null) return;
+            playerStateHealth.HealthReduce(damage.Damage);
+        }
+        else
+        {
+            if (healthModule == null) return;
+            healthModule.TakeDamage(damage);
+        }
+    }
+    #endregion
+
+    #region Health Module
+    private void OnInternalDamageTaken(DamageContainer damage)
+    {
+        OnControllerDamageTaken?.Invoke(damage);
+    }
+    private void OnInternalDeath()
+    {
+        OnControllerDeath?.Invoke();
+    }
+
+    public void Possess()
+    {
+        OnCharacterPossessed?.Invoke();
+    }
+
+    public void UnPossess()
+    {
+        OnCharacterUnpossessed?.Invoke();
     }
     #endregion
 }

@@ -21,7 +21,9 @@ public class EnemyStatisticsTemplate : ScriptableObject
     public EnemyType EnemyType { get { return CharStats.EnemyType; } }
     public float Health { get { return CharStats.Health; } }
     public float Damage { get { return CharStats.Damage; } }
-    public float Speed { get { return CharStats.Speed; } }
+    public float Speed { get { return CharStats.BaseSpeed; } }
+    public float ChaseSpeed { get { return CharStats.ChaseSpeed; } }
+
     public float XP { get { return CharStats.Xp; } }
     #endregion
 

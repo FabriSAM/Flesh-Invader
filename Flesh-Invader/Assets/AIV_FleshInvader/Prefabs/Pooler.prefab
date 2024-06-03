@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5641068488712063959}
   - component: {fileID: 4816835808330578625}
   m_Layer: 0
-  m_Name: SpawnArea
+  m_Name: Pooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
     poolProbability:
     - Min: 0
       Max: 0.8
-      resultingString: Rogue
+      result: 
     - Min: 0.8
       Max: 1
-      resultingString: Boss
+      result: 
