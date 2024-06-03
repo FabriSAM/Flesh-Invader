@@ -9,6 +9,7 @@ public class BossEnemyChar : EnemyChar, IPoolRequester
     [SerializeField] protected int TEST_bulletType;
     [SerializeField] protected float XPMultiplier;
     [SerializeField] protected float shootSpeed;
+    [SerializeField] protected Transform aimTransform;
 
     public PoolData[] Datas { get { return bulletPool; } }
 
@@ -26,7 +27,7 @@ public class BossEnemyChar : EnemyChar, IPoolRequester
     {
         IBullet bulletComponent = Pooler.Instance.GetPooledObject(Datas[0]).GetComponent<IBullet>();
         if (bulletComponent == null) return;
-        bulletComponent.Shoot(transform, shootSpeed);
+        bulletComponent.Shoot(aimTransform, shootSpeed);
 
         //RangedAttackComponent
     }

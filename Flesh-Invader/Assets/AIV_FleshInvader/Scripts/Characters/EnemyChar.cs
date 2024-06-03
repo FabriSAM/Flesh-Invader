@@ -178,7 +178,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         chase.SetUpMe(new Transition[] {StopChase(chase, patrol), ChaseToAttack(chase,attack) });
         attack.SetUpMe(new Transition[] { AttackBackToChase(attack,chase)});
 
-        FSM.Init(new State[] {patrol, stutter, chase }, patrol);
+        FSM.Init(new State[] {patrol, stutter, chase, attack }, patrol);
     }
 
 
