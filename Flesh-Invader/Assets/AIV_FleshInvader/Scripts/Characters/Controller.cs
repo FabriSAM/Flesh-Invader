@@ -71,6 +71,8 @@ public class Controller : MonoBehaviour
     public Action OnInteractPerformed;
     #endregion
 
+    public Action attack;
+
     #region Mono
     private void Awake()
     {

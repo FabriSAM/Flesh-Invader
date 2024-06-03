@@ -13,6 +13,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     [Header("Stats")]
     [SerializeField] private EnemyStatisticsTemplate characterStartingInfo;
+    private StateMachine FSM;
     private EnemyInfo characterCurrentInfo;
 
     #region ProtectedVariables
@@ -55,85 +56,115 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     #endregion
 
     #region FSM
-    #region Transition
-    private Transition StartChase(State prev, State next)
-    {
-        Transition transition = new Transition();
-        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
-            characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
-        transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
-        return transition;
-    }
+        #region Transition
+        private Transition StartChase(State prev, State next)
+        {
+            Transition transition = new Transition();
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+                characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
+            transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+            return transition;
+        }
 
-    private Transition StopChase(State prev, State next)
-    {
-        Transition transition = new Transition();
-        CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
-            characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
-        transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
-        return transition;
-    }
+        private Transition StopChase(State prev, State next)
+        {
+            Transition transition = new Transition();
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+                characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
+            transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+            return transition;
+        }
 
-    private Transition GoInStutter(State prev, State next)
-    {
-        Transition transition = new Transition();
-        WaitTimeCondition timeCondition = new WaitTimeCondition(characterCurrentInfo.CharStatesStats.stutterTime);
-        //SetAnimatorParameterAction setStutterAnimation = new SetAnimatorParameterAction(GetComponentInParent<Animator>(),
-        //    new AnimatorParameterStats("GeneralIntParameter", AnimatorParameterType.INTEGER, 5));
-        transition.SetUpMe(prev, next, new Condition[] { timeCondition });
-        return transition;
-    }
+        private Transition StopStutter(State prev, State next)
+        {
+            Transition transition = new Transition();
+            WaitTimeCondition timeCondition = new WaitTimeCondition(characterCurrentInfo.CharStatesStats.stutterTime);
+            //SetAnimatorParameterAction setStutterAnimation = new SetAnimatorParameterAction(GetComponentInParent<Animator>(),
+            //    new AnimatorParameterStats("GeneralIntParameter", AnimatorParameterType.INTEGER, 5));
+            transition.SetUpMe(prev, next, new Condition[] { timeCondition });
+            return transition;
+        }
+
+        private Transition ChaseToAttack(State prev, State next)
+        {
+            Transition transition = new Transition();
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+                characterCurrentInfo.CharStatesStats.distanceToStartAttack, COMPARISON.LESSEQUAL);
+
+
+            transition.SetUpMe(prev, next, new Condition[] {distanceCondition });
+            return transition;
+        }
+
+        private Transition AttackBackToChase(State prev, State next)
+        {
+            Transition transition = new Transition();
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+                characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
+
+    
+            transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+            return transition;
+        }
     #endregion
 
     #region States
     private State SetUpPatrol()
-    {
-        State patrol = new State();
+        {
+            State patrol = new State();
    
-        Vector3[] PatrolPositions = new Vector3[characterCurrentInfo.CharStatesStats.patrolPointNumber];
+            Vector3[] PatrolPositions = new Vector3[characterCurrentInfo.CharStatesStats.patrolPointNumber];
 
-        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position,
-            characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius, characterCurrentInfo.CharStatesStats.patrolPointNumber, PatrolPositions);
-        PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed);
+            GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position,
+                characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius, characterCurrentInfo.CharStatesStats.patrolPointNumber, PatrolPositions);
+            PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed);
 
-        patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction });
+            patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction });
 
-        return patrol;
-    }
+            return patrol;
+        }
 
-    private State SetUpChase()
-    {
-        State chase = new State();
+        private State SetUpChase()
+        {
+            State chase = new State();
 
-        ChaseTargetAction chaseTarget = new ChaseTargetAction(agent, characterCurrentInfo.CharStats.ChaseSpeed);
+            ChaseTargetAction chaseTarget = new ChaseTargetAction(agent, characterCurrentInfo.CharStats.ChaseSpeed);
 
-        chase.SetUpMe(new StateAction[] { chaseTarget });
-        return chase;
-    }
+            chase.SetUpMe(new StateAction[] { chaseTarget });
+            return chase;
+        }
 
-    private State SetUpStutter()
-    {
-        State stutter = new State();
-        TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<MeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
-        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
+        private State SetUpStutter()
+        {
+            State stutter = new State();
+            TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<MeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
+            ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
 
-        stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
-        return stutter;
-    }
+            stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
+            return stutter;
+        }
+        private State SetUpAttack()
+        {
+            State attack = new State();
+            AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
-    #endregion
+            attack.SetUpMe(new StateAction[] { attackTarget });
+            return attack;
+        }
+
+        #endregion
 
     #endregion
 
     #region Mono
     private void Awake()
     {
-        controller = GetComponentInParent<Controller>();
+        InitializeEnemy();
     }
 
     private void OnEnable()
     {
-        StateMachine FSM = GetComponentInChildren<StateMachine>();
+        FSM = GetComponentInChildren<StateMachine>();
         agent = GetComponentInParent<NavMeshAgent>();
         
         CharacterStatsConfiguration();
@@ -141,37 +172,37 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         State patrol = SetUpPatrol();
         State chase = SetUpChase();
         State stutter = SetUpStutter();
+        State attack = SetUpAttack();
         patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter) });
-        stutter.SetUpMe(new Transition[] { GoInStutter(stutter, chase) });
-        chase.SetUpMe(new Transition[] {StopChase(chase, patrol) });
+        stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
+        chase.SetUpMe(new Transition[] {StopChase(chase, patrol), ChaseToAttack(chase,attack) });
+        attack.SetUpMe(new Transition[] { AttackBackToChase(attack,chase)});
+
         FSM.Init(new State[] {patrol, stutter, chase }, patrol);
     }
+
 
     #endregion
 
     #region Initialization
+
+    protected virtual void InitializeEnemy()
+    {
+        controller = GetComponentInParent<Controller>();
+        characterCurrentInfo = new EnemyInfo();
+
+        // Delegate bounding
+        controller.attack += CastAbility;
+    }
+
     private void CharacterStatsConfiguration()
     {
         // To change respecting random multipliers
-        characterCurrentInfo = characterStartingInfo.CharInfo;
+        characterCurrentInfo.CharStats = characterStartingInfo.CharInfo.CharStats;
+        characterCurrentInfo.CharStatesStats = characterStartingInfo.CharInfo.CharStatesStats;
+        characterCurrentInfo.CharNarrativeStats = characterStartingInfo.CharInfo.CharNarrativeStats;
 
 
-
-        //patrolAcceptableRadius = characterStartingInfo.PatrolAcceptableRadius;
-        //patrolPointsGenerationRadius = characterStartingInfo.PatrolPointsGenerationRadius;
-        //patrolPointNumber = characterStartingInfo.PatrolPointNumber;
-
-        //baseSpeed = characterStartingInfo.Speed;
-        //chaseSpeedMultiplier = characterStartingInfo.ChaseSpeedMultiplier;
-        //chaseSpeed = characterStartingInfo.Speed * chaseSpeedMultiplier;
-
-        //distanceToFollowPlayer = characterStartingInfo.DistanceToFollowPlayer;
-        //distanceToStopFollowPlayer = characterStartingInfo.DistanceToStopFollowPlayer;
-        //distanceToStartAttack = characterStartingInfo.DistanceToStartAttack;
-        //distanceToStopAttack = characterStartingInfo.DistanceToStopAttack;
-
-        //stutterTime = CharacterInfo.CharStatesStats.stutterTime;
-        //testStutterMaterial = CharacterInfo.CharStatesStats.testStutterMaterial;
         CalculateDamage();
 
         // Unpossessable EnemyChar behavior
@@ -191,11 +222,12 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
 
     private void CalculateDamage()
     {
-        int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
-        characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
+        //int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
+        //characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
     }
     #endregion
 
+    #region Enemy
     public abstract void CastAbility();
 
     public virtual void Possess()
@@ -207,12 +239,14 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
             EventName.PossessionExecuted, 
             EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
             );
-        enabled = false;
+        FSM.enabled = false;
     }
 
     public virtual void UnPossess()
     {
         controller.InternalOnUnposses();
+        FSM.enabled = enabled;
 
     }
+    #endregion
 }

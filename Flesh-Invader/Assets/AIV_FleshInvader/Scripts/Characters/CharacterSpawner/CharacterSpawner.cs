@@ -54,7 +54,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
 
             if(item.IsInRange(probabilityValue))
             {
-                Debug.Log("Probability: " + probabilityValue);
+                //Debug.Log("Probability: " + probabilityValue);
 
                 return item.result;
             }

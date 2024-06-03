@@ -28,4 +28,6 @@ public struct EnemyStatistics
     [SerializeField]
     [Range(0,1)]
     public float UnpossessableProbability;
+    [SerializeField]
+    public float AttackCountdown;
 }

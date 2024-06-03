@@ -442,6 +442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c298d774ee4594b971ea4eafcd2d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  lifeTime: 0
 --- !u!135 &1083973478
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -890,12 +892,24 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
+      propertyPath: characterType.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
+      propertyPath: characterType.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 647ddcc3997bac64984946b76e500c0d, type: 2}
+    - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.data[0].Max
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
+      propertyPath: spawnProbability.poolProbability.Array.data[1].Max
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.data[1].Min

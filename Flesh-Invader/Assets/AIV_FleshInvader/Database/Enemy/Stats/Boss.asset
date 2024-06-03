@@ -24,6 +24,7 @@ MonoBehaviour:
       Xp: 10
       CanLockpick: 0
       UnpossessableProbability: 0.04
+      AttackCountdown: 0.6
     CharStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
