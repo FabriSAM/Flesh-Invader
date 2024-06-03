@@ -46,6 +46,7 @@ public class Movement : AbilityBase
         RaycastHit hit;
         if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
+            Debug.DrawLine(cam.transform.position, hit.point, Color.red);
             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
             characterController.SetRotation(hitPoint, rotSpeed);
         }

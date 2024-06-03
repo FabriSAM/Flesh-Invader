@@ -191,7 +191,7 @@ public abstract class EnemyChar : MonoBehaviour
     {
         controller = GetComponentInParent<Controller>();
         controller.OnCharacterPossessed += InternalPossess;
-        controller.OnCharacterUnpossessed -= InternalUnPossess;
+        controller.OnCharacterUnpossessed += InternalUnPossess;
 
         characterCurrentInfo = new EnemyInfo();
 
@@ -250,9 +250,8 @@ public abstract class EnemyChar : MonoBehaviour
 
     public virtual void InternalUnPossess()
     {
-        controller.InternalOnUnposses();
         FSM.enabled = true;
-
+        agent.enabled = true;
     }
     #endregion
 }

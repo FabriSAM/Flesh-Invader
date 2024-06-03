@@ -57,9 +57,5 @@ public class PatrolAction : StateAction
     {
         navMeshAgent.destination = currentTransformToReach;
         navMeshAgent.speed = this.patrolSpeed;
-        
-        //Vector3 direction = (currentTransformToReach - patroller.transform.position);
-        //rigidbody.velocity = direction.normalized * patrolSpeed;
-
     }
 }
