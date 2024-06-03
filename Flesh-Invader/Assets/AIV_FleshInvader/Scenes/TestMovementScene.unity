@@ -325,6 +325,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8714417431534099286, guid: a2effb51a7d88bc42a233899ac0e2430, type: 3}
+      propertyPath: playerState
+      value: 
+      objectReference: {fileID: 1949316760}
+    - target: {fileID: 8714417431534099286, guid: a2effb51a7d88bc42a233899ac0e2430, type: 3}
+      propertyPath: defaultPossessionCD
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -538,6 +546,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
+--- !u!114 &1949316760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5968769110384907814, guid: a2effb51a7d88bc42a233899ac0e2430, type: 3}
+  m_PrefabInstance: {fileID: 903069212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f42b75f422192694e9c7c1a24a72df12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
