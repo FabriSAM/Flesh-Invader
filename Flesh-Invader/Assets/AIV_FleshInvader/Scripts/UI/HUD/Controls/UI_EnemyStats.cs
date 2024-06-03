@@ -36,6 +36,6 @@ public class UI_EnemyStats : MonoBehaviour
         _class.text = $"Class: {enemyInfo.CharNarrativeStats.enemyTypeDescription}";
         baseAttack.text = $"Base attack: {enemyInfo.CharNarrativeStats.baseAttackDescription}";
         passiveSkill.text = $"Passive skill: {enemyInfo.CharNarrativeStats.passiveSkillDescription}";
-        //icon.style.backgroundImage = enemyInfo.CharNarrativeStats.icon;
+        icon.style.backgroundImage = enemyInfo.CharNarrativeStats.icon;
     }
 }
