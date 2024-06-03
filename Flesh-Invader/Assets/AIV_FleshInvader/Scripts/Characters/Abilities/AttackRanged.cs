@@ -27,7 +27,7 @@ public class AttackRanged : AbilityBase, IPoolRequester
 
     public override void UnRegisterInput()
     {
-        PlayerState.Get().GenericController.Attack += Attack;
+        PlayerState.Get().GenericController.Attack -= Attack;
     }
 
     public void Attack()

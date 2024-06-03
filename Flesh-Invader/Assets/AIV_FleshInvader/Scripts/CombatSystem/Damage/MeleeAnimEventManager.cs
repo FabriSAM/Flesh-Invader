@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAnimEventManager
+public class MeleeAnimEventManager : MonoBehaviour
 {
     private void SetColliderEnabled(object InObject)
     {

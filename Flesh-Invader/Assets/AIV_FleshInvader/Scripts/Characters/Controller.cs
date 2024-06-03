@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class Controller : MonoBehaviour, IDamageable, IDamager
+public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
 {
     #region References
     [SerializeField]
@@ -55,6 +55,8 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     {
         get { return playerStateHealth; }
     }
+
+    public EnemyInfo CharacterInfo => throw new NotImplementedException();
     #endregion
 
     #region RigidbodyMethods
@@ -88,7 +90,8 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     #endregion
 
     public Action attack;
-    public Action<EnemyChar> OnCharacterPossessed;
+    public Action OnCharacterPossessed;
+    public Action OnCharacterUnpossessed;
     public Action<DamageContainer> OnControllerDamageTaken;
     public Action OnControllerDeath;
 
@@ -127,6 +130,9 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
             ability.RegisterInput();
         }
         SetDamagerCollidersLayerType("EnemyDamager");
+
+        OnCharacterPossessed?.Invoke();
+
         Debug.Log("Possessed");
     }
     public void InternalOnUnposses()
@@ -138,6 +144,8 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
             ability.UnRegisterInput();
         }
         SetDamagerCollidersLayerType("PlayerDamager");
+
+        OnCharacterUnpossessed?.Invoke();
     }
     #endregion
 
@@ -171,6 +179,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
         }
         else
         {
+            if (healthModule == null) return;
             healthModule.TakeDamage(damage);
         }
     }
@@ -184,6 +193,16 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     private void OnInternalDeath()
     {
         OnControllerDeath?.Invoke();
+    }
+
+    public void Possess()
+    {
+        OnCharacterPossessed?.Invoke();
+    }
+
+    public void UnPossess()
+    {
+        OnCharacterUnpossessed?.Invoke();
     }
     #endregion
 }

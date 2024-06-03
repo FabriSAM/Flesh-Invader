@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
+using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
-public abstract class EnemyChar : MonoBehaviour, IPossessable
+public abstract class EnemyChar : MonoBehaviour
 {
     protected Controller controller;
     protected NavMeshAgent agent;
@@ -178,7 +179,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         chase.SetUpMe(new Transition[] {StopChase(chase, patrol), ChaseToAttack(chase,attack) });
         attack.SetUpMe(new Transition[] { AttackBackToChase(attack,chase)});
 
-        FSM.Init(new State[] {patrol, stutter, chase }, patrol);
+        FSM.Init(new State[] {patrol, stutter, chase, attack }, patrol);
     }
 
 
@@ -189,6 +190,9 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     protected virtual void InitializeEnemy()
     {
         controller = GetComponentInParent<Controller>();
+        controller.OnCharacterPossessed += InternalPossess;
+        controller.OnCharacterUnpossessed -= InternalUnPossess;
+
         characterCurrentInfo = new EnemyInfo();
 
         // Delegate bounding
@@ -230,11 +234,13 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     #region Enemy
     public abstract void CastAbility();
 
-    public virtual void Possess()
+    public virtual void InternalPossess()
     {
         if (IsUnpossessable) return;
 
-        controller.InternalOnPosses();
+        agent.enabled = false;
+
+
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
             EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
@@ -242,10 +248,10 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
         FSM.enabled = false;
     }
 
-    public virtual void UnPossess()
+    public virtual void InternalUnPossess()
     {
         controller.InternalOnUnposses();
-        FSM.enabled = enabled;
+        FSM.enabled = true;
 
     }
     #endregion
