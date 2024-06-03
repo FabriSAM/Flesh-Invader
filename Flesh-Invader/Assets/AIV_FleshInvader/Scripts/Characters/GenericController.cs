@@ -1,4 +1,5 @@
 using Codice.CM.Common;
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +10,13 @@ public class GenericController : MonoBehaviour
 {
     #region SerializeField
     [SerializeField]
-    private float possessionCD;
+    private float defaultPossessionCD;
+    [SerializeField]
+    private PlayerState playerState;
     #endregion
 
     #region PrivateMembers
+    private float possessionCD;
     private bool canUsePossession;
     private Coroutine possesCoroutine;
     #endregion
@@ -28,12 +32,13 @@ public class GenericController : MonoBehaviour
     #region Mono
     void Awake()
     {
+        possessionCD = defaultPossessionCD;
         canUsePossession = true;
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
+        playerState.onLevelChange += OnLevelChange;
     }
-
 
     void FixedUpdate()
     {
@@ -60,12 +65,29 @@ public class GenericController : MonoBehaviour
     }
     #endregion
 
+    #region CallBack
+    private void OnLevelChange(int newLevel)
+    {
+        possessionCD = defaultPossessionCD / newLevel;
+    }
+    #endregion
+
     #region Coroutine
     private IEnumerator PossesCoroutine()
     {
         canUsePossession = false;
+        CastGlobalEvent(canUsePossession);
         yield return new WaitForSeconds(possessionCD);
         canUsePossession = true;
+        CastGlobalEvent(canUsePossession);
+    }
+    #endregion
+
+    #region CastEvent
+    private void CastGlobalEvent(bool state)
+    {
+        GlobalEventSystem.CastEvent(EventName.PossessionAbilityState,
+                EventArgsFactory.PossessionAbilityStateFactory(state));
     }
     #endregion
 }
