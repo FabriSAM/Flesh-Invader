@@ -1,4 +1,5 @@
 using NotserializableEventManager;
+using PlasticPipe.PlasticProtocol.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     protected MeleeCollider[] meleeColliders;
     [SerializeField]
     protected HealthModule healthModule;
+    [SerializeField]
+    protected Visual visual;
     [SerializeField]
     protected bool isPossessed;
     #endregion //References
@@ -48,12 +51,27 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     }
     public DamageContainer MeleeContainer
     {
-        get { return meleeContainer; }
+        get 
+        {
+            if (meleeContainer == null)
+            {
+                meleeContainer = new DamageContainer();
+                return meleeContainer;
+            }
+            else
+            {
+                return meleeContainer;
+            }
+        }
         protected set { meleeContainer = value; }
     }
     public PlayerStateHealth PlayerStateHealth
     {
         get { return playerStateHealth; }
+    }
+    public Visual Visual
+    {
+        get { return visual; }
     }
 
     public EnemyInfo CharacterInfo => throw new NotImplementedException();
@@ -153,7 +171,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
     {
         // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
-        otherDamageable.TakeDamage(meleeContainer);
+        otherDamageable.TakeDamage(MeleeContainer);
     }
     #endregion
 

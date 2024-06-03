@@ -6,13 +6,16 @@ using UnityEngine.InputSystem;
 
 public class Movement : AbilityBase
 {
+    private const string xAxis = "XAxisValue";
+    private const string zAxis = "ZAxisValue";
+    private const string isMoving = "IsMoving";
+
     #region SerializedField
     [SerializeField]
     protected float speed;
     [SerializeField]
     protected float rotSpeed;
-    [SerializeField]
-    protected Visual visual;
+   
     #endregion
 
     #region ProtectedMembers
@@ -32,6 +35,7 @@ public class Movement : AbilityBase
         Vector2 inputDirection = InputManager.Player_Move;
         Vector3 directionMovement=(transform.right*inputDirection.x+transform.forward*inputDirection.y).normalized;
         characterController.SetVelocity(directionMovement*speed);
+        InternalUpdateAnimator(inputDirection);
     }
 
     private void Rotate()
@@ -45,12 +49,28 @@ public class Movement : AbilityBase
             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
             characterController.SetRotation(hitPoint, rotSpeed);
         }
-        
     }
+
     private void CharacterMovement()
     {
         Move();
         Rotate();
+    }
+
+    private void InternalUpdateAnimator(Vector2 newMovement)
+    {
+        if (newMovement == Vector2.zero)
+        {
+            characterController.Visual.SetAnimatorParameter(isMoving, false);
+        }
+        else
+        {
+            characterController.Visual.SetAnimatorParameter(isMoving, true);
+        }
+
+        // Movement animator
+        characterController.Visual.SetAnimatorParameter(xAxis, newMovement.x);
+        characterController.Visual.SetAnimatorParameter(zAxis, newMovement.y);
     }
     #endregion
 
@@ -75,9 +95,6 @@ public class Movement : AbilityBase
     }
     #endregion
 
-    
-    //private void UpdateAnimator()
-    //{
-    //    visual.SetAnimatorParameter();
-    //}
+
+   
 }
