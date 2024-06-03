@@ -17,10 +17,10 @@ public class EnemyBullet : MonoBehaviour, IBullet
     }
     public void Shoot(Transform spawnTransform, float speed)
     {
-        gameObject.SetActive(true);
         transform.position = spawnTransform.position;
         Vector3 velocity = spawnTransform.forward * speed;
         rb.velocity = velocity;
+        gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,5 +37,9 @@ public class EnemyBullet : MonoBehaviour, IBullet
     {
         yield return new WaitForSeconds(lifeTime);
         Destroy();
+    }
+
+    public void Shoot(Transform spawnTransform, float speed, IPossessable owner)
+    {
     }
 }

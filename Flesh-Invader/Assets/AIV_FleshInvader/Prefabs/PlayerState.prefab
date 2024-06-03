@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfddb26d603899345b78dcfb2e7f1b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultPossessionCD: 30
+  defaultPossessionCD: 1
   playerState: {fileID: 5968769110384907814}
 --- !u!1 &4693707157917075136
 GameObject:
