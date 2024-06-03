@@ -10,6 +10,13 @@ public enum AnimatorParameterType
     TRIGGER,
 }
 
+public enum AnimatorCharacterType
+{
+    NoWeapon = 0,
+    Ranged = 1,
+    Melee = 2,
+}
+
 public struct AnimatorParameterStats
 {
     public string parameterName;

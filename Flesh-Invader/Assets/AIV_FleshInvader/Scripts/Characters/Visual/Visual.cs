@@ -12,6 +12,13 @@ public class Visual : MonoBehaviour
     private Animator characterAnimator;
 
 
+    #region Mono
+    private void OnEnable()
+    {
+        InitializeAnimator();
+    }
+    #endregion
+
     #region Animator Wrapper Methods
     public void SetAnimatorParameter(string name)
     {
@@ -66,6 +73,16 @@ public class Visual : MonoBehaviour
     private bool InternalValidateSortingGroup(SortingGroup sortingGroup)
     {
         return sortingGroup;
+    }
+    private void InitializeAnimator()
+    {
+        IAnimatorInitializer[] initers = GetComponents<IAnimatorInitializer>();
+
+        foreach (IAnimatorInitializer initializer in initers)
+        {
+            if (initializer == null) return;
+            initializer.InitializeAnimatorParams(this);
+        }
     }
     #endregion
 
