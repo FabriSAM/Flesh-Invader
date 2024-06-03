@@ -13,25 +13,31 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: 
   charInfo:
-    charStats:
+    CharStats:
       EnemyType: 0
       Health: 10
-      Damage: 5
-      Speed: 8
+      Damage: 6
+      MinDamageMultiplier: 0.85
+      MaxDamageMultiplier: 1.25
+      BaseSpeed: 10
+      ChaseSpeed: 15
       Xp: 10
       CanLockpick: 0
-      UnpossessableProbability: 0.05
-    charStatesStats:
+      UnpossessableProbability: 0.04
+      AttackCountdown: 0.6
+    CharStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
-      distanceToStartAttack: 50
-      distanceToStopAttack: 60
+      distanceToStartAttack: 10
+      distanceToStopAttack: 15
       patrolAcceptableRadius: 5
-      patrolPointsGenerationRadius: 20
+      patrolPointsGenerationRadius: 15
       patrolPointNumber: 4
-      chaseSpeedMultiplier: 1.8
+      chaseSpeedMultiplier: 1.2
       stutterTime: 1
       testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
-    charNarrativeStats:
-      abilityDescription: Boss Ability
-      sprite: Boss Sprite
+    CharNarrativeStats:
+      icon: {fileID: 0}
+      enemyTypeDescription: 
+      baseAttackDescription: 
+      passiveSkillDescription: 

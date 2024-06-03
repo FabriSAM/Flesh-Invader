@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 1329919763476092087}
   - component: {fileID: 7329042127462346779}
   - component: {fileID: 486700847704459266}
+  - component: {fileID: 7414945148087197966}
   m_Layer: 7
   m_Name: RogueCharacter
   m_TagString: Untagged
@@ -204,6 +205,22 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7414945148087197966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459255521996219516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7116ad879a089ad43bc70fc1f8dce7e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterTransform: {fileID: 3711381827548582195}
+  characterRigidbody: {fileID: 7329042127462346779}
+  characterPhysicsCollider: {fileID: 1329919763476092087}
+  isPossessed: 0
 --- !u!1 &4779161349459516030
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,8 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStartingInfo: {fileID: 11400000, guid: 410fa8618462f06478ca532db7663627, type: 2}
-  stutterTime: 2
-  testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
 --- !u!114 &8350794714460825368
 MonoBehaviour:
   m_ObjectHideFlags: 0

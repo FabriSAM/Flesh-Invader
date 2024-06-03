@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class Controller : MonoBehaviour
+public class Controller : MonoBehaviour, IDamageable, IDamager
 {
     #region References
     [SerializeField]
@@ -15,11 +15,15 @@ public class Controller : MonoBehaviour
     [SerializeField]
     protected Collider characterPhysicsCollider;
     [SerializeField]
+    protected MeleeCollider[] meleeColliders;
+    [SerializeField]
     protected bool isPossessed;
     #endregion //References
+    
 
     #region PrivateAttributes
     private AbilityBase[] abilities;
+    private DamageContainer meleeContainer;
     #endregion
 
     #region ReferenceGetter
@@ -38,6 +42,11 @@ public class Controller : MonoBehaviour
     public bool IsPossessed
     {
         get { return isPossessed; }
+    }
+    public DamageContainer MeleeContainer
+    {
+        get { return meleeContainer; }
+        protected set { meleeContainer = value; }
     }
     #endregion
 
@@ -71,6 +80,8 @@ public class Controller : MonoBehaviour
     public Action OnInteractPerformed;
     #endregion
 
+    public Action attack;
+
     #region Mono
     private void Awake()
     {
@@ -87,6 +98,11 @@ public class Controller : MonoBehaviour
         {
             InternalOnUnposses();
         }
+
+        foreach (MeleeCollider collider in meleeColliders)
+        {
+            collider.DamageableHitted += OnMeleeHitted;
+        }
     }
     public void InternalOnPosses()
     {
@@ -97,6 +113,7 @@ public class Controller : MonoBehaviour
         {
             ability.RegisterInput();
         }
+        SetDamagerCollidersLayerType("EnemyDamager");
         Debug.Log("Possessed");
     }
     public void InternalOnUnposses()
@@ -107,6 +124,34 @@ public class Controller : MonoBehaviour
         {
             ability.UnRegisterInput();
         }
+        SetDamagerCollidersLayerType("PlayerDamager");
+    }
+    #endregion
+
+    #region Callbacks
+    private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
+    {
+        // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
+        otherDamageable.TakeDamage(meleeContainer);
+    }
+    #endregion
+
+    #region Private Methods
+    private void SetDamagerCollidersLayerType(string newLayer)
+    {
+        foreach (MeleeCollider collider in meleeColliders)
+        {
+            Collider currentCollider = collider.GetComponent<Collider>();
+            if (currentCollider == null) continue;
+            currentCollider.gameObject.layer = LayerMask.NameToLayer(newLayer);
+        }
+    }
+    #endregion
+
+    #region Interface Methods
+    public void TakeDamage(DamageContainer damage)
+    {
+        
     }
     #endregion
 }

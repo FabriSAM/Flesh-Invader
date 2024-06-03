@@ -13,25 +13,31 @@ MonoBehaviour:
   m_Name: Rogue
   m_EditorClassIdentifier: 
   charInfo:
-    charStats:
+    CharStats:
       EnemyType: 1
       Health: 8
-      Damage: 5
-      Speed: 12
-      Xp: 9
+      Damage: 10
+      MinDamageMultiplier: 0.85
+      MaxDamageMultiplier: 1.25
+      BaseSpeed: 10
+      ChaseSpeed: 15
+      Xp: 10
       CanLockpick: 1
       UnpossessableProbability: 0.04
-    charStatesStats:
+      AttackCountdown: 0.8
+    CharStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
-      distanceToStartAttack: 50
-      distanceToStopAttack: 60
+      distanceToStartAttack: 10
+      distanceToStopAttack: 15
       patrolAcceptableRadius: 5
-      patrolPointsGenerationRadius: 20
+      patrolPointsGenerationRadius: 15
       patrolPointNumber: 4
-      chaseSpeedMultiplier: 1.8
+      chaseSpeedMultiplier: 1.4
       stutterTime: 2
       testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
-    charNarrativeStats:
-      abilityDescription: Rogue Ability
-      sprite: Rogue sprite
+    CharNarrativeStats:
+      icon: {fileID: 0}
+      enemyTypeDescription: 
+      baseAttackDescription: 
+      passiveSkillDescription: 
