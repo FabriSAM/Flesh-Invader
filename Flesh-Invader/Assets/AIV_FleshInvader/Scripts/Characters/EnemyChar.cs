@@ -189,6 +189,8 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     protected virtual void InitializeEnemy()
     {
         controller = GetComponentInParent<Controller>();
+        //controller.OnCharacterPossess += Possess
+
         characterCurrentInfo = new EnemyInfo();
 
         // Delegate bounding
@@ -234,7 +236,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     {
         if (IsUnpossessable) return;
 
-        controller.InternalOnPosses();
+        
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
             EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
@@ -245,7 +247,7 @@ public abstract class EnemyChar : MonoBehaviour, IPossessable
     public virtual void UnPossess()
     {
         controller.InternalOnUnposses();
-        FSM.enabled = enabled;
+        FSM.enabled = true;
 
     }
     #endregion
