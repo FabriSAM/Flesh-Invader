@@ -17,12 +17,15 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     [SerializeField]
     protected MeleeCollider[] meleeColliders;
     [SerializeField]
+    protected HealthModule healthModule;
+    [SerializeField]
     protected bool isPossessed;
     #endregion //References
     
 
     #region PrivateAttributes
     private AbilityBase[] abilities;
+    private PlayerStateHealth playerStateHealth;
     private DamageContainer meleeContainer;
     #endregion
 
@@ -47,6 +50,10 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     {
         get { return meleeContainer; }
         protected set { meleeContainer = value; }
+    }
+    public PlayerStateHealth PlayerStateHealth
+    {
+        get { return playerStateHealth; }
     }
     #endregion
 
@@ -81,11 +88,17 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     #endregion
 
     public Action attack;
+    public Action<EnemyChar> OnCharacterPossessed;
+    public Action<DamageContainer> OnControllerDamageTaken;
+    public Action OnControllerDeath;
 
     #region Mono
     private void Awake()
     {
         abilities = GetComponentsInChildren<AbilityBase>();
+        playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
+        healthModule.OnDamageTaken += OnInternalDamageTaken;
+        healthModule.OnDeath += OnInternalDeath;
         foreach (var ability in abilities)
         {
             ability.Init(this);
@@ -151,7 +164,26 @@ public class Controller : MonoBehaviour, IDamageable, IDamager
     #region Interface Methods
     public void TakeDamage(DamageContainer damage)
     {
-        
+        if (IsPossessed)
+        {
+            if (playerStateHealth == null) return;
+            playerStateHealth.HealthReduce(damage.Damage);
+        }
+        else
+        {
+            healthModule.TakeDamage(damage);
+        }
+    }
+    #endregion
+
+    #region Health Module
+    private void OnInternalDamageTaken(DamageContainer damage)
+    {
+        OnControllerDamageTaken?.Invoke(damage);
+    }
+    private void OnInternalDeath()
+    {
+        OnControllerDeath?.Invoke();
     }
     #endregion
 }
