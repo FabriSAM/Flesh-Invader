@@ -7,21 +7,21 @@
     <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/HUD.uss?fileID=7433441132597879392&amp;guid=bfa7795f6b70bac4ca507f21c8842bdb&amp;type=3#HUD" />
     <ui:VisualElement name="root" style="height: 100%; width: 100%;">
         <ui:VisualElement name="header" style="flex-grow: 0; flex-basis: 25%; flex-direction: row; padding-top: 15px; padding-right: 15px; padding-bottom: 0; padding-left: 15px;">
-            <ui:VisualElement name="enemy-stats" style="flex-grow: 1; flex-basis: 50%; justify-content: center; align-items: flex-start;">
-                <ui:Instance template="EnemyPossessedPanel" name="EnemyStats" />
+            <ui:VisualElement name="enemy-stats" style="flex-grow: 0; flex-basis: 50%; justify-content: center; align-items: flex-start;">
+                <ui:Instance template="EnemyPossessedPanel" name="EnemyStats" style="flex-grow: 0; width: 100%;" />
             </ui:VisualElement>
-            <ui:VisualElement name="player-stats" style="flex-basis: 50%;">
-                <ui:VisualElement name="health" style="flex-direction: row;">
-                    <ui:Label tabindex="-1" text="Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="health-label" style="width: 15%; -unity-text-align: middle-center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
-                    <ui:Instance template="HealthBar" name="health-bar" style="justify-content: center; flex-grow: 0; width: 85%;" />
+            <ui:VisualElement name="player-stats" style="flex-basis: 50%; justify-content: center; align-items: stretch; align-self: auto;">
+                <ui:VisualElement name="health" style="flex-direction: row; flex-basis: 20%;">
+                    <ui:Label tabindex="-1" text="Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="health-label" style="width: 15%; -unity-text-align: middle-center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-basis: 20%;" />
+                    <ui:Instance template="HealthBar" name="health-bar" style="justify-content: center; flex-grow: 0; width: 85%; flex-basis: 80%;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="xp" style="flex-grow: 0; flex-direction: row;">
-                    <ui:Label tabindex="-1" text="XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="xp-label" style="width: 15%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                    <ui:Instance template="XPBar" name="xp-bar" style="width: 85%; justify-content: center;" />
+                <ui:VisualElement name="xp" style="flex-grow: 0; flex-direction: row; flex-basis: 20%;">
+                    <ui:Label tabindex="-1" text="XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="xp-label" style="width: 15%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-basis: 20%;" />
+                    <ui:Instance template="XPBar" name="xp-bar" style="width: 85%; justify-content: center; flex-basis: 80%;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="level-mission-container" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
-                    <ui:Instance template="LevelLabel" name="level-label" />
-                    <ui:Instance template="Mission" name="mission-label" style="margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0;" />
+                <ui:VisualElement name="level-mission-container" style="flex-grow: 0; flex-direction: row; justify-content: space-between; align-items: flex-start; flex-shrink: 1; height: auto; flex-basis: auto;">
+                    <ui:Instance template="LevelLabel" name="level-label" style="flex-basis: 20%; align-items: center;" />
+                    <ui:Instance template="Mission" name="mission-label" style="margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0; flex-basis: 80%; align-items: flex-end;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

@@ -1,10 +1,10 @@
-using log4net.Core;
 using NotserializableEventManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class TEST_HUD : MonoBehaviour
 {
+    //buttons
     private Button increaseHealth;
     private Button decreaseHealth;
     private Button increaseXP;
@@ -14,6 +14,7 @@ public class TEST_HUD : MonoBehaviour
     private Button mission;
     private Button increaseLevel;
 
+    //parameters
     private int maxHP = 10;
     private int currentHP = 0;
     private int maxXP = 10;
@@ -21,6 +22,12 @@ public class TEST_HUD : MonoBehaviour
     private int totalMissionObjects = 5;
     private int currentMissionObjects = 0;
     private int currentLevel = 1;
+
+    //icons
+    [SerializeField]
+    private Texture2D bossIcon;
+    [SerializeField]
+    private Texture2D thiefIcon;
 
     private void Awake() {
         increaseHealth = GetComponent<UIDocument>().rootVisualElement.Q<Button>("increase-health");
@@ -69,8 +76,7 @@ public class TEST_HUD : MonoBehaviour
             enemyStatistics.Damage = 25;
             enemyStatistics.BaseSpeed = 10;
             EnemyNarrative enemyNarrative = new EnemyNarrative();
-            enemyNarrative.icon = Resources.Load<Sprite>("Assets/AIV_FleshInvader/Images/mafiaBoss.png");
-            //enemyNarrative.icon = Resources.Load<Texture2D>("Assets/AIV_FleshInvader/Images/mafiaBoss.png");
+            enemyNarrative.icon = bossIcon;
             enemyNarrative.enemyTypeDescription = "Mafia Boss";
             enemyNarrative.baseAttackDescription = "Baciamo le mani";
             enemyNarrative.passiveSkillDescription = "Mafiosità";
@@ -85,8 +91,7 @@ public class TEST_HUD : MonoBehaviour
             enemyStatistics.Damage = 34;
             enemyStatistics.BaseSpeed = 7;
             EnemyNarrative enemyNarrative = new EnemyNarrative();
-            //enemyNarrative.icon = Resources.Load<Texture2D>("Assets/AIV_FleshInvader/Images/thief.png");
-            enemyNarrative.icon = Resources.Load<Sprite>("Assets/AIV_FleshInvader/Images/thief.png");
+            enemyNarrative.icon = thiefIcon;
             enemyNarrative.enemyTypeDescription = "Thief";
             enemyNarrative.baseAttackDescription = "I steel u";
             enemyNarrative.passiveSkillDescription = "Cleptomaniac";

@@ -116,6 +116,22 @@ namespace NotserializableEventManager {
             currentValue = (int)message.variables[1];
         }
         #endregion
+
+        #region PossessionAbilityState
+        public static EventArgs PossessionAbilityStateFactory(bool state)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = state;
+
+            return message;
+        }
+
+        public static void PossessionAbilityStateParser(EventArgs message, out bool state)
+        {
+            state = (bool)message.variables[0];
+        }
+        #endregion
     }
 
 }
