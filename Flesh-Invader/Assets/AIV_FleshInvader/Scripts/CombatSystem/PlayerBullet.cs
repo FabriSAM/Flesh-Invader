@@ -15,12 +15,14 @@ public class PlayerBullet: MonoBehaviour, IBullet
     {
         lifeCoroutine = StartCoroutine(LifeCoroutine());
     }
+
     public void Shoot(Transform spawnTransform, float speed)
     {
-        gameObject.SetActive(true);
         transform.position = spawnTransform.position;
+        Debug.Log($"transform : {transform.position}, coming transform : {spawnTransform.position}");
         Vector3 velocity = spawnTransform.forward * speed;
         rb.velocity = velocity;
+        gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,5 +39,9 @@ public class PlayerBullet: MonoBehaviour, IBullet
     {
         yield return new WaitForSeconds(lifeTime);
         Destroy();
+    }
+
+    public void Shoot(Transform spawnTransform, float speed, IPossessable owner)
+    {
     }
 }

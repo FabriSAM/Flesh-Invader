@@ -36,7 +36,7 @@ public class AttackRanged : AbilityBase, IPoolRequester
         {
             IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
             if (bulletComponent == null) return;
-            bulletComponent.Shoot(transform, bulletSpeed);
+            bulletComponent.Shoot(transform, bulletSpeed);            
         }
         else
         {
