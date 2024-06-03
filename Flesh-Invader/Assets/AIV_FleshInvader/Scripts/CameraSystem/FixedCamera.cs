@@ -28,11 +28,6 @@ public class FixedCamera : MonoBehaviour
     {
         gameObject.transform.position = Vector3.Lerp(currentPos, newPos, cameraSpeed * Time.deltaTime);
     }
-    private void AnchorCameraMovement()
-    {
-        gameObject.transform.position = newPos;
-    }
-
     private void CameraMovement()
     {
         newPos = PlayerState.Get().PlayerTransform.position + offset;
