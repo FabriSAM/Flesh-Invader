@@ -9,10 +9,13 @@ public class GenericController : MonoBehaviour
 {
     #region SerializeField
     [SerializeField]
-    private float possessionCD;
+    private float defaultPossessionCD;
+    [SerializeField]
+    private PlayerState playerState;
     #endregion
 
     #region PrivateMembers
+    private float possessionCD;
     private bool canUsePossession;
     private Coroutine possesCoroutine;
     #endregion
@@ -28,12 +31,13 @@ public class GenericController : MonoBehaviour
     #region Mono
     void Awake()
     {
+        possessionCD = defaultPossessionCD;
         canUsePossession = true;
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
+        playerState.onLevelChange += OnLevelChange;
     }
-
 
     void FixedUpdate()
     {
@@ -57,6 +61,13 @@ public class GenericController : MonoBehaviour
     public void InteractionPerformed(InputAction.CallbackContext context)
     {
         Interact?.Invoke();
+    }
+    #endregion
+
+    #region CallBack
+    private void OnLevelChange(int newLevel)
+    {
+        possessionCD = defaultPossessionCD / newLevel;
     }
     #endregion
 

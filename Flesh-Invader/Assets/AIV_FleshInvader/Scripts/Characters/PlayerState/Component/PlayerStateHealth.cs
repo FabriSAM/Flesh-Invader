@@ -15,7 +15,6 @@ public class PlayerStateHealth : MonoBehaviour
     #endregion
 
     #region Variable
-    private int level = 1;
     private float reduceTimer;
     private float currentHP;
     #endregion
@@ -56,14 +55,13 @@ public class PlayerStateHealth : MonoBehaviour
     #endregion
 
     #region PrivateMethods
-    private void OnLevelChange()
+    private void OnLevelChange(int value)
     {
-        Debug.Log("LevelUP");
-        currentHP *= level;
-        maxHP *= level;
-        maxTimer *= level;
-        reduceTimer *= level;
-        constantDamage = Mathf.Clamp(constantDamage-level, 1, constantDamage);
+        currentHP *= value;
+        maxHP *= value;
+        maxTimer *= value;
+        reduceTimer *= value;
+        constantDamage = Mathf.Clamp(constantDamage - value, 1, constantDamage);
     }
 
     private void SendMessage()

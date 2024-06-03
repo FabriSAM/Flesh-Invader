@@ -31,7 +31,7 @@ public class PlayerState : MonoBehaviour
     #endregion
 
     #region Action
-    public Action onLevelChange;
+    public Action<int> onLevelChange;
     #endregion
     
     #region StaticMembers

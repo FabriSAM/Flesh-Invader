@@ -45,7 +45,7 @@ public class PlayerStateLevel : MonoBehaviour
 
     public void LeveUp()
     {
-        playerState.onLevelChange?.Invoke();
+        playerState.onLevelChange?.Invoke(level.CurrentLevel);
     }
     #endregion
 }
