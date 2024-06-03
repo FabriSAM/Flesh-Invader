@@ -13,6 +13,8 @@ public class TEST_HUD : MonoBehaviour
     private Button possessThief;
     private Button mission;
     private Button increaseLevel;
+    private Button possessionStartCooldown;
+    private Button possessionEndCooldown;
 
     //parameters
     private int maxHP = 10;
@@ -38,6 +40,8 @@ public class TEST_HUD : MonoBehaviour
         possessThief = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possess-thief");
         mission = GetComponent<UIDocument>().rootVisualElement.Q<Button>("found-mission-object");
         increaseLevel = GetComponent<UIDocument>().rootVisualElement.Q<Button>("next-level");
+        possessionStartCooldown = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possession-start-cooldown");
+        possessionEndCooldown = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possession-end-cooldown");
     }
 
     void Start()
@@ -110,6 +114,12 @@ public class TEST_HUD : MonoBehaviour
             LevelStruct level = new LevelStruct();
             level.CurrentLevel = currentLevel;
             GlobalEventSystem.CastEvent(EventName.PlayerXPUpdated, EventArgsFactory.PlayerXPUpdatedFactory(level));
+        };
+        possessionStartCooldown.clickable.clicked += delegate {
+            GlobalEventSystem.CastEvent(EventName.PossessionAbilityState, EventArgsFactory.PossessionAbilityStateFactory(false));
+        };
+        possessionEndCooldown.clickable.clicked += delegate {
+            GlobalEventSystem.CastEvent(EventName.PossessionAbilityState, EventArgsFactory.PossessionAbilityStateFactory(true));
         };
     }
 }
