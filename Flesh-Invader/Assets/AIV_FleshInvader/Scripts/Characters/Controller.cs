@@ -120,6 +120,9 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
             collider.DamageableHitted += OnMeleeHitted;
         }
     }
+    #endregion
+
+    #region Internal
     public void InternalOnPosses()
     {
         gameObject.layer = LayerMask.NameToLayer("Player");
@@ -137,6 +140,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     }
     public void InternalOnUnposses()
     {
+        gameObject.SetActive(false);
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
         foreach (var ability in abilities)
@@ -197,12 +201,12 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
 
     public void Possess()
     {
-        OnCharacterPossessed?.Invoke();
+        InternalOnPosses();
     }
 
     public void UnPossess()
     {
-        OnCharacterUnpossessed?.Invoke();
+        InternalOnUnposses();
     }
     #endregion
 }

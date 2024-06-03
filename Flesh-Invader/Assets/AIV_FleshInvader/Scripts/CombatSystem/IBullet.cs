@@ -6,5 +6,6 @@ public interface IBullet
 {
 
     void Shoot(Transform spawnTransform, float speed);
+    void Shoot(Transform spawnTransform, float speed, IPossessable owner);
 
 }

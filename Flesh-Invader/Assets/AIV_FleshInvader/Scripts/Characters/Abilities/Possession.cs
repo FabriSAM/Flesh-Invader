@@ -9,6 +9,8 @@ public class Possession : AbilityBase, IPoolRequester
     private PoolData[] bulletsType;
     [SerializeField]
     private float bulletSpeed;
+    [SerializeField]
+    private Transform aim;
 
 
     public PoolData[] Datas
@@ -35,6 +37,6 @@ public class Possession : AbilityBase, IPoolRequester
     {
         IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
         if (bulletComponent == null) return;
-        bulletComponent.Shoot(transform, bulletSpeed);
+        bulletComponent.Shoot(aim, bulletSpeed, characterController);
     }
 }

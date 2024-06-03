@@ -37,7 +37,7 @@ MonoBehaviour:
       stutterTime: 1
       testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
     CharNarrativeStats:
-      icon: {fileID: 0}
-      enemyTypeDescription: 
-      baseAttackDescription: 
-      passiveSkillDescription: 
+      icon: {fileID: 2800000, guid: 69d62a6da1ce9404d947d1c37731e50d, type: 3}
+      enemyTypeDescription: Mafia Gorilla
+      baseAttackDescription: U can't refuse
+      passiveSkillDescription: Business is boomin'

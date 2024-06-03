@@ -10,17 +10,19 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private float lifeTime;
 
     private Coroutine lifeCoroutine;
+    private IPossessable owner;
 
     private void OnEnable()
     {
         lifeCoroutine = StartCoroutine(LifeCoroutine());
     }
-    public void Shoot(Transform spawnTransform, float speed)
+    public void Shoot(Transform spawnTransform, float speed, IPossessable owner)
     {
-        gameObject.SetActive(true);
         transform.position = spawnTransform.position;
         Vector3 velocity = spawnTransform.forward * speed;
         rb.velocity = velocity;
+        this.owner = owner;
+        gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -29,6 +31,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
         if (possessableChar != null)
         {
             possessableChar.Possess();
+            owner.UnPossess();
         }
         Destroy();
     }
@@ -42,5 +45,9 @@ public class PossessionBullet : MonoBehaviour, IBullet
     {
         yield return new WaitForSeconds(lifeTime);
         Destroy();
+    }
+
+    public void Shoot(Transform spawnTransform, float speed)
+    {
     }
 }
