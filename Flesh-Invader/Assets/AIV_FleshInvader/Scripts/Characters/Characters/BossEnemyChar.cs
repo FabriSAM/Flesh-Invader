@@ -35,15 +35,15 @@ public class BossEnemyChar : EnemyChar/*, IPoolRequester*/
 
     }
 
-    public override void Possess()
+    public override void InternalPossess()
     {
-        base.Possess();
+        base.InternalPossess();
         PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXPMultiplyer(XPMultiplier);
     }
 
-    public override void UnPossess()
+    public override void InternalUnPossess()
     {
-        base.UnPossess();
+        base.InternalUnPossess();
         PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXPMultiplyer(1);
     }
 

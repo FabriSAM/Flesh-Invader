@@ -11,6 +11,8 @@ public class Movement : AbilityBase
     protected float speed;
     [SerializeField]
     protected float rotSpeed;
+    [SerializeField]
+    protected Visual visual;
     #endregion
 
     #region ProtectedMembers
@@ -72,4 +74,10 @@ public class Movement : AbilityBase
         PlayerState.Get().GenericController.Move -= CharacterMovement;
     }
     #endregion
+
+    
+    //private void UpdateAnimator()
+    //{
+    //    visual.SetAnimatorParameter();
+    //}
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8411736891423021588}
   - component: {fileID: 4992373158119588301}
   - component: {fileID: -2332632186664119675}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlayerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1820695560485736497}
   - component: {fileID: 1474014539166319893}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: OrderInLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 5653366270433264605}
   - component: {fileID: 4235825286280287976}
   - component: {fileID: 2851689210565760126}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class HealthModule
+public class HealthModule : MonoBehaviour
 {
 
     #region SerializeField
