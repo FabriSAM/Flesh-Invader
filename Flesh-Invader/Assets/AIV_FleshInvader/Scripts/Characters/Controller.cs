@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class Controller : MonoBehaviour
+public class Controller : MonoBehaviour, IDamageable, IDamager
 {
     #region References
     [SerializeField]
@@ -19,9 +19,11 @@ public class Controller : MonoBehaviour
     [SerializeField]
     protected bool isPossessed;
     #endregion //References
+    
 
     #region PrivateAttributes
     private AbilityBase[] abilities;
+    private DamageContainer meleeContainer;
     #endregion
 
     #region ReferenceGetter
@@ -40,6 +42,11 @@ public class Controller : MonoBehaviour
     public bool IsPossessed
     {
         get { return isPossessed; }
+    }
+    public DamageContainer MeleeContainer
+    {
+        get { return meleeContainer; }
+        protected set { meleeContainer = value; }
     }
     #endregion
 
@@ -122,9 +129,8 @@ public class Controller : MonoBehaviour
     #region Callbacks
     private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
     {
-        // TODO: Make Implement TakeDamage function. The controller (or other GameObject?) should implement IDamager and IDamageable
-        // Need to specify a DamageContainer. Maybe add it to Database?
-        //otherDamageable.TakeDamage();
+        // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
+        otherDamageable.TakeDamage(meleeContainer);
     }
     #endregion
 
@@ -137,6 +143,13 @@ public class Controller : MonoBehaviour
             if (currentCollider == null) continue;
             currentCollider.gameObject.layer = LayerMask.NameToLayer(newLayer);
         }
+    }
+    #endregion
+
+    #region Interface Methods
+    public void TakeDamage(DamageContainer damage)
+    {
+        
     }
     #endregion
 }
