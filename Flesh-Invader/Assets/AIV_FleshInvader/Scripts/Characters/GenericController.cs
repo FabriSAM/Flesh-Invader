@@ -1,4 +1,5 @@
 using Codice.CM.Common;
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -75,8 +76,18 @@ public class GenericController : MonoBehaviour
     private IEnumerator PossesCoroutine()
     {
         canUsePossession = false;
+        CastGlobalEvent(canUsePossession);
         yield return new WaitForSeconds(possessionCD);
         canUsePossession = true;
+        CastGlobalEvent(canUsePossession);
+    }
+    #endregion
+
+    #region CastEvent
+    private void CastGlobalEvent(bool state)
+    {
+        GlobalEventSystem.CastEvent(EventName.PossessionAbilityState,
+                EventArgsFactory.PossessionAbilityStateFactory(state));
     }
     #endregion
 }

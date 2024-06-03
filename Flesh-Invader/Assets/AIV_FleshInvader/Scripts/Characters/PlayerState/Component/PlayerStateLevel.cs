@@ -14,6 +14,11 @@ public class PlayerStateLevel : MonoBehaviour
     private float xpMultiplier = 1f;
     #endregion
 
+    private void Awake()
+    {
+        level.CurrentLevel = 1;
+    }
+
     #region PublicMehtdos
     public void SetXP(float xpToAdd)
     {
