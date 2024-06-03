@@ -9,7 +9,8 @@ using UnityEngine;
         PlayerXPUpdated, 
         DialoguePerformed,
         PossessionExecuted,
-        MissionUpdated
+        MissionUpdated,
+        PossessionAbilityState
     }
 
     public class EventArgs {
