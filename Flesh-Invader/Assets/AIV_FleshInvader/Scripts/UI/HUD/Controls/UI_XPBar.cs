@@ -22,7 +22,6 @@ public class UI_XPBar : MonoBehaviour {
 
     private void OnXPUpdate(EventArgs message) {
         EventArgsFactory.PlayerXPUpdatedParser(message, out LevelStruct level);
-        
         xpBar.value = Mathf.Clamp((level.CurrentXP / level.NextLevelXp), 0, 1);
     }
 }

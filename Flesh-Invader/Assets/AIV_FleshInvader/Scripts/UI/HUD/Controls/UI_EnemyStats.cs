@@ -29,7 +29,6 @@ public class UI_EnemyStats : MonoBehaviour
     }
 
     private void PossessionExecuted(EventArgs message) {
-        Debug.Log("UI_EnemyStats PossessionExecuted");
         EventArgsFactory.PossessionExecutedParser(message, out EnemyInfo enemyInfo);
         damages.text = "Damages: " + enemyInfo.CharStats.Damage;
         speed.text = "Speed: " + enemyInfo.CharStats.BaseSpeed;
