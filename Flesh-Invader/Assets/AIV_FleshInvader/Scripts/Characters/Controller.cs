@@ -233,5 +233,6 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     {
         InternalOnUnposses();
     }
+    
     #endregion
 }

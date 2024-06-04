@@ -14,7 +14,7 @@ public abstract class InteractableBase : MonoBehaviour
 
     #region Variables
     protected Controller controller;
-    protected EnemyChar character;
+    //protected EnemyChar character;
     #endregion
 
     #region ProtectedMethods

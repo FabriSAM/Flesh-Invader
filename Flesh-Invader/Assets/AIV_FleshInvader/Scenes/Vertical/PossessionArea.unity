@@ -285,6 +285,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5026784414776744300, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
+      propertyPath: m_Size.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026784414776744300, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
+      propertyPath: m_Size.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026784414776744300, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 6272
+      objectReference: {fileID: 0}
     - target: {fileID: 7177292988640442991, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
       propertyPath: m_Name
       value: AlienObject
@@ -302,6 +314,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4016330398744442372, guid: 5661608d03470bc43a4813409e481851, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 6002825932995695172, guid: 5661608d03470bc43a4813409e481851, type: 3}
       propertyPath: m_Name
       value: SecurityWallGate
@@ -772,6 +788,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WoodCase
       objectReference: {fileID: 0}
+    - target: {fileID: 7859504919402109278, guid: f633759523d6a2b4ab28d3157b9e7f30, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -790,8 +810,12 @@ PrefabInstance:
       value: Pooler
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnTime
-      value: Infinity
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.data[0].result
@@ -800,6 +824,10 @@ PrefabInstance:
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.data[1].result
       value: Rogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 2768668247242892723, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6674402913147980381, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: m_LocalPosition.x

@@ -276,39 +276,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.58
+      value: 23.4
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -36.52
+      value: -53.6
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9732557
+      value: 0.9659258
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.22905248
+      value: 0.2588191
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0040225284
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.017091926
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 26.469
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 1.002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6105422672680425446, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 2.248
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -678,7 +678,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: a3fd199c731570b48b4c7718013a39f5, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 3e5b7321cf2fea642a532dd4cd300158, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1580535023
 Transform:

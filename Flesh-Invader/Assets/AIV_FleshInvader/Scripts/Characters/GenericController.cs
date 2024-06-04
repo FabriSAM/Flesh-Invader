@@ -1,13 +1,9 @@
-using Codice.CM.Common;
 using NotserializableEventManager;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class GenericController : MonoBehaviour
 {
@@ -45,29 +41,26 @@ public class GenericController : MonoBehaviour
         playerState.onLevelChange += OnLevelChange;
 
         InputManager.Vertical.Pos1.performed += Pos1Performed;
-        InputManager.Vertical.Pos2.performed += Pos2Performed;
-        InputManager.Vertical.Pos3.performed += Pos3Performed;
+    }
+    private void OnDestroy()
+    {
+        InputManager.Player.Interact.performed -= InteractionPerformed;
+        InputManager.Player.Possession.performed -= PossessionPerformed;
+        InputManager.Player.Attack.performed -= AttackPerformed;
+        InputManager.Vertical.Pos1.performed -= Pos1Performed;
     }
 
-    private void Pos3Performed(InputAction.CallbackContext context)
+    private void Pos1Performed(InputAction.CallbackContext context)
     {
-        Pos2Invoke();
-    }
-
-    private void Pos2Performed(InputAction.CallbackContext context)
-    {
+        GameObject.Find("Pooler").GetComponentInChildren(typeof(CharacterSpawner), true).gameObject.SetActive(true);
         Pos2Invoke();
         //async load with loading widget
         SceneManager.LoadSceneAsync(2);
     }
-    private void Pos1Performed(InputAction.CallbackContext context)
-    {
-        Pos2Invoke();
-        SceneManager.LoadSceneAsync(1);
-    }
 
     private void Pos2Invoke()
     {
+       
         Pos2?.Invoke();
         StopCoroutine(PossesCoroutine());
         possesCoroutine = null;
