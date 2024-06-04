@@ -12,6 +12,9 @@ public abstract class EnemyChar : MonoBehaviour
     private const string animIsMovingParamaterString = "IsMoving";
     private const string animXAxisValue = "XAxisValue";
     private const string animZAxisValue = "ZAxisValue";
+    private const string animAttackString = "AttackTrigger";
+    protected const string animPoseString = "CurrentWeaponType";
+
     protected Controller controller;
     protected NavMeshAgent agent;
 
@@ -49,7 +52,7 @@ public abstract class EnemyChar : MonoBehaviour
     //protected Material testStutterMaterial;
     //#endregion
 
-    protected bool IsUnpossessable;
+    
 
 
 
@@ -113,7 +116,7 @@ public abstract class EnemyChar : MonoBehaviour
     #endregion
 
     #region States
-    private State SetUpPatrol()
+        private State SetUpPatrol()
         {
             State patrol = new State();
    
@@ -127,8 +130,8 @@ public abstract class EnemyChar : MonoBehaviour
 
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
-            GetSpeedAction animSpeedX = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
-            GetSpeedAction animSpeedZ = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z,  moveAxisZ, true);
+            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
+            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z,  moveAxisZ, true);
             patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning, animSpeedX, animSpeedZ });
 
             return patrol;
@@ -143,8 +146,8 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
-            GetSpeedAction animSpeedX = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX,  true);
-            GetSpeedAction animSpeedZ = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
+            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX,  true);
+            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
             chase.SetUpMe(new StateAction[] { chaseTarget, setRunning, animSpeedX, animSpeedZ });
             return chase;
         }
@@ -152,28 +155,34 @@ public abstract class EnemyChar : MonoBehaviour
         private State SetUpStutter()
         {
             State stutter = new State();
-            TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<MeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
+            //TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<Transform>().gameObject.GetComponentInChildren<SkinnedMeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
             ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, false);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
-            GetSpeedAction animSpeedX = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
-            GetSpeedAction animSpeedZ = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
-        stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
+            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
+            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
+            stutter.SetUpMe(new StateAction[] { setRunning, /*changeMaterial,*/ stopCharacter });
             return stutter;
         }
         private State SetUpAttack()
         {
             State attack = new State();
+            ChaseTargetAction chaseTargetInAttack = new ChaseTargetAction(agent, characterCurrentInfo.CharStats.BaseSpeed);
+
+            AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
+            SetAnimatorParameterAction setAttacking = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
+                true, characterCurrentInfo.CharStats.AttackCountdown);
+            RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().PlayerTransform.gameObject);
             AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
-            attack.SetUpMe(new StateAction[] { attackTarget });
+            attack.SetUpMe(new StateAction[] { chaseTargetInAttack, setAttacking, rotateToTarget, attackTarget });
             return attack;
         }
 
-        #endregion
+    #endregion
 
     #endregion
 
@@ -233,14 +242,19 @@ public abstract class EnemyChar : MonoBehaviour
         ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
         unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;
 
-        IsUnpossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
-        if (IsUnpossessable)
+        controller.UnPossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
+        if (controller.UnPossessable)
         {
             Debug.Log("Spawn unposessable enemyChar");
 
             // Unpossessable Enemy differences with normal enemy
             transform.parent.localScale *= 3;
             characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius *= 3;
+        }
+        else
+        {
+            transform.parent.localScale = Vector3.one;
+            characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius = characterStartingInfo.CharInfo.CharStatesStats.patrolPointsGenerationRadius;
         }
     }
 
@@ -256,8 +270,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     public virtual void InternalPossess()
     {
-        if (IsUnpossessable) return;
-
+        FSM.enabled = false;
         agent.enabled = false;
 
 
@@ -265,7 +278,6 @@ public abstract class EnemyChar : MonoBehaviour
             EventName.PossessionExecuted, 
             EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
             );
-        FSM.enabled = false;
     }
 
     public virtual void InternalUnPossess()

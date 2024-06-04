@@ -12,6 +12,7 @@ public class PatrolAction : StateAction
 
     private Vector3 currentTransformToReach;
     private NavMeshAgent navMeshAgent;
+    private NavMeshPath navPath;
 
     private float patrolSpeed;
 
@@ -22,6 +23,7 @@ public class PatrolAction : StateAction
         this.patrolPositions = patrolPositions;
         this.acceptableRadius = acceptableRadius;
         this.patrolSpeed = patrolSpeed;
+        navPath = new NavMeshPath();
     }
 
     public override void OnEnter()
@@ -55,7 +57,12 @@ public class PatrolAction : StateAction
 
     private void InternalSetVelocity()
     {
-        navMeshAgent.destination = currentTransformToReach;
+        if(navMeshAgent.CalculatePath(currentTransformToReach, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        {
+            navMeshAgent.SetPath(navPath);
+            //navMeshAgent.destination = currentTransformToReach;
+        }
+
         navMeshAgent.speed = this.patrolSpeed;
     }
 }

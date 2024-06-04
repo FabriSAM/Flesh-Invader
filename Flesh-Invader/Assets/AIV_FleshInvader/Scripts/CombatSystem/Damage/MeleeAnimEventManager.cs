@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class MeleeAnimEventManager : MonoBehaviour
 {
-    private void SetColliderEnabled(object InObject)
+    [SerializeField]
+    private Collider[] colliders;
+
+
+    private void SetCollidersEnabled()
     {
-        Collider collider = ((GameObject)InObject).GetComponent<Collider>();
-        if (collider == null) return;
-        collider.enabled = true;
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = true;
+        }
     }
 
-    private void SetColliderDisabled(object InObject)
+    private void SetCollidersDisabled()
     {
-        Collider collider = ((GameObject)InObject).GetComponent<Collider>();
-        if (collider == null) return;
-        collider.enabled = false;
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = false;
+        }
     }
+
 }
