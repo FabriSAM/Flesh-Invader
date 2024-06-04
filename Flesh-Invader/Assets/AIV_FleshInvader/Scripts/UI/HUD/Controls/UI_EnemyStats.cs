@@ -30,7 +30,7 @@ public class UI_EnemyStats : MonoBehaviour
 
     private void PossessionExecuted(EventArgs message) {
         EventArgsFactory.PossessionExecutedParser(message, out EnemyInfo enemyInfo);
-        damages.text = "Damages: " + enemyInfo.CharStats.Damage;
+        damages.text = "Damages: " + Mathf.Floor(enemyInfo.CharStats.Damage * 10f) / 10f;
         speed.text = "Speed: " + enemyInfo.CharStats.BaseSpeed;
         _class.text = $"Class: {enemyInfo.CharNarrativeStats.enemyTypeDescription}";
         baseAttack.text = $"Base attack: {enemyInfo.CharNarrativeStats.baseAttackDescription}";
