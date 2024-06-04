@@ -38,7 +38,7 @@ MonoBehaviour:
       testStutterMaterial: {fileID: 2100000, guid: 673a005ed3bbe7448a0c2bca67420baf, type: 2}
     CharNarrativeStats:
       icon: {fileID: 2800000, guid: 9023bd1957075374caee4ef8f0e30e8f, type: 3}
-      color: {r: 0.23584908, g: 0.23473659, b: 0.23473659, a: 0.47843137}
+      color: {r: 0.23584908, g: 0.23473659, b: 0.23473659, a: 0.15686275}
       enemyTypeDescription: Jailbird
       baseAttackDescription: STAB STAB STAB!
       passiveSkillDescription: Sleight of hand

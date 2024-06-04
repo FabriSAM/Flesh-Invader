@@ -438,6 +438,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2800000, guid: 69d62a6da1ce9404d947d1c37731e50d, type: 3}
     - target: {fileID: 6642153107255036333, guid: 0d2ee45fdce5e974b9da36581f3fed22, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642153107255036333, guid: 0d2ee45fdce5e974b9da36581f3fed22, type: 3}
       propertyPath: thiefIcon
       value: 
       objectReference: {fileID: 2800000, guid: 9023bd1957075374caee4ef8f0e30e8f, type: 3}
