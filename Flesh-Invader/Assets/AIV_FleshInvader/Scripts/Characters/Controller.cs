@@ -75,6 +75,8 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     }
 
     public EnemyInfo CharacterInfo => throw new NotImplementedException();
+
+    public bool UnPossessable { get; set; }
     #endregion
 
     #region RigidbodyMethods
@@ -157,6 +159,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
 
         Debug.Log("Possessed");
     }
+
     public void InternalOnUnposses()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");

@@ -7,12 +7,15 @@ public class SetAnimatorParameterAction : StateAction
     private Animator animator;
     private AnimatorParameterStats parameterValue;
     private bool everyFrame;
+    private float parameterTimer;
+    private float parameterCounter;
 
-    public SetAnimatorParameterAction(Animator animator, AnimatorParameterStats parameterValue, bool everyFrame = false)
+    public SetAnimatorParameterAction(Animator animator, AnimatorParameterStats parameterValue, bool everyFrame = false, float parameterTimer=0)
     {
         this.animator = animator;
         this.parameterValue = parameterValue;
         this.everyFrame = everyFrame;
+        this.parameterTimer = parameterTimer;
     }
 
     public override void OnEnter()
@@ -23,7 +26,13 @@ public class SetAnimatorParameterAction : StateAction
     public override void OnUpdate()
     {
         if (!everyFrame) return;
-        InternalSetTrigger();
+        
+        parameterCounter += Time.deltaTime;
+        if(parameterCounter >= parameterTimer)
+        {
+            InternalSetTrigger();
+            parameterCounter = 0;
+        }
     }
 
     private void InternalSetTrigger()

@@ -11,7 +11,7 @@ public enum VectorAxis
 }
 
 
-public class GetSpeedAction : StateAction
+public class SetSpeedInAnimatorAction : StateAction
 {
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -19,7 +19,7 @@ public class GetSpeedAction : StateAction
     private VectorAxis axisToUse;
     private bool everyFrame;
 
-    public GetSpeedAction(Animator animator, NavMeshAgent navMeshAgent, VectorAxis axis, AnimatorParameterStats parameterValue,  bool everyFrame = false)
+    public SetSpeedInAnimatorAction(Animator animator, NavMeshAgent navMeshAgent, VectorAxis axis, AnimatorParameterStats parameterValue,  bool everyFrame = false)
     {
         this.animator = animator;
         this.navMeshAgent = navMeshAgent;
