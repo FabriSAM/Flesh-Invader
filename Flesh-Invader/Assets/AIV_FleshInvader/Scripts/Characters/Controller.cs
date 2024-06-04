@@ -96,6 +96,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
 
     public void SetRotation(Vector3 targetPoint, float rotSpeed)
     {
+        Debug.DrawLine(transform.position, transform.position + transform.forward * 200, Color.green);
         var lookPos = targetPoint - transform.position;
         Quaternion lookRot = Quaternion.LookRotation(lookPos);
         lookRot.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, lookRot.eulerAngles.y, transform.rotation.eulerAngles.z);
@@ -158,7 +159,6 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     }
     public void InternalOnUnposses()
     {
-        gameObject.SetActive(false);
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
         foreach (var ability in abilities)
@@ -168,6 +168,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         SetDamagerCollidersLayerType("PlayerDamager");
 
         OnCharacterUnpossessed?.Invoke();
+        //gameObject.SetActive(false);
     }
     #endregion
 
