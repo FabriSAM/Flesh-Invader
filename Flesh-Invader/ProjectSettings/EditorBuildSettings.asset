@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/AIV_FleshInvader/Scenes/MainMenu.unity
+    path: Assets/AIV_FleshInvader/Scenes/Vertical/MainMenu.unity
     guid: 2dd33d4d3a474da4a89c28584c25fdf2
   - enabled: 1
     path: Assets/AIV_FleshInvader/Scenes/Chest-Gate.unity
