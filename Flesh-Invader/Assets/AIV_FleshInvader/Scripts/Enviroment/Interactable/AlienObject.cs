@@ -1,0 +1,66 @@
+using NotserializableEventManager;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AlienObject : InteractableBase, ICollectable
+{
+    #region SerializeFields
+    [SerializeField]
+    private uint dialogueID;
+    #endregion
+
+    #region Variables
+    PlayerStateMission missionController;
+    #endregion
+
+    #region Callback
+    private void OnTriggerEnter(Collider other)
+    {
+        InternalOnTriggerEnter(other, true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        InternalOnTriggerEnter(other, false);
+    }
+    #endregion
+
+    #region OverrideBaseClass
+    protected override bool CanOpen(Collider other)
+    {
+        if (!other.TryGetComponent(out controller)) return false;
+        //if (!other.TryGetComponent(out character)) return;
+        if (!controller.IsPossessed) return false;
+
+        return true;
+    }
+    protected override void OnOpen()
+    {
+        UnscribeInteract();
+        Collect();
+        GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
+    }
+
+    public void Collect()
+    {
+        missionController.Collected();
+        gameObject.SetActive(false);
+    }
+
+    public void AddMission()
+    {
+        missionController.AddMe();
+    }
+
+    #endregion
+
+    #region Mono
+    void Awake()
+    {
+        missionController = PlayerState.Get().GetComponentInChildren<PlayerStateMission>();
+        AddMission();
+    }
+    #endregion
+
+}

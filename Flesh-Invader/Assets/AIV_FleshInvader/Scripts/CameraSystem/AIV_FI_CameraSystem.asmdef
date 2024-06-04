@@ -1,0 +1,17 @@
+{
+    "name": "AIV_FI_CameraSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:29e07c239eeb21e4fa51aa80d1c39152",
+        "GUID:c9b59cca14b315b4684f1aaac9524f38"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

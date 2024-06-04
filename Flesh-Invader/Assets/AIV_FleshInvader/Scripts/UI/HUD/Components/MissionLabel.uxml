@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="root" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Hai raccolto 0 di 5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="mission-label" style="-unity-text-align: upper-left;" />
+    </ui:VisualElement>
+</ui:UXML>

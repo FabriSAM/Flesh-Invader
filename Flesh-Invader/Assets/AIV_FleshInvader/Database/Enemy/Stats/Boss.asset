@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf26f3daef0e364fa858200edf4542d, type: 3}
+  m_Name: Boss
+  m_EditorClassIdentifier: 
+  charInfo:
+    CharStats:
+      EnemyType: 0
+      Health: 10
+      Damage: 6
+      MinDamageMultiplier: 0.85
+      MaxDamageMultiplier: 1.25
+      BaseSpeed: 10
+      ChaseSpeed: 15
+      Xp: 10
+      CanLockpick: 0
+      UnpossessableProbability: 0.04
+      AttackCountdown: 0.6
+    CharStatesStats:
+      distanceToFollowPlayer: 50
+      distanceToStopFollowPlayer: 75
+      distanceToStartAttack: 35
+      distanceToStopAttack: 40
+      patrolAcceptableRadius: 5
+      patrolPointsGenerationRadius: 15
+      patrolPointNumber: 4
+      chaseSpeedMultiplier: 1.2
+      stutterTime: 1
+      testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
+    CharNarrativeStats:
+      icon: {fileID: 2800000, guid: 69d62a6da1ce9404d947d1c37731e50d, type: 3}
+      color: {r: 0.89075184, g: 0, b: 1, a: 0.15686275}
+      enemyTypeDescription: Mafia Gorilla
+      baseAttackDescription: U can't refuse
+      passiveSkillDescription: Business is boomin'
