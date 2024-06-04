@@ -9,6 +9,9 @@ using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
 public abstract class EnemyChar : MonoBehaviour
 {
+    private const string animIsMovingParamaterString = "IsMoving";
+    private const string animXAxisValue = "XAxisValue";
+    private const string animZAxisValue = "ZAxisValue";
     protected Controller controller;
     protected NavMeshAgent agent;
 
@@ -57,7 +60,7 @@ public abstract class EnemyChar : MonoBehaviour
     #endregion
 
     #region FSM
-        #region Transition
+    #region Transition
         private Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
@@ -119,8 +122,14 @@ public abstract class EnemyChar : MonoBehaviour
             GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position,
                 characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius, characterCurrentInfo.CharStatesStats.patrolPointNumber, PatrolPositions);
             PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed);
+            AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
+            SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
-            patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction });
+            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
+            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
+            GetSpeedAction animSpeedX = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
+            GetSpeedAction animSpeedZ = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z,  moveAxisZ, true);
+            patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning, animSpeedX, animSpeedZ });
 
             return patrol;
         }
@@ -130,8 +139,13 @@ public abstract class EnemyChar : MonoBehaviour
             State chase = new State();
 
             ChaseTargetAction chaseTarget = new ChaseTargetAction(agent, characterCurrentInfo.CharStats.ChaseSpeed);
-
-            chase.SetUpMe(new StateAction[] { chaseTarget });
+            AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
+            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
+            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
+            SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
+            GetSpeedAction animSpeedX = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX,  true);
+            GetSpeedAction animSpeedZ = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
+            chase.SetUpMe(new StateAction[] { chaseTarget, setRunning, animSpeedX, animSpeedZ });
             return chase;
         }
 
@@ -140,8 +154,14 @@ public abstract class EnemyChar : MonoBehaviour
             State stutter = new State();
             TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<MeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
             ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
+            AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, false);
+            SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
-            stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
+            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
+            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
+            GetSpeedAction animSpeedX = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
+            GetSpeedAction animSpeedZ = new GetSpeedAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
+        stutter.SetUpMe(new StateAction[] { changeMaterial, stopCharacter });
             return stutter;
         }
         private State SetUpAttack()

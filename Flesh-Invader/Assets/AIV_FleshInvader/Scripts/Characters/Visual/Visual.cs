@@ -11,6 +11,8 @@ public class Visual : MonoBehaviour
     [SerializeField]
     private Animator characterAnimator;
 
+    public Animator CharacterAnimator { get { return characterAnimator; } }
+
 
     #region Mono
     private void OnEnable()
