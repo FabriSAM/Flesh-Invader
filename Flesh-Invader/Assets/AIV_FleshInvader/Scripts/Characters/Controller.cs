@@ -1,10 +1,5 @@
-using NotserializableEventManager;
-using PlasticPipe.PlasticProtocol.Messages;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
 {
@@ -24,12 +19,12 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     [SerializeField]
     protected bool isPossessed;
     #endregion //References
-    
+
 
     #region PrivateAttributes
     private AbilityBase[] abilities;
     private PlayerStateHealth playerStateHealth;
-    private DamageContainer meleeContainer;
+    //private DamageContainer meleeContainer;
     #endregion
 
     #region ReferenceGetter
@@ -41,29 +36,13 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     {
         get { return characterPhysicsCollider; }
     }
-    public Rigidbody CharacterRigidbody 
-    { 
-        get { return characterRigidbody; } 
+    public Rigidbody CharacterRigidbody
+    {
+        get { return characterRigidbody; }
     }
     public bool IsPossessed
     {
         get { return isPossessed; }
-    }
-    public DamageContainer MeleeContainer
-    {
-        get 
-        {
-            if (meleeContainer == null)
-            {
-                meleeContainer = new DamageContainer();
-                return meleeContainer;
-            }
-            else
-            {
-                return meleeContainer;
-            }
-        }
-        protected set { meleeContainer = value; }
     }
     public PlayerStateHealth PlayerStateHealth
     {
@@ -74,7 +53,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         get { return visual; }
     }
 
-    public EnemyInfo CharacterInfo => throw new NotImplementedException();
+    public EnemyInfo CharacterInfo { get; set; }
 
     public bool UnPossessable { get; set; }
     #endregion
@@ -123,6 +102,7 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
         healthModule.OnDamageTaken += OnInternalDamageTaken;
         healthModule.OnDeath += OnInternalDeath;
+
         foreach (var ability in abilities)
         {
             ability.Init(this);
@@ -141,6 +121,20 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
             collider.DamageableHitted += OnMeleeHitted;
         }
     }
+
+    //PORCATA DA CAMBIARE
+    void OnEnable()
+    {
+        if (CharacterInfo != null)
+        {
+            healthModule.SetHP(CharacterInfo.CharStats.Health);
+        }
+    }
+
+    void Start()
+    {
+        healthModule.SetHP(CharacterInfo.CharStats.Health);
+    }
     #endregion
 
     #region Internal
@@ -158,6 +152,8 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         OnCharacterPossessed?.Invoke();
 
         Debug.Log("Possessed");
+
+
     }
 
     public void InternalOnUnposses()
@@ -178,8 +174,12 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     #region Callbacks
     private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
     {
+        DamageContainer damage = new DamageContainer();
+        damage.Damage = ((IPossessable)otherDamageable).CharacterInfo.CharStats.Damage;
+        damage.Damager = this;
+
         // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
-        otherDamageable.TakeDamage(MeleeContainer);
+        otherDamageable.TakeDamage(damage);
     }
     #endregion
 
@@ -214,10 +214,13 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     #region Health Module
     private void OnInternalDamageTaken(DamageContainer damage)
     {
+        Debug.Log($"CUrrent HP: {healthModule.CurrentHP} - MaxHP : {healthModule.MaxHP}");
         OnControllerDamageTaken?.Invoke(damage);
     }
     private void OnInternalDeath()
     {
+        PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXP(CharacterInfo.CharStats.Xp);
+        gameObject.SetActive(false);
         OnControllerDeath?.Invoke();
     }
 
@@ -230,5 +233,6 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     {
         InternalOnUnposses();
     }
+    
     #endregion
 }

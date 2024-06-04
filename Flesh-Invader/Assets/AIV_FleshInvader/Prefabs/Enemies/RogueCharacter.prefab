@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterTransform: {fileID: 3711381827548582195}
   characterRigidbody: {fileID: 7329042127462346779}
-  characterPhysicsCollider: {fileID: 0}
+  characterPhysicsCollider: {fileID: 8690166444889035717}
   meleeColliders:
   - {fileID: 6038205273019473983}
   healthModule: {fileID: 4799463754217226140}

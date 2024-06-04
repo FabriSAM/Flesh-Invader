@@ -10,6 +10,7 @@ public class EnemyBullet : MonoBehaviour, IBullet
     private float lifeTime;
 
     private Coroutine lifeCoroutine;
+    private IPossessable owner;
 
     private void OnEnable()
     {
@@ -25,6 +26,7 @@ public class EnemyBullet : MonoBehaviour, IBullet
 
     private void OnCollisionEnter(Collision collision)
     {
+        InternalTrigger(collision);
         Destroy();
     }
 
@@ -41,5 +43,22 @@ public class EnemyBullet : MonoBehaviour, IBullet
 
     public void Shoot(Transform spawnTransform, float speed, IPossessable owner)
     {
+        transform.position = spawnTransform.position;
+        Vector3 velocity = spawnTransform.forward * speed;
+        rb.velocity = velocity;
+        this.owner = owner;
+        gameObject.SetActive(true);
+    }
+
+    protected void InternalTrigger(Collision other)
+    {
+        IDamageable otherDamageable = other.gameObject.GetComponent<IDamageable>();
+        if (otherDamageable == null) return;
+        if (other.gameObject == gameObject) return;
+        DamageContainer damage = new DamageContainer();
+
+        damage.Damager = (IDamager)owner;
+        damage.Damage = owner.CharacterInfo.CharStats.Damage;
+        otherDamageable.TakeDamage(damage);
     }
 }

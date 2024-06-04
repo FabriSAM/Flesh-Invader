@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PossessionBullet : MonoBehaviour, IBullet
@@ -13,7 +14,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private IPossessable owner;
 
     private void OnEnable()
-    {
+    {        
         lifeCoroutine = StartCoroutine(LifeCoroutine());
     }
     public void Shoot(Transform spawnTransform, float speed, IPossessable owner)

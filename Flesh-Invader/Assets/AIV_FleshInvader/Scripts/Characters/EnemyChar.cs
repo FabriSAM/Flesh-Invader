@@ -1,11 +1,6 @@
 using NotserializableEventManager;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
 public abstract class EnemyChar : MonoBehaviour
 {
@@ -235,6 +230,7 @@ public abstract class EnemyChar : MonoBehaviour
         characterCurrentInfo.CharStatesStats = characterStartingInfo.CharInfo.CharStatesStats;
         characterCurrentInfo.CharNarrativeStats = characterStartingInfo.CharInfo.CharNarrativeStats;
 
+        controller.CharacterInfo = characterCurrentInfo;
 
         CalculateDamage();
 
@@ -243,7 +239,7 @@ public abstract class EnemyChar : MonoBehaviour
         unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;
 
         controller.UnPossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
-        if (controller.UnPossessable)
+        if (controller.UnPossessable && !controller.IsPossessed)
         {
             Debug.Log("Spawn unposessable enemyChar");
 
@@ -261,7 +257,9 @@ public abstract class EnemyChar : MonoBehaviour
     private void CalculateDamage()
     {
         int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
+        
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
+        Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
     }
     #endregion
 
@@ -276,7 +274,7 @@ public abstract class EnemyChar : MonoBehaviour
 
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
-            EventArgsFactory.PossessionExecutedFactory(CharacterInfo)
+            EventArgsFactory.PossessionExecutedFactory(characterCurrentInfo)
             );
     }
 

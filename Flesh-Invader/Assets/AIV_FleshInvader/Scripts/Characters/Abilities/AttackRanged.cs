@@ -21,6 +21,7 @@ public class AttackRanged : AbilityBase, IPoolRequester
     public override void RegisterInput()
     {
         PlayerState.Get().GenericController.Attack += Attack;
+        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
     }
 
     public override void StopAbility()
@@ -48,7 +49,7 @@ public class AttackRanged : AbilityBase, IPoolRequester
                 currentTimeCache = Time.time;
                 IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
                 if (bulletComponent == null) return;
-                bulletComponent.Shoot(transform, bulletSpeed);
+                bulletComponent.Shoot(transform, bulletSpeed, characterController);
                 characterController.Visual.SetAnimatorParameter(rangedTriggerAnimatorParameter);
             }
         }
@@ -56,8 +57,7 @@ public class AttackRanged : AbilityBase, IPoolRequester
         {
             IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[1]).GetComponent<IBullet>();
             if (bulletComponent == null) return;
-            bulletComponent.Shoot(transform, bulletSpeed);
-            //characterController.Visual.SetAnimatorParameter(rangedTriggerAnimatorParameter);
+            bulletComponent.Shoot(transform, bulletSpeed, characterController);
         }
     }
 }

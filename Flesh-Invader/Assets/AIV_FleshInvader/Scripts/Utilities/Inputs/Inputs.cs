@@ -202,6 +202,74 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Vertical"",
+            ""id"": ""9d0cbea7-bf3e-4ee1-bada-cb102173df4f"",
+            ""actions"": [
+                {
+                    ""name"": ""Pos1"",
+                    ""type"": ""Button"",
+                    ""id"": ""23f10a3f-56d0-46f6-add6-6f232ab6d31f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pos 2"",
+                    ""type"": ""Button"",
+                    ""id"": ""dce1d92f-b646-4516-8cbb-90b4d10ad62f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pos 3"",
+                    ""type"": ""Button"",
+                    ""id"": ""46d3b6fe-caff-42e5-a560-8bc9343962db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""48f3d8fc-a64e-4278-aab5-895288636765"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pos1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b12e685f-1d2a-4323-a0c8-1f658034d7d7"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pos 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7982458-b116-4c8e-afc8-0ecfad52acc1"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pos 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -216,6 +284,11 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_DialogueSkip = m_UI.FindAction("DialogueSkip", throwIfNotFound: true);
+        // Vertical
+        m_Vertical = asset.FindActionMap("Vertical", throwIfNotFound: true);
+        m_Vertical_Pos1 = m_Vertical.FindAction("Pos1", throwIfNotFound: true);
+        m_Vertical_Pos2 = m_Vertical.FindAction("Pos 2", throwIfNotFound: true);
+        m_Vertical_Pos3 = m_Vertical.FindAction("Pos 3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -397,6 +470,68 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Vertical
+    private readonly InputActionMap m_Vertical;
+    private List<IVerticalActions> m_VerticalActionsCallbackInterfaces = new List<IVerticalActions>();
+    private readonly InputAction m_Vertical_Pos1;
+    private readonly InputAction m_Vertical_Pos2;
+    private readonly InputAction m_Vertical_Pos3;
+    public struct VerticalActions
+    {
+        private @Inputs m_Wrapper;
+        public VerticalActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pos1 => m_Wrapper.m_Vertical_Pos1;
+        public InputAction @Pos2 => m_Wrapper.m_Vertical_Pos2;
+        public InputAction @Pos3 => m_Wrapper.m_Vertical_Pos3;
+        public InputActionMap Get() { return m_Wrapper.m_Vertical; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(VerticalActions set) { return set.Get(); }
+        public void AddCallbacks(IVerticalActions instance)
+        {
+            if (instance == null || m_Wrapper.m_VerticalActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_VerticalActionsCallbackInterfaces.Add(instance);
+            @Pos1.started += instance.OnPos1;
+            @Pos1.performed += instance.OnPos1;
+            @Pos1.canceled += instance.OnPos1;
+            @Pos2.started += instance.OnPos2;
+            @Pos2.performed += instance.OnPos2;
+            @Pos2.canceled += instance.OnPos2;
+            @Pos3.started += instance.OnPos3;
+            @Pos3.performed += instance.OnPos3;
+            @Pos3.canceled += instance.OnPos3;
+        }
+
+        private void UnregisterCallbacks(IVerticalActions instance)
+        {
+            @Pos1.started -= instance.OnPos1;
+            @Pos1.performed -= instance.OnPos1;
+            @Pos1.canceled -= instance.OnPos1;
+            @Pos2.started -= instance.OnPos2;
+            @Pos2.performed -= instance.OnPos2;
+            @Pos2.canceled -= instance.OnPos2;
+            @Pos3.started -= instance.OnPos3;
+            @Pos3.performed -= instance.OnPos3;
+            @Pos3.canceled -= instance.OnPos3;
+        }
+
+        public void RemoveCallbacks(IVerticalActions instance)
+        {
+            if (m_Wrapper.m_VerticalActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IVerticalActions instance)
+        {
+            foreach (var item in m_Wrapper.m_VerticalActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_VerticalActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public VerticalActions @Vertical => new VerticalActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -408,5 +543,11 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnDialogueSkip(InputAction.CallbackContext context);
+    }
+    public interface IVerticalActions
+    {
+        void OnPos1(InputAction.CallbackContext context);
+        void OnPos2(InputAction.CallbackContext context);
+        void OnPos3(InputAction.CallbackContext context);
     }
 }

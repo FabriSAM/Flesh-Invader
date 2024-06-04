@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public static class InputManager
@@ -11,6 +12,7 @@ public static class InputManager
         input = new Inputs();
         //TEMPORARY SUPER TBD MA RIMARRA' COSI' FINO ALLA FINE DELLO SVILUPPO. UN CLASSICO
         input.Player.Enable();
+        input.Vertical.Enable();
     }
 
     public static Inputs.PlayerActions Player {
@@ -19,6 +21,11 @@ public static class InputManager
 
     public static Inputs.UIActions UI {
         get { return input.UI; }
+    }
+
+    public static Inputs.VerticalActions Vertical
+    {
+        get { return input.Vertical; }
     }
 
     public static Vector2 Player_Move 
@@ -51,6 +58,18 @@ public static class InputManager
             input.UI.Enable();
         } else {
             input.UI.Disable();
+        }
+    }
+
+    public static void EnableVertical(bool enable)
+    {
+        if (enable)
+        {
+            input.Vertical.Enable();
+        }
+        else
+        {
+            input.Vertical.Disable();
         }
     }
 

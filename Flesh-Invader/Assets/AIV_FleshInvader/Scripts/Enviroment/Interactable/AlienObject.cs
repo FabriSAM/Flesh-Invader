@@ -27,11 +27,19 @@ public class AlienObject : InteractableBase, ICollectable
     #endregion
 
     #region OverrideBaseClass
+    protected override bool CanOpen(Collider other)
+    {
+        if (!other.TryGetComponent(out controller)) return false;
+        //if (!other.TryGetComponent(out character)) return;
+        if (!controller.IsPossessed) return false;
+
+        return true;
+    }
     protected override void OnOpen()
     {
-        GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
-        Collect();
         UnscribeInteract();
+        Collect();
+        GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
     }
 
     public void Collect()
