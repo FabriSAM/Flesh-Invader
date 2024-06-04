@@ -38,7 +38,7 @@ MonoBehaviour:
       testStutterMaterial: {fileID: 2100000, guid: 24e18af471c72b54aa02d6362edfbb93, type: 2}
     CharNarrativeStats:
       icon: {fileID: 2800000, guid: 69d62a6da1ce9404d947d1c37731e50d, type: 3}
-      color: {r: 0.89075184, g: 0, b: 1, a: 0.47843137}
+      color: {r: 0.89075184, g: 0, b: 1, a: 0.15686275}
       enemyTypeDescription: Mafia Gorilla
       baseAttackDescription: U can't refuse
       passiveSkillDescription: Business is boomin'
