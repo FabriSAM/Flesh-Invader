@@ -9,7 +9,7 @@ public struct LevelStruct
     private float currentXP;
     [SerializeField]
     private float nextLevelXp;
-
+    [SerializeField]
     private int currentLevel;
 
     public float CurrentXP { get { return currentXP; } set { currentXP = value; Debug.Log("CurrentXP: " + currentXP); } }

@@ -29,9 +29,7 @@ public abstract class InteractableBase : MonoBehaviour
     protected abstract void OnOpen();
     protected void InternalOnTriggerEnter(Collider other, bool status)
     {
-        if (!other.TryGetComponent(out controller)) return;
-        //if (!other.TryGetComponent(out character)) return;
-        //if(!character.CharacterInfo.CharStats.CanLockpick) return;
+        if(!CanOpen(other)) return;
 
         canvas.SetActive(status);
         if (status)
@@ -43,8 +41,13 @@ public abstract class InteractableBase : MonoBehaviour
             UnscribeInteract();
         }
     }
-    protected bool CanOpen()
+    protected virtual bool CanOpen(Collider other)
     {
+        if (!other.TryGetComponent(out controller)) return false;
+        //if (!other.TryGetComponent(out character)) return;
+        if (!controller.IsPossessed) return false;
+        if (!controller.CharacterInfo.CharStats.CanLockpick) return false;
+
         return true;
     }
     #endregion

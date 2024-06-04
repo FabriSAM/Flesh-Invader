@@ -22,6 +22,7 @@ public class AbilityInteraction : AbilityBase
     public override void RegisterInput()
     {
         PlayerState.Get().GenericController.Interact += Interaction;
+        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
     }
 
     public override void UnRegisterInput()

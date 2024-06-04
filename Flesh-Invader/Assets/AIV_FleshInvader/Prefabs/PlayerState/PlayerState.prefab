@@ -233,4 +233,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level:
     nextLevelXp: 500
+    currentLevel: 1
   playerState: {fileID: 5968769110384907814}

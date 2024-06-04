@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3c6978b9f762f4ab043d9b5623a03c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 0}
+  trigger: {fileID: 5026784414776744300}
   canvas: {fileID: 756294302572499277}
   dialogueID: 0
 --- !u!65 &5026784414776744300

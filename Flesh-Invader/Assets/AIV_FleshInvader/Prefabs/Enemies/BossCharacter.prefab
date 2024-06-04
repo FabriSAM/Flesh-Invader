@@ -319,7 +319,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61b82dbfee781a748ba576b7a5201d89, type: 2}
   - {fileID: 11400000, guid: 36a5da9273f01c0499a4925ef2876980, type: 2}
   bulletSpeed: 25
-  fireRateo: 0.2
+  fireRateo: 0.5
 --- !u!1 &5380751241265888436
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class DamageContainer
     public IDamager Damager
     {
         get { return damager; }
+        set { damager = value; }
 
     }
 

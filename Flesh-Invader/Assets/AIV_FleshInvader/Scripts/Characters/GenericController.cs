@@ -5,6 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GenericController : MonoBehaviour
 {
@@ -27,6 +30,8 @@ public class GenericController : MonoBehaviour
     public Action Interact;
     public Action Rotate;
     public Action Posses;
+
+    public Action Pos2;
     #endregion
 
     #region Mono
@@ -38,6 +43,34 @@ public class GenericController : MonoBehaviour
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
         playerState.onLevelChange += OnLevelChange;
+
+        InputManager.Vertical.Pos1.performed += Pos1Performed;
+        InputManager.Vertical.Pos2.performed += Pos2Performed;
+        InputManager.Vertical.Pos3.performed += Pos3Performed;
+    }
+
+    private void Pos3Performed(InputAction.CallbackContext context)
+    {
+        Pos2Invoke();
+    }
+
+    private void Pos2Performed(InputAction.CallbackContext context)
+    {
+        Pos2Invoke();
+        //async load with loading widget
+        SceneManager.LoadSceneAsync(2);
+    }
+    private void Pos1Performed(InputAction.CallbackContext context)
+    {
+        Pos2Invoke();
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    private void Pos2Invoke()
+    {
+        Pos2?.Invoke();
+        StopCoroutine(PossesCoroutine());
+        possesCoroutine = null;
     }
 
     void FixedUpdate()
