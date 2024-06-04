@@ -24,12 +24,12 @@ MonoBehaviour:
       Xp: 10
       CanLockpick: 1
       UnpossessableProbability: 0.04
-      AttackCountdown: 0.8
+      AttackCountdown: 1.2
     CharStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
-      distanceToStartAttack: 10
-      distanceToStopAttack: 15
+      distanceToStartAttack: 5
+      distanceToStopAttack: 5.1
       patrolAcceptableRadius: 5
       patrolPointsGenerationRadius: 15
       patrolPointNumber: 4

@@ -28,7 +28,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private void OnCollisionEnter(Collision collision)
     {
         IPossessable possessableChar = collision.gameObject.GetComponentInChildren<IPossessable>();
-        if (possessableChar != null)
+        if (possessableChar != null && !possessableChar.UnPossessable)
         {
             owner.UnPossess();
             possessableChar.Possess();
