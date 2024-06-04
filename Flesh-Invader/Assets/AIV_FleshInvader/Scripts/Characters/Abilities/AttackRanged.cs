@@ -11,6 +11,9 @@ public class AttackRanged : AbilityBase, IPoolRequester
     private float bulletSpeed;
     [SerializeField]
     private float fireRateo;
+
+    private float currentTimeCache;
+    private const string rangedTriggerAnimatorParameter = "AttackTrigger";
     public PoolData[] Datas
     {
         get { return bulletsType; }
@@ -30,19 +33,31 @@ public class AttackRanged : AbilityBase, IPoolRequester
         PlayerState.Get().GenericController.Attack -= Attack;
     }
 
+    public override void Init(Controller characterController)
+    {
+        base.Init(characterController);
+        currentTimeCache = Time.time - fireRateo;
+    }
+
     public void Attack()
     {
         if (characterController.IsPossessed)
         {
-            IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
-            if (bulletComponent == null) return;
-            bulletComponent.Shoot(transform, bulletSpeed);            
+            if (Time.time - currentTimeCache > fireRateo)
+            {
+                currentTimeCache = Time.time;
+                IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
+                if (bulletComponent == null) return;
+                bulletComponent.Shoot(transform, bulletSpeed);
+                characterController.Visual.SetAnimatorParameter(rangedTriggerAnimatorParameter);
+            }
         }
         else
         {
             IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[1]).GetComponent<IBullet>();
             if (bulletComponent == null) return;
             bulletComponent.Shoot(transform, bulletSpeed);
+            //characterController.Visual.SetAnimatorParameter(rangedTriggerAnimatorParameter);
         }
     }
 }
