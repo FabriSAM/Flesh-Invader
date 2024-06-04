@@ -5,11 +5,13 @@ using UnityEngine.UIElements;
 public class UI_XPBar : MonoBehaviour {
 
     private ProgressBar xpBar;
-
-    public UI_XPBar() { }
+    private VisualElement progressVisualElement;
+    private VisualElement root;
 
     private void Awake() {
-        xpBar = GetComponent<UIDocument>().rootVisualElement.Q<ProgressBar>("xp-bar");
+        root = GetComponent<UIDocument>().rootVisualElement;
+        xpBar = root.Q<ProgressBar>("xp-bar");
+        progressVisualElement = xpBar.Q(className: "unity-progress-bar__progress");
     }
 
     private void OnEnable() {
@@ -22,6 +24,8 @@ public class UI_XPBar : MonoBehaviour {
 
     private void OnXPUpdate(EventArgs message) {
         EventArgsFactory.PlayerXPUpdatedParser(message, out LevelStruct level);
-        xpBar.value = Mathf.Clamp((level.CurrentXP / level.NextLevelXp), 0, 1);
+        float xp = Mathf.Clamp((level.CurrentXP / level.NextLevelXp), 0, 1);
+        xpBar.value = xp;
+        progressVisualElement.style.backgroundColor = Color.Lerp(new Color(0, 0.694f, 1, 1), new Color(0, 0.149f, 1, 1.0f), xp);
     }
 }
