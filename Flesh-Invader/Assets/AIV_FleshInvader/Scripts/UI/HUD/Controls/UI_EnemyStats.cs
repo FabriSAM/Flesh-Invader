@@ -10,6 +10,7 @@ public class UI_EnemyStats : MonoBehaviour
     private Label _class;
     private Label baseAttack;
     private Label passiveSkill;
+    private VisualElement enemyStatsContainer;
 
     private void Awake() {
         icon = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("icon");
@@ -18,6 +19,7 @@ public class UI_EnemyStats : MonoBehaviour
         _class = GetComponent<UIDocument>().rootVisualElement.Q<Label>("class");
         baseAttack = GetComponent<UIDocument>().rootVisualElement.Q<Label>("base-attack");
         passiveSkill = GetComponent<UIDocument>().rootVisualElement.Q<Label>("passive-skill");
+        enemyStatsContainer = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("enemy-stats-container");
     }
 
     private void OnEnable() {
@@ -36,5 +38,6 @@ public class UI_EnemyStats : MonoBehaviour
         baseAttack.text = $"Base attack: {enemyInfo.CharNarrativeStats.baseAttackDescription}";
         passiveSkill.text = $"Passive skill: {enemyInfo.CharNarrativeStats.passiveSkillDescription}";
         icon.style.backgroundImage = enemyInfo.CharNarrativeStats.icon;
+        enemyStatsContainer.style.backgroundColor = enemyInfo.CharNarrativeStats.color;
     }
 }
