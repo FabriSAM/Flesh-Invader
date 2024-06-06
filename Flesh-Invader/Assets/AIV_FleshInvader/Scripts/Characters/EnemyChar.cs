@@ -4,11 +4,6 @@ using UnityEngine.AI;
 
 public abstract class EnemyChar : MonoBehaviour
 {
-    private const string animIsMovingParamaterString = "IsMoving";
-    private const string animXAxisValue = "XAxisValue";
-    private const string animZAxisValue = "ZAxisValue";
-    private const string animAttackString = "AttackTrigger";
-    protected const string animPoseString = "CurrentWeaponType";
 
     protected Controller controller;
     protected NavMeshAgent agent;
@@ -18,43 +13,16 @@ public abstract class EnemyChar : MonoBehaviour
     private StateMachine FSM;
     private EnemyInfo characterCurrentInfo;
 
-    #region ProtectedVariables
-
-
-    //[Header("Speeds")]
-    //protected float baseSpeed;
-    //protected float chaseSpeedMultiplier;
-    //protected float chaseSpeed;
-
-    //protected Transform TargetTransform;
-
-    //#region PCAVariables
-    //protected float patrolAcceptableRadius;
-    //protected float patrolPointsGenerationRadius;
-    //protected int patrolPointNumber;
-    //protected Vector3[] PatrolPositions;
-
-    //protected float distanceToFollowPlayer;
-    //protected float distanceToStopFollowPlayer;
-
-    //protected float distanceToStartAttack;
-    //protected float distanceToStopAttack;
-    //protected float attackDamage;
-    //#endregion
-
-    //#region StutterVariables
-    //protected float stutterTime;
-    //protected Material testStutterMaterial;
-    //#endregion
-
-    
-
-
-
-    #endregion
-
     #region ProtectedProperties
     public EnemyInfo CharacterInfo {get { return characterCurrentInfo; }}
+    #endregion
+
+    #region AnimatorStrings
+    private const string animIsMovingParamaterString = "IsMoving";
+    private const string animXAxisValue = "XAxisValue";
+    private const string animZAxisValue = "ZAxisValue";
+    private const string animAttackString = "AttackTrigger";
+    private const string animPoseString = "CurrentWeaponType";
     #endregion
 
     #region FSM
@@ -111,7 +79,7 @@ public abstract class EnemyChar : MonoBehaviour
     #endregion
 
     #region States
-        private State SetUpPatrol()
+        protected virtual State SetUpPatrol()
         {
             State patrol = new State();
    
@@ -132,11 +100,11 @@ public abstract class EnemyChar : MonoBehaviour
             return patrol;
         }
 
-        private State SetUpChase()
+        protected virtual State SetUpChase()
         {
             State chase = new State();
 
-            ChaseTargetAction chaseTarget = new ChaseTargetAction(agent, characterCurrentInfo.CharStats.ChaseSpeed);
+            ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
@@ -147,7 +115,7 @@ public abstract class EnemyChar : MonoBehaviour
             return chase;
         }
 
-        private State SetUpStutter()
+        protected virtual State SetUpStutter()
         {
             State stutter = new State();
             //TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<Transform>().gameObject.GetComponentInChildren<SkinnedMeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
@@ -162,18 +130,18 @@ public abstract class EnemyChar : MonoBehaviour
             stutter.SetUpMe(new StateAction[] { setRunning, /*changeMaterial,*/ stopCharacter });
             return stutter;
         }
-        private State SetUpAttack()
+        protected virtual State SetUpAttack()
         {
             State attack = new State();
-            ChaseTargetAction chaseTargetInAttack = new ChaseTargetAction(agent, characterCurrentInfo.CharStats.BaseSpeed);
+            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
 
             AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
-            SetAnimatorParameterAction setAttacking = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
+            SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
                 true, characterCurrentInfo.CharStats.AttackCountdown);
-            RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().PlayerTransform.gameObject);
+            //RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().PlayerTransform.gameObject);
             AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
-            attack.SetUpMe(new StateAction[] { chaseTargetInAttack, setAttacking, rotateToTarget, attackTarget });
+            attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, /*rotateToTarget,*/ attackTarget });
             return attack;
         }
 
@@ -259,7 +227,7 @@ public abstract class EnemyChar : MonoBehaviour
         int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
         
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
-        Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
+        //Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
     }
     #endregion
 

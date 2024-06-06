@@ -29,7 +29,7 @@ MonoBehaviour:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
       distanceToStartAttack: 35
-      distanceToStopAttack: 40
+      distanceToStopAttack: 50
       patrolAcceptableRadius: 5
       patrolPointsGenerationRadius: 15
       patrolPointNumber: 4
