@@ -23,7 +23,6 @@ public class MantainSetDistanceFromPlayerAction : StateAction
         if (agent.CalculatePath(PlayerState.Get().PlayerTransform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
         {
             agent.destination = PlayerState.Get().PlayerTransform.position + ((agent.transform.position - PlayerState.Get().PlayerTransform.position).normalized * distanceToReach);
-            agent.transform.rotation = Quaternion.LookRotation(PlayerState.Get().PlayerTransform.position - agent.transform.position);
         }
         agent.speed = speed;
     }

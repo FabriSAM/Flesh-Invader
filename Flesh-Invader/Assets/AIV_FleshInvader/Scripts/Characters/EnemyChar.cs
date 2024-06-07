@@ -25,9 +25,20 @@ public abstract class EnemyChar : MonoBehaviour
     private const string animPoseString = "CurrentWeaponType";
     #endregion
 
+    #region States
+    State patrol;
+    State chase;
+    State stutter;
+    State attack;
+
+    #endregion
+
+    //TO DO
+    //MANAGE THE CHANGE OF PLAYER GAMEOBJECT THROUGH EVENTS
+
     #region FSM
     #region Transition
-        private Transition StartChase(State prev, State next)
+    private Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
             CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
@@ -104,7 +115,7 @@ public abstract class EnemyChar : MonoBehaviour
         {
             State chase = new State();
 
-            ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack);
+            ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
@@ -123,10 +134,6 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, false);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
-            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
-            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
-            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
-            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
             stutter.SetUpMe(new StateAction[] { setRunning, /*changeMaterial,*/ stopCharacter });
             return stutter;
         }
@@ -138,10 +145,10 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
             SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
                 true, characterCurrentInfo.CharStats.AttackCountdown);
-            //RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().PlayerTransform.gameObject);
+            RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
             AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
-            attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, /*rotateToTarget,*/ attackTarget });
+            attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, rotateToTarget, attackTarget });
             return attack;
         }
 
@@ -162,10 +169,11 @@ public abstract class EnemyChar : MonoBehaviour
         
         CharacterStatsConfiguration();
 
-        State patrol = SetUpPatrol();
-        State chase = SetUpChase();
-        State stutter = SetUpStutter();
-        State attack = SetUpAttack();
+        patrol    = SetUpPatrol();
+        chase     = SetUpChase();
+        stutter   = SetUpStutter();
+        attack    = SetUpAttack();
+
         patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter) });
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
         chase.SetUpMe(new Transition[] {StopChase(chase, patrol), ChaseToAttack(chase,attack) });
