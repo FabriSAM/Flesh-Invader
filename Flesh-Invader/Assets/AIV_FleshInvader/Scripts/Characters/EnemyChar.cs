@@ -1,4 +1,5 @@
 using NotserializableEventManager;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,6 +31,8 @@ public abstract class EnemyChar : MonoBehaviour
     State chase;
     State stutter;
     State attack;
+    State dying;
+    State death;
 
     #endregion
 
@@ -152,6 +155,25 @@ public abstract class EnemyChar : MonoBehaviour
             return attack;
         }
 
+        // TO DO
+        private State SetUpDying()
+        {
+            State dying = new State();
+
+
+            return dying;
+        }
+
+        // TO DO
+        private State SetUpDeath()
+        {
+            State death = new State();
+
+
+
+            return death;
+        }
+
     #endregion
 
     #endregion
@@ -173,6 +195,9 @@ public abstract class EnemyChar : MonoBehaviour
         chase     = SetUpChase();
         stutter   = SetUpStutter();
         attack    = SetUpAttack();
+        dying     = SetUpDying();
+        death     = SetUpDeath();
+
 
         patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter) });
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
@@ -181,7 +206,6 @@ public abstract class EnemyChar : MonoBehaviour
 
         FSM.Init(new State[] {patrol, stutter, chase, attack }, patrol);
     }
-
 
     #endregion
 
