@@ -102,6 +102,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void Awake()
     {
         abilities = GetComponentsInChildren<AbilityBase>();
+        PlayerState.Get().PlayerTransform = transform;
         playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
         playerStateLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>();
 
