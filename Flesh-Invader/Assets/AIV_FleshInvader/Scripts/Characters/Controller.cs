@@ -110,7 +110,7 @@ public class Controller : MonoBehaviour, IPossessable
         }
 
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
-        CombatManager.OnHealthModuleDeath += InternalOnDeath;
+        combatManager.OnHealthModuleDeath += InternalOnDeath;
 
         foreach (var ability in abilities)
         {
