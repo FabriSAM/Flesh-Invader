@@ -6,7 +6,7 @@ public class MeleeCollider : MonoBehaviour
     [SerializeField]
     private bool attackOnStay;
 
-    public Action<IDamageable, Vector3> DamageableHitted;
+    public Action<IDamageable, IPossessable, Vector3> DamageableHitted;
 
     protected Collider myCollider;
     public Collider MyCollider
@@ -32,12 +32,15 @@ public class MeleeCollider : MonoBehaviour
 
     protected void InternalTrigger(Collider other)
     {
+        IPossessable owner = gameObject.GetComponentInParent<IPossessable>();
+        if (owner == null) return;
+
         IDamageable otherDamageable = other.GetComponent<IDamageable>();
         if (otherDamageable == null) return;
         if (other.gameObject == gameObject) return;
         Vector3 hitPosition = other.ClosestPoint(transform.position);
 
         // The collision itself doesn't need checks because it is already computed based on Layers in Controller
-        DamageableHitted?.Invoke(otherDamageable, hitPosition);
+        DamageableHitted?.Invoke(otherDamageable, owner, hitPosition);
     }
 }
