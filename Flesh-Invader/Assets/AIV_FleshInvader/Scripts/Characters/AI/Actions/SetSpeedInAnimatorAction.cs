@@ -18,13 +18,15 @@ public class SetSpeedInAnimatorAction : StateAction
     private AnimatorParameterStats parameterValue;
     private VectorAxis axisToUse;
     private bool everyFrame;
+    private float threshold;
 
-    public SetSpeedInAnimatorAction(Animator animator, NavMeshAgent navMeshAgent, VectorAxis axis, AnimatorParameterStats parameterValue,  bool everyFrame = false)
+    public SetSpeedInAnimatorAction(Animator animator, NavMeshAgent navMeshAgent, VectorAxis axis, AnimatorParameterStats parameterValue, float threshold, bool everyFrame = false)
     {
         this.animator = animator;
         this.navMeshAgent = navMeshAgent;
         this.axisToUse = axis;
         this.parameterValue = parameterValue;
+        this.threshold = threshold;
         this.everyFrame = everyFrame;
 
     }
@@ -46,15 +48,24 @@ public class SetSpeedInAnimatorAction : StateAction
         {
             case VectorAxis.X:
                 float XDirection = Vector3.Dot(navMeshAgent.velocity.normalized, navMeshAgent.transform.right);
-                animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), XDirection);                
+                if (Mathf.Abs(XDirection) > threshold)
+                    animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), XDirection);
+                else
+                    animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), 0);
                 break;
             case VectorAxis.Y:
                 float YDirection = Vector3.Dot(navMeshAgent.velocity.normalized, navMeshAgent.transform.up);
-                animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), YDirection);
+                if (Mathf.Abs(YDirection) > threshold)
+                    animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), YDirection);
+                else
+                    animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), 0);
                 break;
             case VectorAxis.Z:
                 float ZDirection = Vector3.Dot(navMeshAgent.velocity.normalized, navMeshAgent.transform.forward);
-                animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), ZDirection);
+                if (Mathf.Abs(ZDirection) > threshold)
+                    animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), ZDirection);
+                else
+                    animator.SetFloat(Animator.StringToHash(parameterValue.parameterName), 0);
                 break;
         }
         

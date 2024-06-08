@@ -30,6 +30,7 @@ public abstract class EnemyChar : MonoBehaviour
     State patrol;
     State chase;
     State stutter;
+    State combat;
     State attack;
     State dying;
     State death;
@@ -41,7 +42,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     #region FSM
     #region Transition
-    private Transition StartChase(State prev, State next)
+        private Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
             CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
@@ -80,7 +81,7 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
-        private Transition AttackBackToChase(State prev, State next)
+        private Transition CombatBackToChase(State prev, State next)
         {
             Transition transition = new Transition();
             CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
@@ -90,10 +91,30 @@ public abstract class EnemyChar : MonoBehaviour
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
         }
+
+        private Transition CombatToAttack(State prev, State next)
+        {
+            Transition transition = new Transition();
+            CheckForFreeAttackPositionCondition checkForFreeAttackPlace = new CheckForFreeAttackPositionCondition(GetComponentInParent<Transform>());
+
+
+            transition.SetUpMe(prev, next, new Condition[] { checkForFreeAttackPlace });
+            return transition;
+        }
+
+        private Transition AttackBackToCombat(State prev, State next)
+        {
+            Transition transition = new Transition();
+
+
+            return transition;
+        }
+
+
     #endregion
 
     #region States
-        protected virtual State SetUpPatrol()
+    protected virtual State SetUpPatrol()
         {
             State patrol = new State();
    
@@ -107,8 +128,8 @@ public abstract class EnemyChar : MonoBehaviour
 
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
-            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, true);
-            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z,  moveAxisZ, true);
+            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX,  0.25f,true);
+            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z,  moveAxisZ, 0.25f,true);
             patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning, animSpeedX, animSpeedZ });
 
             return patrol;
@@ -123,8 +144,8 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
-            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX,  true);
-            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, true);
+            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, 0.25f, true);
+            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, 0.25f, true);
             chase.SetUpMe(new StateAction[] { chaseTarget, setRunning, animSpeedX, animSpeedZ });
             return chase;
         }
@@ -140,6 +161,20 @@ public abstract class EnemyChar : MonoBehaviour
             stutter.SetUpMe(new StateAction[] { setRunning, /*changeMaterial,*/ stopCharacter });
             return stutter;
         }
+        protected virtual State SetUpCombat()
+        {
+            State attack = new State();
+            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartCombat - 0.1f);
+
+            AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
+            SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking,
+                true, characterCurrentInfo.CharStats.AttackCountdown);
+            RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
+
+            attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, rotateToTarget, });
+            return attack;
+        }
+
         protected virtual State SetUpAttack()
         {
             State attack = new State();
@@ -155,8 +190,9 @@ public abstract class EnemyChar : MonoBehaviour
             return attack;
         }
 
-        // TO DO
-        private State SetUpDying()
+
+    // TO DO
+    private State SetUpDying()
         {
             State dying = new State();
 
@@ -164,15 +200,15 @@ public abstract class EnemyChar : MonoBehaviour
             return dying;
         }
 
-        // TO DO
-        private State SetUpDeath()
-        {
-            State death = new State();
+    // TO DO
+    private State SetUpDeath()
+    {
+        State death = new State();
 
 
 
-            return death;
-        }
+        return death;
+    }
 
     #endregion
 
@@ -194,6 +230,7 @@ public abstract class EnemyChar : MonoBehaviour
         patrol    = SetUpPatrol();
         chase     = SetUpChase();
         stutter   = SetUpStutter();
+        combat    = SetUpCombat();
         attack    = SetUpAttack();
         dying     = SetUpDying();
         death     = SetUpDeath();
@@ -201,10 +238,12 @@ public abstract class EnemyChar : MonoBehaviour
 
         patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter) });
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
-        chase.SetUpMe(new Transition[] {StopChase(chase, patrol), ChaseToAttack(chase,attack) });
-        attack.SetUpMe(new Transition[] { AttackBackToChase(attack,chase)});
+        chase.SetUpMe(new Transition[] { StopChase(chase, patrol), ChaseToAttack(chase,attack) });
+        combat.SetUpMe(new Transition[] { CombatBackToChase(combat, chase), CombatToAttack(combat, attack) });
+        attack.SetUpMe(new Transition[] { AttackBackToCombat(attack, combat)});
+        //dying.SetUpMe(new Transition[] { DyingToDeath()});
 
-        FSM.Init(new State[] {patrol, stutter, chase, attack }, patrol);
+        FSM.Init(new State[] {patrol, stutter, chase, combat, attack }, patrol);
     }
 
     #endregion
