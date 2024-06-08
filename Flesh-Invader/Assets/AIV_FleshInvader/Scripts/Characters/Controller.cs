@@ -22,6 +22,7 @@ public class Controller : MonoBehaviour, IPossessable
     #region PrivateAttributes
     private AbilityBase[] abilities;
     private PlayerStateHealth playerStateHealth;
+    private PlayerStateLevel playerStateLevel;
     #endregion
 
     #region ReferenceGetter
@@ -102,6 +103,8 @@ public class Controller : MonoBehaviour, IPossessable
     {
         abilities = GetComponentsInChildren<AbilityBase>();
         playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
+        playerStateLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>();
+
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
         CombatManager.OnHealthModuleDeath += InternalOnDeath;
 
@@ -174,7 +177,7 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void InternalOnDeath()
     {
-        PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXP(CharacterInfo.CharStats.Xp);
+        playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
         //Maybe PlayerState if dead call GlobalEventManager
 
         gameObject.SetActive(false);
