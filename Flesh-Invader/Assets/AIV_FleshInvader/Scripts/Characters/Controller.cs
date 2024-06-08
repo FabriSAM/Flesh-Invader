@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
+public class Controller : MonoBehaviour, IPossessable
 {
     #region References
     [SerializeField]
@@ -11,11 +11,9 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     [SerializeField]
     protected Collider characterPhysicsCollider;
     [SerializeField]
-    protected MeleeCollider[] meleeColliders;
-    [SerializeField]
-    protected HealthModule healthModule;
-    [SerializeField]
     protected Visual visual;
+    [SerializeField]
+    protected CombatManager combatManager;
     [SerializeField]
     protected bool isPossessed;
     #endregion //References
@@ -24,7 +22,6 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     #region PrivateAttributes
     private AbilityBase[] abilities;
     private PlayerStateHealth playerStateHealth;
-    //private DamageContainer meleeContainer;
     #endregion
 
     #region ReferenceGetter
@@ -51,6 +48,10 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     public Visual Visual
     {
         get { return visual; }
+    }
+    public CombatManager CombatManager 
+    { 
+        get { return combatManager; } 
     }
 
     public EnemyInfo CharacterInfo { get; set; }
@@ -89,24 +90,37 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     public Action OnInteractPerformed;
     #endregion
 
+    #region Actions
     public Action attack;
     public Action OnCharacterPossessed;
     public Action OnCharacterUnpossessed;
-    public Action<DamageContainer> OnControllerDamageTaken;
-    public Action OnControllerDeath;
+    #endregion
+
 
     #region Mono
     private void Awake()
     {
         abilities = GetComponentsInChildren<AbilityBase>();
         playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
-        healthModule.OnDamageTaken += OnInternalDamageTaken;
-        healthModule.OnDeath += OnInternalDeath;
+        combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
+        CombatManager.OnHealthModuleDeath += InternalOnDeath;
 
         foreach (var ability in abilities)
         {
             ability.Init(this);
         }
+    }
+
+    void OnEnable()
+    {
+        if (CharacterInfo != null)
+        {
+            combatManager.OnControllerEnabled?.Invoke(CharacterInfo.CharStats.Health);
+        }
+    }
+
+    private void Start()
+    {
         if (isPossessed)
         {
             InternalOnPosses();
@@ -115,25 +129,6 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         {
             InternalOnUnposses();
         }
-
-        foreach (MeleeCollider collider in meleeColliders)
-        {
-            collider.DamageableHitted += OnMeleeHitted;
-        }
-    }
-
-    //PORCATA DA CAMBIARE
-    void OnEnable()
-    {
-        if (CharacterInfo != null)
-        {
-            healthModule.SetHP(CharacterInfo.CharStats.Health);
-        }
-    }
-
-    void Start()
-    {
-        healthModule.SetHP(CharacterInfo.CharStats.Health);
     }
     #endregion
 
@@ -147,15 +142,11 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         {
             ability.RegisterInput();
         }
-        SetDamagerCollidersLayerType("EnemyDamager");
 
+        combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
         OnCharacterPossessed?.Invoke();
-
         Debug.Log("Possessed");
-
-
     }
-
     public void InternalOnUnposses()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
@@ -164,75 +155,41 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         {
             ability.UnRegisterInput();
         }
-        SetDamagerCollidersLayerType("PlayerDamager");
 
+        combatManager.OnPossessionChanged?.Invoke("PlayerDamager");
         OnCharacterUnpossessed?.Invoke();
-        //gameObject.SetActive(false);
     }
-    #endregion
 
-    #region Callbacks
-    private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
-    {
-        DamageContainer damage = new DamageContainer();
-        damage.Damage = ((IPossessable)otherDamageable).CharacterInfo.CharStats.Damage;
-        damage.Damager = this;
-
-        // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
-        otherDamageable.TakeDamage(damage);
-    }
-    #endregion
-
-    #region Private Methods
-    private void SetDamagerCollidersLayerType(string newLayer)
-    {
-        foreach (MeleeCollider collider in meleeColliders)
-        {
-            Collider currentCollider = collider.GetComponent<Collider>();
-            if (currentCollider == null) continue;
-            currentCollider.gameObject.layer = LayerMask.NameToLayer(newLayer);
-        }
-    }
-    #endregion
-
-    #region Interface Methods
-    public void TakeDamage(DamageContainer damage)
+    private void InternalOnPerceivedDamage(DamageContainer damage)
     {
         if (IsPossessed)
         {
             if (playerStateHealth == null) return;
-            playerStateHealth.HealthReduce(damage.Damage);
+            playerStateHealth.HealthReduce(damage.Damage); 
         }
         else
         {
-            if (healthModule == null) return;
-            healthModule.TakeDamage(damage);
+            combatManager.OnControllerDamageTaken?.Invoke(damage);
         }
+    }
+    private void InternalOnDeath()
+    {
+        PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXP(CharacterInfo.CharStats.Xp);
+        //Maybe PlayerState if dead call GlobalEventManager
+
+        gameObject.SetActive(false);
     }
     #endregion
 
-    #region Health Module
-    private void OnInternalDamageTaken(DamageContainer damage)
-    {
-        Debug.Log($"CUrrent HP: {healthModule.CurrentHP} - MaxHP : {healthModule.MaxHP}");
-        OnControllerDamageTaken?.Invoke(damage);
-    }
-    private void OnInternalDeath()
-    {
-        PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXP(CharacterInfo.CharStats.Xp);
-        gameObject.SetActive(false);
-        OnControllerDeath?.Invoke();
-    }
-
+    #region Interface Methods
     public void Possess()
     {
         InternalOnPosses();
     }
-
     public void UnPossess()
     {
         InternalOnUnposses();
     }
-    
     #endregion
+  
 }

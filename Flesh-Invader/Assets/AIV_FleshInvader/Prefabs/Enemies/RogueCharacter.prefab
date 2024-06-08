@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 7329042127462346779}
   - component: {fileID: 486700847704459266}
   - component: {fileID: 7414945148087197966}
+  - component: {fileID: 729619551507855735}
   - component: {fileID: 8690166444889035717}
   m_Layer: 7
   m_Name: RogueCharacter
@@ -222,11 +223,24 @@ MonoBehaviour:
   characterTransform: {fileID: 3711381827548582195}
   characterRigidbody: {fileID: 7329042127462346779}
   characterPhysicsCollider: {fileID: 8690166444889035717}
+  visual: {fileID: 8936908340003558207}
+  combatManager: {fileID: 729619551507855735}
+  isPossessed: 0
+--- !u!114 &729619551507855735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459255521996219516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1769e9d74b33f4c812838327841cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   meleeColliders:
   - {fileID: 6038205273019473983}
   healthModule: {fileID: 4799463754217226140}
-  visual: {fileID: 8936908340003558207}
-  isPossessed: 0
 --- !u!136 &8690166444889035717
 CapsuleCollider:
   m_ObjectHideFlags: 0
