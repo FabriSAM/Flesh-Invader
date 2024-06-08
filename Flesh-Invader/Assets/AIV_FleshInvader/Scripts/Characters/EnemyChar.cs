@@ -10,30 +10,29 @@ public abstract class EnemyChar : MonoBehaviour
     protected NavMeshAgent agent;
 
     [Header("Stats")]
-    [SerializeField] private EnemyStatisticsTemplate characterStartingInfo;
-    private StateMachine FSM;
-    private EnemyInfo characterCurrentInfo;
+    [SerializeField] protected EnemyStatisticsTemplate characterStartingInfo;
+    protected StateMachine FSM;
+    protected EnemyInfo characterCurrentInfo;
 
     #region ProtectedProperties
     public EnemyInfo CharacterInfo {get { return characterCurrentInfo; }}
     #endregion
 
     #region AnimatorStrings
-    private const string animIsMovingParamaterString = "IsMoving";
-    private const string animXAxisValue = "XAxisValue";
-    private const string animZAxisValue = "ZAxisValue";
-    private const string animAttackString = "AttackTrigger";
-    private const string animPoseString = "CurrentWeaponType";
+    protected const string animIsMovingParamaterString = "IsMoving";
+    protected const string animXAxisValue = "XAxisValue";
+    protected const string animZAxisValue = "ZAxisValue";
+    protected const string animAttackString = "AttackTrigger";
+    protected const string animPoseString = "CurrentWeaponType";
     #endregion
 
     #region States
-    State patrol;
-    State chase;
-    State stutter;
-    State combat;
-    State attack;
-    State dying;
-    State death;
+    protected State patrol;
+    protected State chase;
+    protected State stutter;
+    protected State attack;
+    protected State dying;
+    protected State death;
 
     #endregion
 
@@ -42,7 +41,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     #region FSM
     #region Transition
-        private Transition StartChase(State prev, State next)
+        protected Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
             CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
@@ -51,7 +50,7 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
-        private Transition StopChase(State prev, State next)
+        protected Transition StopChase(State prev, State next)
         {
             Transition transition = new Transition();
             CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
@@ -60,7 +59,7 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
-        private Transition StopStutter(State prev, State next)
+        protected Transition StopStutter(State prev, State next)
         {
             Transition transition = new Transition();
             WaitTimeCondition timeCondition = new WaitTimeCondition(characterCurrentInfo.CharStatesStats.stutterTime);
@@ -70,7 +69,7 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
-        private Transition ChaseToAttack(State prev, State next)
+        protected Transition ChaseToAttack(State prev, State next)
         {
             Transition transition = new Transition();
             CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
@@ -81,32 +80,15 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
-        private Transition CombatBackToChase(State prev, State next)
+        protected Transition AttackBackToChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(
+                GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
                 characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
 
-    
+
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
-            return transition;
-        }
-
-        private Transition CombatToAttack(State prev, State next)
-        {
-            Transition transition = new Transition();
-            CheckForFreeAttackPositionCondition checkForFreeAttackPlace = new CheckForFreeAttackPositionCondition(GetComponentInParent<Transform>());
-
-
-            transition.SetUpMe(prev, next, new Condition[] { checkForFreeAttackPlace });
-            return transition;
-        }
-
-        private Transition AttackBackToCombat(State prev, State next)
-        {
-            Transition transition = new Transition();
-
-
             return transition;
         }
 
@@ -161,19 +143,6 @@ public abstract class EnemyChar : MonoBehaviour
             stutter.SetUpMe(new StateAction[] { setRunning, /*changeMaterial,*/ stopCharacter });
             return stutter;
         }
-        protected virtual State SetUpCombat()
-        {
-            State attack = new State();
-            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartCombat - 0.1f);
-
-            AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
-            SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking,
-                true, characterCurrentInfo.CharStats.AttackCountdown);
-            RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
-
-            attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, rotateToTarget, });
-            return attack;
-        }
 
         protected virtual State SetUpAttack()
         {
@@ -192,7 +161,7 @@ public abstract class EnemyChar : MonoBehaviour
 
 
     // TO DO
-    private State SetUpDying()
+    protected State SetUpDying()
         {
             State dying = new State();
 
@@ -201,7 +170,7 @@ public abstract class EnemyChar : MonoBehaviour
         }
 
     // TO DO
-    private State SetUpDeath()
+    protected State SetUpDeath()
     {
         State death = new State();
 
@@ -224,26 +193,30 @@ public abstract class EnemyChar : MonoBehaviour
     {
         FSM = GetComponentInChildren<StateMachine>();
         agent = GetComponentInParent<NavMeshAgent>();
-        
+
         CharacterStatsConfiguration();
 
-        patrol    = SetUpPatrol();
-        chase     = SetUpChase();
-        stutter   = SetUpStutter();
-        combat    = SetUpCombat();
-        attack    = SetUpAttack();
-        dying     = SetUpDying();
-        death     = SetUpDeath();
+        InitFSM();
+    }
 
+    protected virtual void InitFSM()
+    {
+        patrol = SetUpPatrol();
+        chase = SetUpChase();
+        stutter = SetUpStutter();
+
+        attack = SetUpAttack();
+        dying = SetUpDying();
+        death = SetUpDeath();
 
         patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter) });
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
-        chase.SetUpMe(new Transition[] { StopChase(chase, patrol), ChaseToAttack(chase,attack) });
-        combat.SetUpMe(new Transition[] { CombatBackToChase(combat, chase), CombatToAttack(combat, attack) });
-        attack.SetUpMe(new Transition[] { AttackBackToCombat(attack, combat)});
+        chase.SetUpMe(new Transition[] { StopChase(chase, patrol), ChaseToAttack(chase, attack) });
+        attack.SetUpMe(new Transition[] { AttackBackToChase(attack, chase) });
         //dying.SetUpMe(new Transition[] { DyingToDeath()});
 
-        FSM.Init(new State[] {patrol, stutter, chase, combat, attack }, patrol);
+
+        FSM.Init(new State[] { patrol, stutter, chase, attack }, patrol);
     }
 
     #endregion
@@ -262,7 +235,7 @@ public abstract class EnemyChar : MonoBehaviour
         controller.attack += CastAbility;
     }
 
-    private void CharacterStatsConfiguration()
+    protected void CharacterStatsConfiguration()
     {
         // To change respecting random multipliers
         characterCurrentInfo.CharStats = characterStartingInfo.CharInfo.CharStats;
@@ -293,7 +266,7 @@ public abstract class EnemyChar : MonoBehaviour
         }
     }
 
-    private void CalculateDamage()
+    protected void CalculateDamage()
     {
         int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
         

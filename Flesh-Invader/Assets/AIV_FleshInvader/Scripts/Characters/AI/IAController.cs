@@ -45,15 +45,48 @@ public class IAController : MonoBehaviour
     private static EnvTargetPoint[] targetPoints;
 
     #region SerializedFields
+    [Header("IA Targets")]
+    [SerializeField]
+    private int targetNumber;
     [SerializeField]
     private float targetRadius;
     [SerializeField]
-    private int targetNumber;
+    private float targetUpdateTime;
+    private float targetUpdateCounter;
     #endregion
 
-    public IAController()
+    private Vector3[] targetsNormalizedPositions;
+
+    private void Awake()
     {
         targetPoints = new EnvTargetPoint[targetNumber];
+        for (int i = 0; i < targetNumber; i++)
+        {
+            targetPoints[i] = new EnvTargetPoint();
+        }
+        targetsNormalizedPositions = new Vector3[targetNumber];
+
+        float radDistance = (2 * (float)Math.PI) / targetNumber;
+        for (int i = 0; i < targetNumber - 1; i++)
+        {
+            targetsNormalizedPositions[i] = new Vector3(Mathf.Cos(radDistance * i), 0, Mathf.Sin(radDistance * i));
+        }
+    }
+
+    private void Update()
+    {
+        targetUpdateCounter += Time.deltaTime;
+
+        if(targetUpdateCounter > targetUpdateTime)
+        {
+            targetUpdateCounter = 0;
+
+            for (int i=0; i<targetNumber; i++)
+            {
+                targetPoints[i].TargetPosition = PlayerState.Get().PlayerTransform.position + targetsNormalizedPositions[i];
+            }
+
+        }
     }
 
     public EnvTargetPoint[] TargetPoints{ get { return targetPoints; } }
