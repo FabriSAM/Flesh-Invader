@@ -8,6 +8,8 @@ public class PlayerState : MonoBehaviour
     #region SerializeField
     [SerializeField]
     GenericController genericController;
+    [SerializeField]
+    float possessionCD;
     #endregion
 
     #region PrivateMembers
@@ -54,6 +56,7 @@ public class PlayerState : MonoBehaviour
             return;
         }
         instance = this;
+        genericController.InitMe(possessionCD);
         DontDestroyOnLoad(gameObject);
     }
 
