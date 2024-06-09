@@ -16,7 +16,7 @@ public class FixedCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = gameObject.transform.position - PlayerState.Get().PlayerTransform.position;
+        offset = gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position;
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class FixedCamera : MonoBehaviour
     }
     private void CameraMovement()
     {
-        newPos = PlayerState.Get().PlayerTransform.position + offset;
+        newPos = PlayerState.Get().CurrentPlayer.transform.position + offset;
         currentPos = gameObject.transform.position;
         LerpCameraMovement();
     }

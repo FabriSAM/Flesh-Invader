@@ -16,7 +16,7 @@ public class ChaseTargetAction : StateAction
 
     public override void OnUpdate()
     {
-        chaserAgent.destination = PlayerState.Get().PlayerTransform.position;
+        chaserAgent.destination = PlayerState.Get().CurrentPlayer.transform.position;
         chaserAgent.speed = chaseSpeed;
     }
 }

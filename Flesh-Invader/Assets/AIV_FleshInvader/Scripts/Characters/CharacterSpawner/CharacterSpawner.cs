@@ -75,7 +75,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         {
             Vector2 spawnOffset2D = UnityEngine.Random.insideUnitCircle * spawnRadius;
             Vector3 spawnOffset = new Vector3(spawnOffset2D.x,0,spawnOffset2D.y);
-            obj.transform.position = PlayerState.Get().PlayerTransform.position + spawnOffset;
+            obj.transform.position = PlayerState.Get().CurrentPlayer.transform.position + spawnOffset;
             obj.SetActive(true);
         }
     }
