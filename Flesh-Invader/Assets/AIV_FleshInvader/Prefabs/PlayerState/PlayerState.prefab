@@ -90,9 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level:
-    nextLevelXp: 0
-    currentLevel: 0
-  playerState: {fileID: 5968769110384907814}
+    nextLevelXp: 500
+    currentLevel: 1
 --- !u!114 &1827953672241843292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,4 +107,3 @@ MonoBehaviour:
   maxHP: 500
   constantDamage: 5
   maxTimer: 5
-  playerState: {fileID: 5968769110384907814}

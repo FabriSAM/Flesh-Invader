@@ -62,7 +62,7 @@ public abstract class EnemyChar : MonoBehaviour
         private Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
@@ -71,7 +71,7 @@ public abstract class EnemyChar : MonoBehaviour
         private Transition StopChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
@@ -90,7 +90,7 @@ public abstract class EnemyChar : MonoBehaviour
         private Transition ChaseToAttack(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToStartAttack, COMPARISON.LESSEQUAL);
 
 
@@ -101,7 +101,7 @@ public abstract class EnemyChar : MonoBehaviour
         private Transition AttackBackToChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
 
     
@@ -170,7 +170,7 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
             SetAnimatorParameterAction setAttacking = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
                 true, characterCurrentInfo.CharStats.AttackCountdown);
-            RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().PlayerTransform.gameObject);
+            RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().CurrentPlayer);
             AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
             attack.SetUpMe(new StateAction[] { chaseTargetInAttack, setAttacking, rotateToTarget, attackTarget });
@@ -257,7 +257,6 @@ public abstract class EnemyChar : MonoBehaviour
     private void CalculateDamage()
     {
         int playerLevel = PlayerState.Get().LevelController.GetXP();
-        
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
         Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
     }

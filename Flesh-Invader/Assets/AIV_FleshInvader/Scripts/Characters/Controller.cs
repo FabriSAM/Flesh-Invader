@@ -106,7 +106,7 @@ public class Controller : MonoBehaviour, IPossessable
         playerStateLevel = PlayerState.Get().LevelController;
         if (isPossessed) 
         { 
-            PlayerState.Get().PlayerTransform = transform; 
+            PlayerState.Get().CurrentPlayer = gameObject; 
         }
 
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
@@ -144,7 +144,7 @@ public class Controller : MonoBehaviour, IPossessable
     {
         gameObject.layer = LayerMask.NameToLayer("Player");
         isPossessed = true;
-        PlayerState.Get().PlayerTransform = transform;
+        PlayerState.Get().CurrentPlayer = gameObject;
         foreach (var ability in abilities)
         {
             ability.RegisterInput();

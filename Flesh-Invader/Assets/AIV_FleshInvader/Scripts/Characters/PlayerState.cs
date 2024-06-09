@@ -19,21 +19,21 @@ public class PlayerState : MonoBehaviour
     #endregion
 
     #region PrivateMembers
-    private Transform playerTransform;
+    private GameObject currentPlayer;
     #endregion
 
     #region Properties
-    public Transform PlayerTransform 
-    { 
-        get 
-        { 
-            if(playerTransform == null)
+    public GameObject CurrentPlayer
+    {
+        get
+        {
+            if (currentPlayer == null)
             {
-                return gameObject.transform; 
+                return gameObject;
             }
-            return playerTransform; 
-        } 
-        set { playerTransform = value; } 
+            return currentPlayer;
+        }
+        set { currentPlayer = value; }
     }
     public GenericController GenericController { get { return genericController; } }
     public PlayerStateMission MissionController { get { return missionController; } }
@@ -61,16 +61,16 @@ public class PlayerState : MonoBehaviour
             return;
         }
         instance = this;
-        genericController.InitMe(possessionCD);
-        missionController.InitMe();
         levelController.InitMe();
-        healthController.InitMe(this);
+        missionController.InitMe();
+        genericController.InitMe(possessionCD);
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         if (instance != this) return;
+        healthController.InitMe(this);
     }
     #endregion
 }
