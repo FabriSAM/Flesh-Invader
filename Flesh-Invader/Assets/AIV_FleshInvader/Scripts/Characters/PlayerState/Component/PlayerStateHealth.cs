@@ -10,8 +10,6 @@ public class PlayerStateHealth : MonoBehaviour
     private float constantDamage;
     [SerializeField]
     private float maxTimer;
-    [SerializeField]
-    private PlayerState playerState;
     #endregion
 
     #region Variable
@@ -20,13 +18,6 @@ public class PlayerStateHealth : MonoBehaviour
     #endregion
 
     #region Mono
-    private void Start()
-    {
-        reduceTimer = maxTimer;
-        currentHP = maxHP;
-        playerState.onLevelChange += OnLevelChange;
-        SendMessage();
-    }
 
     void Update()
     {
@@ -50,6 +41,14 @@ public class PlayerStateHealth : MonoBehaviour
     public void HeathAdd(float healthToAdd)
     {
         currentHP = Mathf.Clamp(currentHP + healthToAdd, 0, maxHP);
+        SendMessage();
+    }
+
+    public void InitMe(PlayerState playerState)
+    {
+        reduceTimer = maxTimer;
+        currentHP = maxHP;
+        playerState.LevelController.OnLevelChange += OnLevelChange;
         SendMessage();
     }
     #endregion

@@ -7,7 +7,7 @@ public class PlayerStateMission : MonoBehaviour
     private int maxObject;
     private int currentObject;
 
-    private void Start()
+    public void InitMe()
     {
         CallGlobalEvent();
     }

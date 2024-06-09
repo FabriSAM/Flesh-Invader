@@ -50,7 +50,7 @@ public class Chest : InteractableBase, ICollectable
     #region Mono
     void Awake()
     {
-        missionController = PlayerState.Get().GetComponentInChildren<PlayerStateMission>();
+        missionController = PlayerState.Get().MissionController;
         AddMission();
     }
     #endregion

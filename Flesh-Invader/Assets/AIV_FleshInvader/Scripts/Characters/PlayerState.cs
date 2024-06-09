@@ -9,6 +9,12 @@ public class PlayerState : MonoBehaviour
     [SerializeField]
     GenericController genericController;
     [SerializeField]
+    PlayerStateMission missionController;
+    [SerializeField]
+    PlayerStateLevel levelController;
+    [SerializeField]
+    PlayerStateHealth healthController;
+    [SerializeField]
     float possessionCD;
     #endregion
 
@@ -30,10 +36,9 @@ public class PlayerState : MonoBehaviour
         set { playerTransform = value; } 
     }
     public GenericController GenericController { get { return genericController; } }
-    #endregion
-
-    #region Action
-    public Action<int> onLevelChange;
+    public PlayerStateMission MissionController { get { return missionController; } }
+    public PlayerStateLevel LevelController { get { return levelController; } }
+    public PlayerStateHealth HealthController { get { return healthController; } }
     #endregion
     
     #region StaticMembers
@@ -57,6 +62,9 @@ public class PlayerState : MonoBehaviour
         }
         instance = this;
         genericController.InitMe(possessionCD);
+        missionController.InitMe();
+        levelController.InitMe();
+        healthController.InitMe(this);
         DontDestroyOnLoad(gameObject);
     }
 

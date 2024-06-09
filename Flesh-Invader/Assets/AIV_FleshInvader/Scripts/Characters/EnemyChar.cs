@@ -256,7 +256,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     private void CalculateDamage()
     {
-        int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
+        int playerLevel = PlayerState.Get().LevelController.GetXP();
         
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
         Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
