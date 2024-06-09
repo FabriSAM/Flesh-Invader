@@ -88,7 +88,6 @@ public class Movement : AbilityBase
     public override void RegisterInput()
     {
         PlayerState.Get().GenericController.Move += CharacterMovement;
-        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
     }
 
     public override void UnRegisterInput()

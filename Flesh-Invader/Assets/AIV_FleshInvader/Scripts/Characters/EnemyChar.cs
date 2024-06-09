@@ -44,7 +44,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
@@ -53,7 +53,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition StopChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
@@ -72,7 +72,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition ChaseToAttack(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToStartAttack, COMPARISON.LESSEQUAL);
 
 
@@ -83,8 +83,8 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition AttackBackToChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(
-                GetComponentInParent<Transform>(), PlayerState.Get().PlayerTransform,
+
+            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
                 characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
 
 
@@ -153,6 +153,8 @@ public abstract class EnemyChar : MonoBehaviour
             SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
                 true, characterCurrentInfo.CharStats.AttackCountdown);
             RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
+            // RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().CurrentPlayer);
+
             AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
             attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, rotateToTarget, attackTarget });
@@ -268,8 +270,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     protected void CalculateDamage()
     {
-        int playerLevel = PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().GetXP();
-        
+        int playerLevel = PlayerState.Get().LevelController.GetXP();
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
         //Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
     }

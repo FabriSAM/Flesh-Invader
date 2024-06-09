@@ -79,12 +79,12 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
             Vector3 spawnOffset = new Vector3(spawnOffset2D.x,0,spawnOffset2D.y);
 
             NavMesh.SamplePosition(
-                PlayerState.Get().PlayerTransform.position +
-                spawnOffset,
+                PlayerState.Get().CurrentPlayer.transform.position + spawnOffset
                 out navMeshSpawnHit, 2000, 1
             );
 
             obj.transform.position = navMeshSpawnHit.position;
+
             obj.SetActive(true);
         }
     }
