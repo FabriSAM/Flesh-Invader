@@ -95,6 +95,7 @@ public class Controller : MonoBehaviour, IPossessable
     public Action attack;
     public Action OnCharacterPossessed;
     public Action OnCharacterUnpossessed;
+    public Action OnCharacterDeathEnd;
     #endregion
 
 
@@ -109,6 +110,7 @@ public class Controller : MonoBehaviour, IPossessable
             PlayerState.Get().CurrentPlayer = gameObject; 
         }
 
+        OnCharacterDeathEnd += InternalOnDeathEnd;
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
         combatManager.OnHealthModuleDeath += InternalOnDeath;
 
@@ -182,8 +184,9 @@ public class Controller : MonoBehaviour, IPossessable
     private void InternalOnDeath()
     {
         playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
-        //Maybe PlayerState if dead call GlobalEventManager
-
+    }
+    private void InternalOnDeathEnd()
+    {
         gameObject.SetActive(false);
     }
     #endregion
