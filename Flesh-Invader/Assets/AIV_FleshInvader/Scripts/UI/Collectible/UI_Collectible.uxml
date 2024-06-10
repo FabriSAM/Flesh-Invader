@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/Collectible/UI_Collectible.uss?fileID=7433441132597879392&amp;guid=3ec676d96b4bf894a90ce1bc3651698f&amp;type=3#UI_Collectible" />
-    <ui:VisualElement name="root" style="flex-grow: 1; visibility: visible; display: flex; background-color: rgba(111, 111, 111, 0.39); align-items: center; justify-content: center;">
+    <ui:VisualElement name="root" style="flex-grow: 1; visibility: visible; display: none; background-color: rgba(111, 111, 111, 0.39); align-items: center; justify-content: center;">
         <ui:VisualElement name="container" class="container" style="flex-grow: 0; background-color: rgb(255, 255, 255); visibility: visible; width: 50%; height: 70%; align-items: center; justify-content: center;">
             <ui:Label tabindex="-1" text="You found" parse-escape-sequences="true" display-tooltip-when-elided="true" name="you-found" style="width: initial;" />
             <ui:Label tabindex="-1" text="INSERISCI_NOME" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title" style="-unity-font-style: bold; font-size: 20px;" />
