@@ -18,7 +18,6 @@ public class Controller : MonoBehaviour, IPossessable
     protected bool isPossessed;
     #endregion //References
 
-
     #region PrivateAttributes
     private AbilityBase[] abilities;
     private PlayerStateHealth playerStateHealth;
@@ -96,7 +95,6 @@ public class Controller : MonoBehaviour, IPossessable
     public Action OnCharacterPossessed;
     public Action OnCharacterUnpossessed;
     #endregion
-
 
     #region Mono
     private void Awake()
