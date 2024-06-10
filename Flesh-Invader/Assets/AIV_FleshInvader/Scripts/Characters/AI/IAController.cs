@@ -20,7 +20,7 @@ public class EnvTargetPoint
         IsOccupied = false;
     }
 
-    public EnvTargetPoint() : this(Vector3.zero, 0) { }
+    public EnvTargetPoint() : this(Vector3.zero, 1) { }
 
 
 }
@@ -67,7 +67,7 @@ public class IAController : MonoBehaviour
         targetsNormalizedPositions = new Vector3[targetNumber];
 
         float radDistance = (2 * (float)Math.PI) / targetNumber;
-        for (int i = 0; i < targetNumber - 1; i++)
+        for (int i = 0; i < targetNumber; i++)
         {
             targetsNormalizedPositions[i] = new Vector3(Mathf.Cos(radDistance * i), 0, Mathf.Sin(radDistance * i));
         }
@@ -83,9 +83,24 @@ public class IAController : MonoBehaviour
 
             for (int i=0; i<targetNumber; i++)
             {
-                targetPoints[i].TargetPosition = PlayerState.Get().PlayerTransform.position + targetsNormalizedPositions[i];
+                targetPoints[i].TargetPosition = PlayerState.Get().CurrentPlayer.transform.position + (targetsNormalizedPositions[i] * targetRadius);
             }
 
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        
+        for (int i = 0; i < targetNumber; i++)
+        {
+            if (targetPoints[i] != null)
+            {
+                if (targetPoints[i].IsOccupied) Gizmos.color = Color.blue;
+                else Gizmos.color = Color.green;
+
+                Gizmos.DrawWireSphere(targetPoints[i].TargetPosition, targetPoints[i].occupationRad);
+            }
         }
     }
 
@@ -136,20 +151,25 @@ public class IAController : MonoBehaviour
 
         if (filters.InCollision)
         {
-            //Physics.SphereCast(targetPoint.TargetPosition, targetPoint.occupationRad);
-            
-        }
-        if (filters.Occupation)
-        {
             foreach (EnvTargetPoint targetPoint in validTargets)
             {
                 RaycastHit hit;
                 Physics.SphereCast(targetPoint.TargetPosition, targetPoint.occupationRad, Vector3.zero, out hit, LayerMask.NameToLayer("Enemy"));
-                if(hit.collider != null)
+                if (hit.collider != null)
                 {
                     Debug.Log("Occupied target Point");
                     validTargets.Remove(targetPoint);
                 }
+            }
+
+        }
+
+        if (filters.Occupation)
+        {
+            foreach (EnvTargetPoint targetPoint in validTargets)
+            {
+                if (targetPoint.IsOccupied)
+                    validTargets.Remove(targetPoint);
             }
         }
 

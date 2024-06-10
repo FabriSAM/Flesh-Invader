@@ -20,9 +20,9 @@ public class MantainSetDistanceFromPlayerAction : StateAction
 
     public override void OnUpdate()
     {
-        if (agent.CalculatePath(PlayerState.Get().PlayerTransform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        if (agent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
         {
-            agent.destination = PlayerState.Get().PlayerTransform.position + ((agent.transform.position - PlayerState.Get().PlayerTransform.position).normalized * distanceToReach);
+            agent.destination = PlayerState.Get().CurrentPlayer.transform.position + ((agent.transform.position - PlayerState.Get().CurrentPlayer.transform.position).normalized * distanceToReach);
         }
         agent.speed = speed;
     }

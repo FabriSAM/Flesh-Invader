@@ -24,10 +24,6 @@ public class RotateToPlayerAction : StateAction
 
     public override void OnUpdate()
     {
-        //rotater.transform.rotation = Quaternion.RotateTowards(rotater.transform.rotation, Quaternion);
-        //Quaternion.Slerp(rotater.transform.rotation, new Quaternion(, Time.deltaTime))
-        //Debug.DrawLine(rotater.transform.position, rotater.transform.position + (rotater.transform.position - target.transform.position * 100), Color.green);
-        //rotater.transform.rotation = Quaternion.LookRotation(rotater.transform.position - target.transform.position);
-        rotater.transform.rotation = Quaternion.LookRotation(PlayerState.Get().PlayerTransform.position - rotater.transform.position);
+        rotater.transform.rotation = Quaternion.LookRotation(PlayerState.Get().CurrentPlayer.transform.position - rotater.transform.position);
     }
 }

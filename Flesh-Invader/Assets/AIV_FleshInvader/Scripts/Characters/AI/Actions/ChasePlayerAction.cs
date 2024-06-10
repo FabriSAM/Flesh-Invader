@@ -20,9 +20,9 @@ public class ChasePlayerAction : StateAction
 
     public override void OnUpdate()
     {
-        if (chaserAgent.CalculatePath(PlayerState.Get().PlayerTransform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        if (chaserAgent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
         {
-            chaserAgent.destination = PlayerState.Get().PlayerTransform.position + ((chaserAgent.transform.position -  PlayerState.Get().PlayerTransform.position).normalized * distanceToReach);
+            chaserAgent.destination = PlayerState.Get().CurrentPlayer.transform.position + ((chaserAgent.transform.position -  PlayerState.Get().CurrentPlayer.transform.position).normalized * distanceToReach);
         }
         chaserAgent.speed = chaseSpeed;
     }

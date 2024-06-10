@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetNumber: 5
-  targetRadius: 3
+  targetRadius: 6
   targetUpdateTime: 0.4
 --- !u!1001 &351665392
 PrefabInstance:
@@ -888,7 +888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8928342366970692453, guid: 29d05c7fd7c2eea47b0f7447c286f2b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8
+      value: 126.1
       objectReference: {fileID: 0}
     - target: {fileID: 8928342366970692453, guid: 29d05c7fd7c2eea47b0f7447c286f2b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -941,7 +941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnTime
-      value: 0.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: characterType.Array.size

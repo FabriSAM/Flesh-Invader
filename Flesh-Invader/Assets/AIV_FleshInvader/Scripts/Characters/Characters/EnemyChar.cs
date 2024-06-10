@@ -14,8 +14,12 @@ public abstract class EnemyChar : MonoBehaviour
     protected StateMachine FSM;
     protected EnemyInfo characterCurrentInfo;
 
+    private bool isDead;
+
     #region ProtectedProperties
     public EnemyInfo CharacterInfo {get { return characterCurrentInfo; }}
+
+    public bool IsDead { get => isDead; }
     #endregion
 
     #region AnimatorStrings
@@ -24,6 +28,7 @@ public abstract class EnemyChar : MonoBehaviour
     protected const string animZAxisValue = "ZAxisValue";
     protected const string animAttackString = "AttackTrigger";
     protected const string animPoseString = "CurrentWeaponType";
+    protected const string animDeathString = "Dead";
     #endregion
 
     #region States
@@ -32,7 +37,6 @@ public abstract class EnemyChar : MonoBehaviour
     protected State stutter;
     protected State attack;
     protected State dying;
-    protected State death;
 
     #endregion
 
@@ -44,7 +48,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition StartChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
+            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(), 
                 characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
@@ -53,7 +57,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition StopChase(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
+            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(), 
                 characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
             transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
             return transition;
@@ -72,7 +76,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected Transition ChaseToAttack(State prev, State next)
         {
             Transition transition = new Transition();
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
+            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
                 characterCurrentInfo.CharStatesStats.distanceToStartAttack, COMPARISON.LESSEQUAL);
 
 
@@ -84,7 +88,7 @@ public abstract class EnemyChar : MonoBehaviour
         {
             Transition transition = new Transition();
 
-            CheckDistanceCondition distanceCondition = new CheckDistanceCondition(GetComponentInParent<Transform>(), PlayerState.Get().CurrentPlayer.transform,
+            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
                 characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
 
 
@@ -92,6 +96,16 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
+        protected Transition DyingToDeath(State prev, State next)
+    {
+            Transition transition = new Transition();
+
+            DeathEndedCondition deathEnd = new DeathEndedCondition(this);
+
+
+            transition.SetUpMe(prev, next, new Condition[] { deathEnd });
+            return transition;
+        }
 
     #endregion
 
@@ -162,24 +176,22 @@ public abstract class EnemyChar : MonoBehaviour
         }
 
 
-    // TO DO
-    protected State SetUpDying()
+        protected State SetUpDying()
         {
             State dying = new State();
 
+            AnimatorParameterStats isDying = new AnimatorParameterStats(animDeathString, AnimatorParameterType.BOOL, true);
+            SetAnimatorParameterAction setDeathAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isDying, false);
+            
 
+            dying.SetUpMe(new StateAction[] {setDeathAnim });
             return dying;
         }
 
-    // TO DO
-    protected State SetUpDeath()
-    {
-        State death = new State();
-
-
-
-        return death;
-    }
+        public void OnDeathAnimationEnded()
+        {
+            controller.gameObject.SetActive(false);
+        }
 
     #endregion
 
@@ -206,20 +218,19 @@ public abstract class EnemyChar : MonoBehaviour
         patrol = SetUpPatrol();
         chase = SetUpChase();
         stutter = SetUpStutter();
-
         attack = SetUpAttack();
         dying = SetUpDying();
-        death = SetUpDeath();
 
-        patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter) });
+        patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter), });
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
         chase.SetUpMe(new Transition[] { StopChase(chase, patrol), ChaseToAttack(chase, attack) });
         attack.SetUpMe(new Transition[] { AttackBackToChase(attack, chase) });
-        //dying.SetUpMe(new Transition[] { DyingToDeath()});
 
 
-        FSM.Init(new State[] { patrol, stutter, chase, attack }, patrol);
+        FSM.Init(new State[] { patrol, stutter, chase, attack, dying }, patrol);
     }
+
+
 
     #endregion
 
@@ -235,6 +246,8 @@ public abstract class EnemyChar : MonoBehaviour
 
         // Delegate bounding
         controller.attack += CastAbility;
+        controller.CombatManager.OnHealthModuleDeath += (() => FSM.SwapState(dying));
+
     }
 
     protected void CharacterStatsConfiguration()
@@ -272,7 +285,6 @@ public abstract class EnemyChar : MonoBehaviour
     {
         int playerLevel = PlayerState.Get().LevelController.GetXP();
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
-        //Debug.Log("Level: " + characterCurrentInfo.CharStats.Damage);
     }
     #endregion
 
