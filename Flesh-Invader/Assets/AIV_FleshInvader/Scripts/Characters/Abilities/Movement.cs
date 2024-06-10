@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Movement : AbilityBase
 {
@@ -31,9 +33,10 @@ public class Movement : AbilityBase
     private void Move()
     {
         Vector2 inputDirection = InputManager.Player_Move;
-        Vector3 directionMovement=(transform.right*inputDirection.x+transform.forward*inputDirection.y).normalized;
+        Vector3 directionMovement=(Vector3.right*inputDirection.x+Vector3.forward*inputDirection.y).normalized;
         characterController.SetVelocity(directionMovement*speed);
-        InternalUpdateAnimator(inputDirection);
+        Vector3 localInputDirection = transform.InverseTransformDirection(directionMovement).normalized;
+        InternalUpdateAnimator(new Vector2(localInputDirection.x,localInputDirection.z));
     }
 
     private void Rotate()
