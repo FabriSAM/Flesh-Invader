@@ -44,7 +44,7 @@ public class AlienObject : InteractableBase, ICollectable
 
     public void Collect()
     {
-        missionController.Collected();
+        missionController.Collected(info);
         gameObject.SetActive(false);
     }
 

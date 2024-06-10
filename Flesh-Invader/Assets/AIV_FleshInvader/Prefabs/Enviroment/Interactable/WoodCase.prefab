@@ -49,6 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 7859504919402109278}
   canvas: {fileID: 4885395407788223309}
+  info:
+    Title: Generic
+    Icon: {fileID: 2800000, guid: 3ff06c3ce03133341bd425d8a189491b, type: 3}
+  dialogueID: 1
 --- !u!65 &7859504919402109278
 BoxCollider:
   m_ObjectHideFlags: 0
