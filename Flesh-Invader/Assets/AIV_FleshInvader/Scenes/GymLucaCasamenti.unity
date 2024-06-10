@@ -910,6 +910,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2993387292153053785, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
+      propertyPath: info.Icon
+      value: 
+      objectReference: {fileID: 2800000, guid: 7846432bc5bc6ae4c8f233464b422a62, type: 3}
     - target: {fileID: 5026784414776744300, guid: 2386e43ea7a6c534da4d9e0ca75e9444, type: 3}
       propertyPath: m_Size.x
       value: 10

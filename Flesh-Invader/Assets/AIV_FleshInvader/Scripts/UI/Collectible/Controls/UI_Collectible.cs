@@ -6,13 +6,11 @@ using UnityEngine.InputSystem;
 
 public class UI_Dialogue : MonoBehaviour, IDisplayer {
 
-
     [SerializeField]
     private float typeWriteSpeed;
 
-    private VisualElement dialogueElement;
     private VisualElement root;
-    private Label textBox;
+    private Label dialogue;
     private Button button;
     private Coroutine typeWriteCoroutinRunning;
     private string currentText;
@@ -22,9 +20,8 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         //hide dialog 
         root = GetComponent<UIDocument>().rootVisualElement.Q("root");
         root.style.display = DisplayStyle.None;
-        dialogueElement = root.Q("Baloon");
-        textBox = dialogueElement.Q<Label>();
-        button = dialogueElement.Q<Button>();
+        dialogue = root.Q<Label>("dialogue");
+        button = root.Q<Button>("close");
         button.clicked += CloseUI;
     }
 
@@ -42,7 +39,6 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         InputManager.EnableUIMap(true);
         InputManager.UI.DialogueSkip.performed += OnDialogueSkip;
         root.style.display = DisplayStyle.Flex;
-        //dialogueElement.visible = true;
         
     }
 
@@ -68,10 +64,10 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
 
     private IEnumerator TypeWriteEffect () {
         int i = 2;
-        textBox.text = currentText.Substring(0, i);
+        dialogue.text = currentText.Substring(0, i);
         while (i <= currentText.Length) {
             yield return new WaitForSeconds(typeWriteSpeed);
-            textBox.text = currentText.Substring(0, i);
+            dialogue.text = currentText.Substring(0, i);
             i++;
         }
         typeWriteCoroutinRunning = null;
@@ -83,10 +79,9 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         if (typeWriteCoroutinRunning != null) {
             StopCoroutine(typeWriteCoroutinRunning);
             typeWriteCoroutinRunning = null;
-            textBox.text = currentText;
+            dialogue.text = currentText;
             return;
         }
         OnEntryDisplayed?.Invoke();
     }
-
 }
