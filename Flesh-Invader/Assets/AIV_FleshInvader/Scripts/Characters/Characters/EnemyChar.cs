@@ -188,11 +188,6 @@ public abstract class EnemyChar : MonoBehaviour
             return dying;
         }
 
-        public void OnDeathAnimationEnded()
-        {
-            controller.gameObject.SetActive(false);
-        }
-
     #endregion
 
     #endregion
@@ -225,7 +220,7 @@ public abstract class EnemyChar : MonoBehaviour
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
         chase.SetUpMe(new Transition[] { StopChase(chase, patrol), ChaseToAttack(chase, attack) });
         attack.SetUpMe(new Transition[] { AttackBackToChase(attack, chase) });
-
+        dying.SetUpMe(new Transition[] { });
 
         FSM.Init(new State[] { patrol, stutter, chase, attack, dying }, patrol);
     }
