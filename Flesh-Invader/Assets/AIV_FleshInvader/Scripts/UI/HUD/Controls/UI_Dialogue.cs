@@ -11,6 +11,7 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
     private float typeWriteSpeed;
 
     private VisualElement dialogueElement;
+    private VisualElement root;
     private Label textBox;
     private Button button;
     private Coroutine typeWriteCoroutinRunning;
@@ -18,11 +19,12 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
 
     #region Mono
     private void Awake() {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        //hide dialog 
+        root = GetComponent<UIDocument>().rootVisualElement.Q("root");
+        root.style.display = DisplayStyle.None;
         dialogueElement = root.Q("Baloon");
         textBox = dialogueElement.Q<Label>();
         button = dialogueElement.Q<Button>();
-
         button.clicked += CloseUI;
     }
 
@@ -39,13 +41,17 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         InputManager.EnablePlayerMap(false);
         InputManager.EnableUIMap(true);
         InputManager.UI.DialogueSkip.performed += OnDialogueSkip;
-        dialogueElement.visible = true;
+        root.style.display = DisplayStyle.Flex;
+        //dialogueElement.visible = true;
+        
     }
 
     public void Close() {
+        //switch map
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
-        dialogueElement.visible = false;
+        //hide root
+        root.style.display = DisplayStyle.None;
     }
 
     public Action OnEntryDisplayed {
