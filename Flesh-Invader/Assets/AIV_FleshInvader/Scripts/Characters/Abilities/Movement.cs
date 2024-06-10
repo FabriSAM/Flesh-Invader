@@ -21,13 +21,11 @@ public class Movement : AbilityBase
     #region ProtectedMembers
     protected InputAction moveAction;
     protected bool wasWalking;
-    private Camera cam;
     #endregion
 
-    private void Start()
-    {
-        cam = Camera.main;   
-    }
+    #region Properties
+    Camera CameraMain { get { return Camera.main; } }
+    #endregion
 
     #region PrivateMethods
     private void Move()
@@ -40,13 +38,13 @@ public class Movement : AbilityBase
 
     private void Rotate()
     {
-        if (cam == null) return;
+        if (CameraMain == null) return;
         Vector3 mouse = InputManager.Player.MousePosition.ReadValue<Vector2>();
-        Ray castPoint = cam.ScreenPointToRay(mouse);
+        Ray castPoint = CameraMain.ScreenPointToRay(mouse);
         RaycastHit hit;
         if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawLine(cam.transform.position, hit.point, Color.red);
+            Debug.DrawLine(CameraMain.transform.position, hit.point, Color.red);
             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
             characterController.SetRotation(hitPoint, rotSpeed);
         }
@@ -94,8 +92,5 @@ public class Movement : AbilityBase
     {
         PlayerState.Get().GenericController.Move -= CharacterMovement;
     }
-    #endregion
-
-
-   
+    #endregion 
 }
