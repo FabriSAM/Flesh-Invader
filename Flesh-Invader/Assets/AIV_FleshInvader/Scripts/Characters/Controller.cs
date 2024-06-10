@@ -94,6 +94,7 @@ public class Controller : MonoBehaviour, IPossessable
     public Action attack;
     public Action OnCharacterPossessed;
     public Action OnCharacterUnpossessed;
+    public Action OnCharacterDeathEnd;
     #endregion
 
     #region Mono
@@ -107,6 +108,7 @@ public class Controller : MonoBehaviour, IPossessable
             PlayerState.Get().CurrentPlayer = gameObject; 
         }
 
+        OnCharacterDeathEnd += InternalOnDeathEnd;
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
         combatManager.OnHealthModuleDeath += InternalOnDeath;
 
@@ -118,6 +120,7 @@ public class Controller : MonoBehaviour, IPossessable
 
     void OnEnable()
     {
+        characterPhysicsCollider.enabled = true;
         if (CharacterInfo != null)
         {
             combatManager.OnControllerEnabled?.Invoke(CharacterInfo.CharStats.Health);
@@ -179,9 +182,11 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void InternalOnDeath()
     {
+        characterPhysicsCollider.enabled = false;
         playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
-        //Maybe PlayerState if dead call GlobalEventManager
-
+    }
+    private void InternalOnDeathEnd()
+    {
         gameObject.SetActive(false);
     }
     #endregion
