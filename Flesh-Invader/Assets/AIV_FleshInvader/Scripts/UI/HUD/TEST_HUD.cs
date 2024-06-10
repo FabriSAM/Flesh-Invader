@@ -107,7 +107,7 @@ public class TEST_HUD : MonoBehaviour
         mission.clickable.clicked += delegate {
             currentMissionObjects++;
             currentMissionObjects = Mathf.Clamp(currentMissionObjects, 0, totalMissionObjects);
-            GlobalEventSystem.CastEvent(EventName.MissionUpdated, EventArgsFactory.MissionUpdatedFactory(totalMissionObjects, currentMissionObjects));
+            //GlobalEventSystem.CastEvent(EventName.MissionUpdated, EventArgsFactory.MissionUpdatedFactory(totalMissionObjects, currentMissionObjects));
         };
         increaseLevel.clickable.clicked += delegate {
             currentLevel++;

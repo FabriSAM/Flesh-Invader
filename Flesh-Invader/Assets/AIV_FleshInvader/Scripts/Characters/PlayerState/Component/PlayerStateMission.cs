@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerStateMission : MonoBehaviour
 {
-    private int maxObject;
-    private int currentObject;
+
+    private Collectible collectible = new Collectible();
 
     public void InitMe()
     {
@@ -14,17 +14,18 @@ public class PlayerStateMission : MonoBehaviour
 
     public void AddMe()
     {
-        maxObject++;
+        collectible.MaxObject++;
     }
-    public void Collected()
+    public void Collected(CollectibleInfo info)
     {
-        currentObject++;
+        collectible.CurrentObject++;
+        collectible.Info = info;
         CallGlobalEvent();
     }
 
     private void CallGlobalEvent()
     {
         GlobalEventSystem.CastEvent(EventName.MissionUpdated,
-                                    EventArgsFactory.MissionUpdatedFactory(maxObject, currentObject));
+                                    EventArgsFactory.MissionUpdatedFactory(collectible));
     }
 }
