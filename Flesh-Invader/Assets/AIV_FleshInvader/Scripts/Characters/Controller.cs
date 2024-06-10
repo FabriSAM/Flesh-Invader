@@ -122,6 +122,7 @@ public class Controller : MonoBehaviour, IPossessable
 
     void OnEnable()
     {
+        characterPhysicsCollider.enabled = true;
         if (CharacterInfo != null)
         {
             combatManager.OnControllerEnabled?.Invoke(CharacterInfo.CharStats.Health);
@@ -183,6 +184,7 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void InternalOnDeath()
     {
+        characterPhysicsCollider.enabled = false;
         playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
     }
     private void InternalOnDeathEnd()
