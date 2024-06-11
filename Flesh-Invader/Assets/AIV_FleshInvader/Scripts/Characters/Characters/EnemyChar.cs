@@ -96,17 +96,6 @@ public abstract class EnemyChar : MonoBehaviour
             return transition;
         }
 
-        protected Transition DyingToDeath(State prev, State next)
-    {
-            Transition transition = new Transition();
-
-            DeathEndedCondition deathEnd = new DeathEndedCondition(this);
-
-
-            transition.SetUpMe(prev, next, new Condition[] { deathEnd });
-            return transition;
-        }
-
     #endregion
 
     #region States
@@ -182,9 +171,9 @@ public abstract class EnemyChar : MonoBehaviour
 
             AnimatorParameterStats isDying = new AnimatorParameterStats(animDeathString, AnimatorParameterType.BOOL, true);
             SetAnimatorParameterAction setDeathAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isDying, false);
-            
+            ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
 
-            dying.SetUpMe(new StateAction[] {setDeathAnim });
+            dying.SetUpMe(new StateAction[] { stopCharacter, setDeathAnim });
             return dying;
         }
 
