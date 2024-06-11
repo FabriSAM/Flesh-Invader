@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/Collectible/UI_Collectible.uss?fileID=7433441132597879392&amp;guid=3ec676d96b4bf894a90ce1bc3651698f&amp;type=3#UI_Collectible" />
+    <ui:VisualElement name="root" style="flex-grow: 1; visibility: visible; display: none; background-color: rgba(111, 111, 111, 0.39); align-items: center; justify-content: center;">
+        <ui:VisualElement name="container" class="container" style="flex-grow: 0; background-color: rgb(255, 255, 255); visibility: visible; width: 50%; height: 70%; align-items: center; justify-content: center;">
+            <ui:Label tabindex="-1" text="You found" parse-escape-sequences="true" display-tooltip-when-elided="true" name="you-found" style="width: initial;" />
+            <ui:Label tabindex="-1" text="INSERISCI_NOME" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title" style="-unity-font-style: bold; font-size: 20px;" />
+            <ui:VisualElement name="icon" style="flex-grow: 0; width: 30%; height: 30%; background-image: url(&apos;project://database/Assets/AIV_FleshInvader/Scripts/UI/UnityDefaultRuntimeTheme.tss?fileID=4584671053970592468&amp;guid=735e8cd43e1bbe74c9b122e7e59fa999&amp;type=3#console.warnicon&apos;);" />
+            <ui:Label tabindex="-1" text="1 of 5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="collectibles-found" />
+            <ui:Label tabindex="-1" text="Un dialogo talmente lungo e sudato che va su 2 righe perchè non ci sta in una sola" parse-escape-sequences="true" display-tooltip-when-elided="true" name="dialogue" style="width: 70%; height: auto; white-space: normal; -unity-text-align: upper-center;" />
+            <ui:Button text="Chiudi" parse-escape-sequences="true" display-tooltip-when-elided="true" name="close" style="color: rgb(0, 0, 0);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

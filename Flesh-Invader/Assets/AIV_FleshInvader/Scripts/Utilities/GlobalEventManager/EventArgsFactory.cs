@@ -102,18 +102,16 @@ namespace NotserializableEventManager {
         #endregion
 
         #region MissionUpdated
-        public static EventArgs MissionUpdatedFactory(int maxValue, int currentValue)
+        public static EventArgs MissionUpdatedFactory(Collectible collectible)
         {
             EventArgs message = new EventArgs();
             message.variables = new object[2];
-            message.variables[0] = maxValue;
-            message.variables[1] = currentValue;
+            message.variables[0] = collectible;
             return message;
         }
-        public static void MissionUpdatedParser(EventArgs message, out int maxValue, out int currentValue)
+        public static void MissionUpdatedParser(EventArgs message, out Collectible collectible)
         {
-            maxValue = (int)message.variables[0];
-            currentValue = (int)message.variables[1];
+            collectible = (Collectible)message.variables[0];
         }
         #endregion
 
