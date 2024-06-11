@@ -1,36 +1,48 @@
+using NotserializableEventManager;
 using System;
-using UnityEngine;
-using UnityEngine.UIElements;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
-public class UI_Dialogue : MonoBehaviour, IDisplayer {
+public class UI_Collectible : MonoBehaviour, IDisplayer {
 
     [SerializeField]
     private float typeWriteSpeed;
 
     private VisualElement root;
+    private VisualElement icon;
+    private VisualElement container;
     private Label dialogue;
+    private Label title;
+    private Label collectibleFound;
     private Button button;
     private Coroutine typeWriteCoroutinRunning;
     private string currentText;
 
     #region Mono
+
     private void Awake() {
-        //hide dialog 
         root = GetComponent<UIDocument>().rootVisualElement.Q("root");
         root.style.display = DisplayStyle.None;
         dialogue = root.Q<Label>("dialogue");
+        title = root.Q<Label>("title");
+        collectibleFound = root.Q<Label>("collectibles-found");
+        icon = root.Q<VisualElement>("icon");
+        container = root.Q<VisualElement>("container");
         button = root.Q<Button>("close");
-        button.clicked += CloseUI;
+        button.clicked += Close;
     }
 
-    private void CloseUI()
-    {
-        Close();
+    private void OnEnable() {
+        GlobalEventSystem.AddListener(EventName.MissionUpdated, OnMissionUpdated);
     }
+
+    private void OnDisable() {
+        GlobalEventSystem.RemoveListener(EventName.MissionUpdated, OnMissionUpdated);
+    }
+
     #endregion
-
 
     #region IDisplayer
 
@@ -39,7 +51,7 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         InputManager.EnableUIMap(true);
         InputManager.UI.DialogueSkip.performed += OnDialogueSkip;
         root.style.display = DisplayStyle.Flex;
-        
+        StartCoroutine(ChangeBorderColor());
     }
 
     public void Close() {
@@ -48,6 +60,7 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         InputManager.EnableUIMap(false);
         //hide root
         root.style.display = DisplayStyle.None;
+        StopCoroutine(ChangeBorderColor());
     }
 
     public Action OnEntryDisplayed {
@@ -59,9 +72,11 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         currentText = text;
         typeWriteCoroutinRunning = StartCoroutine(TypeWriteEffect());
     }
+
     #endregion
 
-
+    #region Internal
+    
     private IEnumerator TypeWriteEffect () {
         int i = 2;
         dialogue.text = currentText.Substring(0, i);
@@ -73,7 +88,17 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         typeWriteCoroutinRunning = null;
     }
 
-
+    private IEnumerator ChangeBorderColor() {
+        bool green = true;
+        while (true) {
+            yield return new WaitForSecondsRealtime(0.35f);
+            green = !green;
+            container.style.borderTopColor = green ? Color.green : Color.red;
+            container.style.borderRightColor = green ? Color.green : Color.red;
+            container.style.borderBottomColor = green ? Color.green : Color.red;
+            container.style.borderLeftColor = green ? Color.green : Color.red;
+        }
+    }
 
     private void OnDialogueSkip(InputAction.CallbackContext obj) {
         if (typeWriteCoroutinRunning != null) {
@@ -84,4 +109,13 @@ public class UI_Dialogue : MonoBehaviour, IDisplayer {
         }
         OnEntryDisplayed?.Invoke();
     }
+
+    private void OnMissionUpdated(EventArgs message) {
+        EventArgsFactory.MissionUpdatedParser(message, out Collectible collectible);
+        collectibleFound.text = $"{collectible.CurrentObject.ToString()} of {collectible.MaxObject.ToString()}";
+        title.text = collectible.Info.Title;
+        icon.style.backgroundImage = collectible.Info.Icon;
+    }
+
+    #endregion
 }

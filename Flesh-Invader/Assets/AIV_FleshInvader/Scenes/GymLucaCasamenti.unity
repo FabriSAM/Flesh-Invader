@@ -855,7 +855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6492350819497919430, guid: 20e0d98333f392741bb60f08040a2763, type: 3}
       propertyPath: m_Name
-      value: UIEvent
+      value: UICollectible
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

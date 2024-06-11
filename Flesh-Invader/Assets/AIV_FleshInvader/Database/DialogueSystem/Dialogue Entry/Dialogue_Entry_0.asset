@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue_ID: 0
   entry_ID: 0
-  dialogue_Text: Dialogo di Test
-  nextEntry_ID: 1
+  dialogue_Text: So lucky! There are still more pieces missing but maybe I have a
+    chance to go home...
+  nextEntry_ID: -1
