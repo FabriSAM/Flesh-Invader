@@ -35,13 +35,24 @@ public class PlayerStateHealth : MonoBehaviour
     public void HealthReduce(float damage)
     {
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-        SendMessage();
+        SendMessageHealthUpdate();
+
+        if (currentHP <= 0)
+        {
+            PlayerDeath();
+        }
     }
 
-    public void HeathAdd(float healthToAdd)
+    public void HealthAdd(float healthToAdd)
     {
         currentHP = Mathf.Clamp(currentHP + healthToAdd, 0, maxHP);
-        SendMessage();
+        SendMessageHealthUpdate();
+    }
+
+    public void PlayerDeath()
+    {
+        //PlayerState.Get().CurrentPlayer.
+        SendMessagePlayerDeath();
     }
 
     public void InitMe(PlayerState playerState)
@@ -49,7 +60,7 @@ public class PlayerStateHealth : MonoBehaviour
         reduceTimer = maxTimer;
         currentHP = maxHP;
         playerState.LevelController.OnLevelChange += OnLevelChange;
-        SendMessage();
+        SendMessageHealthUpdate();
     }
     #endregion
 
@@ -63,10 +74,16 @@ public class PlayerStateHealth : MonoBehaviour
         constantDamage = Mathf.Clamp(constantDamage - value, 1, constantDamage);
     }
 
-    private void SendMessage()
+    private void SendMessageHealthUpdate()
     {
         GlobalEventSystem.CastEvent(EventName.PlayerHealthUpdated,
             EventArgsFactory.PlayerHealthUpdatedFactory(maxHP, currentHP));
+    }
+
+    private void SendMessagePlayerDeath()
+    {
+        GlobalEventSystem.CastEvent(EventName.PlayerDeath,
+            EventArgsFactory.PlayerDeathFactory(Time.time, PlayerState.Get().MissionController.Collectible.CurrentObject));
     }
     #endregion
 }
