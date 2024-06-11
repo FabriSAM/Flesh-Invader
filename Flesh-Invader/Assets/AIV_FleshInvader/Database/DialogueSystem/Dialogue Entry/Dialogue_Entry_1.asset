@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue_ID: 1
   entry_ID: 0
-  dialogue_Text: You have found the fuel for your spaceship
+  dialogue_Text: This tool will definitely be very useful to me!
   nextEntry_ID: -1
