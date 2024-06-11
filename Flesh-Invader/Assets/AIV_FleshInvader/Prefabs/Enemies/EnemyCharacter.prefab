@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  rotSpeed: 10
+  rotSpeed: 20
 --- !u!1 &5969044628747378732
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,10 +339,8 @@ MonoBehaviour:
   characterTransform: {fileID: 3432567666345543189}
   characterRigidbody: {fileID: 5236952519292093473}
   characterPhysicsCollider: {fileID: 2012412360515081777}
-  meleeColliders:
-  - {fileID: 0}
-  healthModule: {fileID: 0}
   visual: {fileID: 0}
+  combatManager: {fileID: 0}
   isPossessed: 0
 --- !u!1 &6077363109520364827
 GameObject:
