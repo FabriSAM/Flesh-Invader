@@ -45,7 +45,7 @@ public class Movement : AbilityBase
         Vector3 mouse = InputManager.Player.MousePosition.ReadValue<Vector2>();
         Ray castPoint = CameraMain.ScreenPointToRay(mouse);
         RaycastHit hit;
-        if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")|LayerMask.GetMask("Enemy")))
         {
             Debug.DrawLine(CameraMain.transform.position, hit.point, Color.red);
             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
