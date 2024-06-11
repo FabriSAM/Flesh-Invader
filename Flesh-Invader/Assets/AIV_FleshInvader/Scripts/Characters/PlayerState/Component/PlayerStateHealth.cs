@@ -15,10 +15,16 @@ public class PlayerStateHealth : MonoBehaviour
     #region Variable
     private float reduceTimer;
     private float currentHP;
+    private bool deadStatus;
+
+    public bool DeadStatus {  get { return deadStatus; } }
     #endregion
 
     #region Mono
-
+    private void Awake()
+    {
+        deadStatus = false;
+    }
     void Update()
     {
         reduceTimer -= Time.deltaTime;
@@ -34,6 +40,7 @@ public class PlayerStateHealth : MonoBehaviour
     #region PublicMehtods
     public void HealthReduce(float damage)
     {
+        if (deadStatus) { return; }
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
         SendMessageHealthUpdate();
 
@@ -51,7 +58,7 @@ public class PlayerStateHealth : MonoBehaviour
 
     public void PlayerDeath()
     {
-        //PlayerState.Get().CurrentPlayer.
+        deadStatus = true;
         SendMessagePlayerDeath();
     }
 
