@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.InputSystem.HID;
 
 [Serializable]
 public struct EnemyPoolProbabilityDict
@@ -22,7 +24,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
     protected float spawnTimeCounter;
 
     [SerializeField] private EnemyPoolProbabilityDict spawnProbability;
-
+    private NavMeshHit navMeshSpawnHit;
 
 
     public PoolData[] Datas
@@ -75,7 +77,14 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         {
             Vector2 spawnOffset2D = UnityEngine.Random.insideUnitCircle * spawnRadius;
             Vector3 spawnOffset = new Vector3(spawnOffset2D.x,0,spawnOffset2D.y);
-            obj.transform.position = PlayerState.Get().CurrentPlayer.transform.position + spawnOffset;
+
+            NavMesh.SamplePosition(
+                PlayerState.Get().CurrentPlayer.transform.position + spawnOffset,
+                out navMeshSpawnHit, 2000, 1
+            ) ;
+
+            obj.transform.position = navMeshSpawnHit.position;
+
             obj.SetActive(true);
         }
     }

@@ -10,6 +10,8 @@ public struct EnemyStateStats
     [Header("StateParameters")]
     [SerializeField] public float distanceToFollowPlayer;
     [SerializeField] public float distanceToStopFollowPlayer;
+    [SerializeField] public float distanceToStartCombat;
+    [SerializeField] public float distanceToStopCombat;
     [SerializeField] public float distanceToStartAttack;
     [SerializeField] public float distanceToStopAttack;
 
@@ -25,4 +27,5 @@ public struct EnemyStateStats
     [Header("Stutter")]
     [SerializeField] public float stutterTime;
     [SerializeField] public Material testStutterMaterial;
+
 }
