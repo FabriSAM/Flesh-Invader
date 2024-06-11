@@ -1,8 +1,13 @@
+using NotserializableEventManager;
 using System;
 using UnityEngine;
 
 public class Controller : MonoBehaviour, IPossessable
 {
+    #region Const
+    private const string AnimatorDeadParameter = "Dead";
+    #endregion
+
     #region References
     [SerializeField]
     protected Transform characterTransform;
@@ -146,6 +151,7 @@ public class Controller : MonoBehaviour, IPossessable
         gameObject.layer = LayerMask.NameToLayer("Player");
         isPossessed = true;
         PlayerState.Get().CurrentPlayer = gameObject;
+        GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDeath);
         foreach (var ability in abilities)
         {
             ability.RegisterInput();
@@ -159,6 +165,7 @@ public class Controller : MonoBehaviour, IPossessable
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
         foreach (var ability in abilities)
         {
             ability.UnRegisterInput();
@@ -172,7 +179,8 @@ public class Controller : MonoBehaviour, IPossessable
     {
         if (IsPossessed)
         {
-            if (playerStateHealth == null) return;
+            if (playerStateHealth == null) { return; }
+            if (playerStateHealth.DeadStatus) { return; }
             playerStateHealth.HealthReduce(damage.Damage); 
         }
         else
@@ -188,6 +196,15 @@ public class Controller : MonoBehaviour, IPossessable
     private void InternalOnDeathEnd()
     {
         gameObject.SetActive(false);
+    }
+    private void OnPlayerStateDeath(EventArgs _)
+    {
+        foreach (var ability in abilities)
+        {
+            ability.UnRegisterInput();
+        }
+        characterPhysicsCollider.enabled = false;
+        visual.SetAnimatorParameter(AnimatorDeadParameter, true);
     }
     #endregion
 

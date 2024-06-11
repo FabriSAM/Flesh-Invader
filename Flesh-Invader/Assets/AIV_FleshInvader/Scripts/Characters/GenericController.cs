@@ -35,7 +35,7 @@ public class GenericController : MonoBehaviour
     }
     private void PossessionPerformed(InputAction.CallbackContext context)
     {
-        if (canUsePossession)
+        if (canUsePossession && !PlayerState.Get().HealthController.DeadStatus)
         {
             possesCoroutine = StartCoroutine(PossesCoroutine());
             Posses?.Invoke();

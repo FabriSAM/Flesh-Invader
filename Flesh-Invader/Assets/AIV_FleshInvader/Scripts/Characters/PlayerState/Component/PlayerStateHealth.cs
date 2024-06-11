@@ -15,10 +15,16 @@ public class PlayerStateHealth : MonoBehaviour
     #region Variable
     private float reduceTimer;
     private float currentHP;
+    private bool deadStatus;
+
+    public bool DeadStatus {  get { return deadStatus; } }
     #endregion
 
     #region Mono
-
+    private void Awake()
+    {
+        deadStatus = false;
+    }
     void Update()
     {
         reduceTimer -= Time.deltaTime;
@@ -34,14 +40,26 @@ public class PlayerStateHealth : MonoBehaviour
     #region PublicMehtods
     public void HealthReduce(float damage)
     {
+        if (deadStatus) { return; }
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-        SendMessage();
+        SendMessageHealthUpdate();
+
+        if (currentHP <= 0)
+        {
+            PlayerDeath();
+        }
     }
 
-    public void HeathAdd(float healthToAdd)
+    public void HealthAdd(float healthToAdd)
     {
         currentHP = Mathf.Clamp(currentHP + healthToAdd, 0, maxHP);
-        SendMessage();
+        SendMessageHealthUpdate();
+    }
+
+    public void PlayerDeath()
+    {
+        deadStatus = true;
+        SendMessagePlayerDeath();
     }
 
     public void InitMe(PlayerState playerState)
@@ -49,7 +67,7 @@ public class PlayerStateHealth : MonoBehaviour
         reduceTimer = maxTimer;
         currentHP = maxHP;
         playerState.LevelController.OnLevelChange += OnLevelChange;
-        SendMessage();
+        SendMessageHealthUpdate();
     }
     #endregion
 
@@ -63,10 +81,16 @@ public class PlayerStateHealth : MonoBehaviour
         constantDamage = Mathf.Clamp(constantDamage - value, 1, constantDamage);
     }
 
-    private void SendMessage()
+    private void SendMessageHealthUpdate()
     {
         GlobalEventSystem.CastEvent(EventName.PlayerHealthUpdated,
             EventArgsFactory.PlayerHealthUpdatedFactory(maxHP, currentHP));
+    }
+
+    private void SendMessagePlayerDeath()
+    {
+        GlobalEventSystem.CastEvent(EventName.PlayerDeath,
+            EventArgsFactory.PlayerDeathFactory(Time.time, PlayerState.Get().MissionController.Collectible.CurrentObject));
     }
     #endregion
 }

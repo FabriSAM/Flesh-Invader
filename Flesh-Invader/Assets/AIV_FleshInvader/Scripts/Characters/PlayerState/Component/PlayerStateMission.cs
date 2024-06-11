@@ -7,6 +7,8 @@ public class PlayerStateMission : MonoBehaviour
 
     private Collectible collectible = new Collectible();
 
+    public Collectible Collectible {  get { return collectible; } } 
+
     public void InitMe()
     {
         CallGlobalEvent();
@@ -26,6 +28,6 @@ public class PlayerStateMission : MonoBehaviour
     private void CallGlobalEvent()
     {
         GlobalEventSystem.CastEvent(EventName.MissionUpdated,
-                                    EventArgsFactory.MissionUpdatedFactory(collectible));
+            EventArgsFactory.MissionUpdatedFactory(collectible));
     }
 }
