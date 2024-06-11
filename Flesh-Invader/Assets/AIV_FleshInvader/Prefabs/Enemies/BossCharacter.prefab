@@ -332,6 +332,7 @@ GameObject:
   - component: {fileID: 4301645816726771227}
   - component: {fileID: 8381141818442175194}
   - component: {fileID: 1929918194066226273}
+  - component: {fileID: 3307555125700478708}
   - component: {fileID: 9143152901889861711}
   m_Layer: 7
   m_Name: BossCharacter
@@ -394,16 +395,16 @@ NavMeshAgent:
   m_GameObject: {fileID: 5380751241265888436}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.5
+  m_Radius: 1.2
   m_Speed: 10
   m_Acceleration: 60
   avoidancePriority: 50
   m_AngularSpeed: 180
-  m_StoppingDistance: 3
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 3
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -422,10 +423,23 @@ MonoBehaviour:
   characterTransform: {fileID: 2505655492566831891}
   characterRigidbody: {fileID: 4301645816726771227}
   characterPhysicsCollider: {fileID: 9143152901889861711}
+  visual: {fileID: 1020975654700025000}
+  combatManager: {fileID: 3307555125700478708}
+  isPossessed: 0
+--- !u!114 &3307555125700478708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5380751241265888436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1769e9d74b33f4c812838327841cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   meleeColliders: []
   healthModule: {fileID: 8509879122205763137}
-  visual: {fileID: 1020975654700025000}
-  isPossessed: 0
 --- !u!136 &9143152901889861711
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -494,7 +508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  rotSpeed: 10
+  rotSpeed: 20
 --- !u!1001 &7860147314871653237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -581,6 +595,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100066, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6404142969312016437}
+    - targetCorrespondingSourceObject: {fileID: 100066, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 862373611534636124}
   m_SourcePrefab: {fileID: 100100000, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
 --- !u!1 &7860147314871752087 stripped
 GameObject:
@@ -614,6 +631,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
+--- !u!114 &862373611534636124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7860147314871752087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96610d13465fc7247ab148e52a1157ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1929918194066226273}
 --- !u!4 &7860147314871781815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400066, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}

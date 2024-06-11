@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1819703081936072330}
   - component: {fileID: 7324916154525399929}
   m_Layer: 0
-  m_Name: UIEvent
+  m_Name: UICollectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

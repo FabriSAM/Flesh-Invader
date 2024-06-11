@@ -12,11 +12,14 @@ public class FixedCamera : MonoBehaviour
     private Vector3 offset;
     private Vector3 newPos;
     private Vector3 currentPos;
+    private Coroutine cameraShakeCoroutine;
     #endregion
     // Start is called before the first frame update
     void Start()
     {
-        offset = gameObject.transform.position - PlayerState.Get().PlayerTransform.position;
+        offset = gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position;
+        newPos = gameObject.transform.position;
+        currentPos = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -30,8 +33,24 @@ public class FixedCamera : MonoBehaviour
     }
     private void CameraMovement()
     {
-        newPos = PlayerState.Get().PlayerTransform.position + offset;
+        newPos = PlayerState.Get().CurrentPlayer.transform.position + offset;
         currentPos = gameObject.transform.position;
         LerpCameraMovement();
+    }
+    public void CameraShake(float amplitude, float duration)
+    {
+        cameraShakeCoroutine = StartCoroutine(CameraShakeCoroutine(amplitude,duration));
+    }
+
+    IEnumerator CameraShakeCoroutine(float amplitude, float duration)
+    {
+        float currentTime = 0;
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            gameObject.transform.position+=Random.insideUnitSphere*amplitude*Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        yield return null;
     }
 }

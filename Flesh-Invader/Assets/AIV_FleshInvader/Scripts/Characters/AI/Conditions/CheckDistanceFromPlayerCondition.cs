@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckDistanceCondition : Condition
+public class CheckDistanceFromPlayerCondition : Condition
 {
     private Transform from;
     private Transform to;
     private float distanceToCheck;
     private COMPARISON comparison;
 
-    public CheckDistanceCondition(Transform from, Transform to,
+    public CheckDistanceFromPlayerCondition(Transform from,
         float distanceToCheck, COMPARISON comparison)
     {
         this.from = from;
-        this.to = to;
         this.distanceToCheck = distanceToCheck * distanceToCheck;
         this.comparison = comparison;
     }
 
     public override bool Validate()
     {
+        to = PlayerState.Get().CurrentPlayer.transform;
         return InternalDistanceCompare();
     }
 

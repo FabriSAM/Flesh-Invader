@@ -21,7 +21,6 @@ public class AttackRanged : AbilityBase, IPoolRequester
     public override void RegisterInput()
     {
         PlayerState.Get().GenericController.Attack += Attack;
-        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
     }
 
     public override void StopAbility()

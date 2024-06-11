@@ -14,8 +14,13 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private IPossessable owner;
 
     private void OnEnable()
-    {        
+    {   
+        GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDead);
         lifeCoroutine = StartCoroutine(LifeCoroutine());
+    }
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDead);
     }
     public void Shoot(Transform spawnTransform, float speed, IPossessable owner)
     {
@@ -34,6 +39,11 @@ public class PossessionBullet : MonoBehaviour, IBullet
             owner.UnPossess();
             possessableChar.Possess();
         }
+        Destroy();
+    }
+
+    private void OnPlayerStateDead(EventArgs _) 
+    {
         Destroy();
     }
 

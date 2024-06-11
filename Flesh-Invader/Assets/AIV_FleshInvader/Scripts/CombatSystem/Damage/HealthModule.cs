@@ -44,7 +44,7 @@ public class HealthModule : MonoBehaviour
     public void SetHP(float maxHP)
     {
         this.maxHP = maxHP;
-        currentHP = maxHP;
+        Reset();
     }
 
     public void SetInvulnerable(bool value)

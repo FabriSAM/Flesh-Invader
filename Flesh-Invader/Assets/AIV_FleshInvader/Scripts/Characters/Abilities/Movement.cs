@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Movement : AbilityBase
 {
@@ -21,32 +23,31 @@ public class Movement : AbilityBase
     #region ProtectedMembers
     protected InputAction moveAction;
     protected bool wasWalking;
-    private Camera cam;
     #endregion
 
-    private void Start()
-    {
-        cam = Camera.main;   
-    }
+    #region Properties
+    Camera CameraMain { get { return Camera.main; } }
+    #endregion
 
     #region PrivateMethods
     private void Move()
     {
         Vector2 inputDirection = InputManager.Player_Move;
-        Vector3 directionMovement=(transform.right*inputDirection.x+transform.forward*inputDirection.y).normalized;
+        Vector3 directionMovement=(Vector3.right*inputDirection.x+Vector3.forward*inputDirection.y).normalized;
         characterController.SetVelocity(directionMovement*speed);
-        InternalUpdateAnimator(inputDirection);
+        Vector3 localInputDirection = transform.InverseTransformDirection(directionMovement).normalized;
+        InternalUpdateAnimator(new Vector2(localInputDirection.x,localInputDirection.z));
     }
 
     private void Rotate()
     {
-        if (cam == null) return;
+        if (CameraMain == null) return;
         Vector3 mouse = InputManager.Player.MousePosition.ReadValue<Vector2>();
-        Ray castPoint = cam.ScreenPointToRay(mouse);
+        Ray castPoint = CameraMain.ScreenPointToRay(mouse);
         RaycastHit hit;
-        if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if(Physics.Raycast(castPoint, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")|LayerMask.GetMask("Enemy")))
         {
-            Debug.DrawLine(cam.transform.position, hit.point, Color.red);
+            Debug.DrawLine(CameraMain.transform.position, hit.point, Color.red);
             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
             characterController.SetRotation(hitPoint, rotSpeed);
         }
@@ -88,15 +89,11 @@ public class Movement : AbilityBase
     public override void RegisterInput()
     {
         PlayerState.Get().GenericController.Move += CharacterMovement;
-        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
     }
 
     public override void UnRegisterInput()
     {
         PlayerState.Get().GenericController.Move -= CharacterMovement;
     }
-    #endregion
-
-
-   
+    #endregion 
 }
