@@ -153,6 +153,24 @@ namespace NotserializableEventManager {
             duration = (float)message.variables[1];
         }
         #endregion
+
+        #region CameraFOVChange
+        public static EventArgs CameraFOVChangeFactory(float duration, float newFOV)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[2];
+            message.variables[0] = duration;
+            message.variables[1] = newFOV;
+
+            return message;
+        }
+
+        public static void CameraFOVParser(EventArgs message, out float duration, out float newFOV)
+        {
+            duration = (float)message.variables[0];
+            newFOV = (float)message.variables[1];
+        }
+        #endregion
     }
 
 }
