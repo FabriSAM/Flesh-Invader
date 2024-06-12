@@ -11,6 +11,8 @@ using UnityEngine;
         PossessionExecuted,
         MissionUpdated,
         PossessionAbilityState,
+        CameraShake,
+        CameraFOVChange
     }
 
     public class EventArgs {

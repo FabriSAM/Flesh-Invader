@@ -135,6 +135,24 @@ namespace NotserializableEventManager {
             state = (bool)message.variables[0];
         }
         #endregion
+
+        #region CameraShake
+        public static EventArgs CameraShakeFactory(float amplitude, float duration)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[2];
+            message.variables[0] = amplitude;
+            message.variables[1] = duration;
+
+            return message;
+        }
+
+        public static void CameraShakeParser(EventArgs message, out float amplitude, out float duration)
+        {
+            amplitude = (float)message.variables[0];
+            duration = (float)message.variables[1];
+        }
+        #endregion
     }
 
 }
