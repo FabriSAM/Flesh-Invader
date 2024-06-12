@@ -4994,6 +4994,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 912415793}
     m_Modifications:
+    - target: {fileID: 106332, guid: 872bdc123c2e4d843bfc070c0f5b2f1d, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 134498, guid: 872bdc123c2e4d843bfc070c0f5b2f1d, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 405250, guid: 872bdc123c2e4d843bfc070c0f5b2f1d, type: 3}
       propertyPath: m_RootOrder
       value: 56
@@ -29587,6 +29595,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7329042127462346779, guid: 45c2d5eba31524a46a85a95aec8671cb, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 7414945148087197966, guid: 45c2d5eba31524a46a85a95aec8671cb, type: 3}
       propertyPath: isPossessed
       value: 1
@@ -41184,6 +41196,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 109264, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 464564, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
       propertyPath: m_RootOrder
       value: 86
@@ -44359,6 +44375,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147008, guid: 41ea8d93a3f407541b6480db58c18aa9, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 147008, guid: 41ea8d93a3f407541b6480db58c18aa9, type: 3}
       propertyPath: m_IsActive
       value: 1
