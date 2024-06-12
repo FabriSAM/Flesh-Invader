@@ -361,6 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStartingInfo: {fileID: 11400000, guid: 410fa8618462f06478ca532db7663627, type: 2}
+  unpossesableMaterial: {fileID: 2100000, guid: b27f9c7b203f0dc498e34190fe85df26, type: 2}
 --- !u!114 &8350794714460825368
 MonoBehaviour:
   m_ObjectHideFlags: 0

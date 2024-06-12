@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStartingInfo: {fileID: 11400000, guid: 607a2515958162645bdd3a260e3ac209, type: 2}
+  unpossesableMaterial: {fileID: 2100000, guid: b27f9c7b203f0dc498e34190fe85df26, type: 2}
   XPMultiplier: 1.2
   aimTransform: {fileID: 169893633231002388}
 --- !u!114 &5503255857621186404
@@ -527,7 +528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400066, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.48
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 400066, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -561,6 +562,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 438556, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.54
+      objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
       propertyPath: m_Controller
       value: 
@@ -569,6 +574,18 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 13771506, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 13771506, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d4301a18c91707442bfe07ea504a7c4d, type: 2}
+    - target: {fileID: 13771506, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b27f9c7b203f0dc498e34190fe85df26, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 167824, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}

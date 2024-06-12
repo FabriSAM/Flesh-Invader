@@ -1,5 +1,7 @@
 using NotserializableEventManager;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,8 +15,9 @@ public abstract class EnemyChar : MonoBehaviour
     [SerializeField] protected EnemyStatisticsTemplate characterStartingInfo;
     protected StateMachine FSM;
     protected EnemyInfo characterCurrentInfo;
-
     private bool isDead;
+
+    [SerializeField] protected Material unpossesableMaterial;
 
     #region ProtectedProperties
     public EnemyInfo CharacterInfo {get { return characterCurrentInfo; }}
@@ -32,6 +35,8 @@ public abstract class EnemyChar : MonoBehaviour
     #endregion
 
     #region States
+    protected State moving;
+
     protected State patrol;
     protected State chase;
     protected State stutter;
@@ -111,11 +116,7 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
-            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
-            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
-            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX,  0.25f,true);
-            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z,  moveAxisZ, 0.25f,true);
-            patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning, animSpeedX, animSpeedZ });
+            patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning });
 
             return patrol;
         }
@@ -126,12 +127,8 @@ public abstract class EnemyChar : MonoBehaviour
 
             ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
-            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
-            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
-            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, 0.25f, true);
-            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, 0.25f, true);
-            chase.SetUpMe(new StateAction[] { chaseTarget, setRunning, animSpeedX, animSpeedZ });
+            chase.SetUpMe(new StateAction[] { chaseTarget, setRunning });
             return chase;
         }
 
@@ -156,14 +153,13 @@ public abstract class EnemyChar : MonoBehaviour
             SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
                 true, characterCurrentInfo.CharStats.AttackCountdown);
             RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
-            // RotateToTargetAction rotateToTarget = new RotateToTargetAction(GetComponentInParent<Transform>().gameObject, PlayerState.Get().CurrentPlayer);
-
             AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
 
-            attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, rotateToTarget, attackTarget });
+
+
+            attack.SetUpMe(new StateAction[] {MantainSetDistance, setAttackingAnim, rotateToTarget, attackTarget });
             return attack;
         }
-
 
         protected State SetUpDying()
         {
@@ -175,6 +171,18 @@ public abstract class EnemyChar : MonoBehaviour
 
             dying.SetUpMe(new StateAction[] { stopCharacter, setDeathAnim });
             return dying;
+        }
+
+        private State SetUpBackgroundMoving()
+        {
+            State backgroundMoving = new State();
+            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
+            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
+            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, 0.25f, true);
+            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, 0.25f, true);
+            
+            backgroundMoving.SetUpMe(new StateAction[] { animSpeedX, animSpeedZ });
+            return backgroundMoving;
         }
 
     #endregion
@@ -199,21 +207,23 @@ public abstract class EnemyChar : MonoBehaviour
 
     protected virtual void InitFSM()
     {
+        moving = SetUpBackgroundMoving();
+
         patrol = SetUpPatrol();
         chase = SetUpChase();
         stutter = SetUpStutter();
         attack = SetUpAttack();
         dying = SetUpDying();
 
+        moving.SetUpMe(new Transition[] { });
         patrol.SetUpMe(new Transition[] { StartChase(patrol, stutter), });
         stutter.SetUpMe(new Transition[] { StopStutter(stutter, chase) });
         chase.SetUpMe(new Transition[] { StopChase(chase, patrol), ChaseToAttack(chase, attack) });
         attack.SetUpMe(new Transition[] { AttackBackToChase(attack, chase) });
         dying.SetUpMe(new Transition[] { });
 
-        FSM.Init(new State[] { patrol, stutter, chase, attack, dying }, patrol);
+        FSM.Init(new State[] { patrol, stutter, chase, attack, dying }, patrol, moving);
     }
-
 
 
     #endregion
@@ -255,13 +265,27 @@ public abstract class EnemyChar : MonoBehaviour
             Debug.Log("Spawn unposessable enemyChar");
 
             // Unpossessable Enemy differences with normal enemy
-            transform.parent.localScale *= 3;
-            characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius *= 3;
+            SkinnedMeshRenderer mesh = controller.Visual.GetComponentInChildren<SkinnedMeshRenderer>();
+            List<Material> unpossessableMaterials = mesh.materials.ToList();
+            unpossessableMaterials.Add(unpossesableMaterial);
+            mesh.SetMaterials(unpossessableMaterials);
+
+
+            //transform.parent.localScale *= 3;
+            //characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius *= 3;
         }
         else
         {
-            transform.parent.localScale = Vector3.one;
-            characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius = characterStartingInfo.CharInfo.CharStatesStats.patrolPointsGenerationRadius;
+
+            SkinnedMeshRenderer mesh = controller.Visual.GetComponentInChildren<SkinnedMeshRenderer>();
+            List<Material> unpossessableMaterials = mesh.materials.ToList();
+            if (unpossessableMaterials.Contains(unpossesableMaterial))
+            {
+                unpossessableMaterials.Remove(unpossesableMaterial);
+                mesh.SetMaterials(unpossessableMaterials);
+            }
+            //transform.parent.localScale = Vector3.one;
+            //characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius = characterStartingInfo.CharInfo.CharStatesStats.patrolPointsGenerationRadius;
         }
     }
 
