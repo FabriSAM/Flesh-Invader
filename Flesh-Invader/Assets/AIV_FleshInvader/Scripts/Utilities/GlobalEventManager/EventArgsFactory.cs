@@ -137,38 +137,42 @@ namespace NotserializableEventManager {
         #endregion
 
         #region CameraShake
-        public static EventArgs CameraShakeFactory(float amplitude, float duration)
+        public static EventArgs CameraShakeFactory(float amplitude, float duration, bool overrideCoroutine)
         {
             EventArgs message = new EventArgs();
-            message.variables = new object[2];
+            message.variables = new object[3];
             message.variables[0] = amplitude;
             message.variables[1] = duration;
+            message.variables[2] = overrideCoroutine;
 
             return message;
         }
 
-        public static void CameraShakeParser(EventArgs message, out float amplitude, out float duration)
+        public static void CameraShakeParser(EventArgs message, out float amplitude, out float duration, out bool overrideCoroutine)
         {
             amplitude = (float)message.variables[0];
             duration = (float)message.variables[1];
+            overrideCoroutine = (bool)message.variables[2];
         }
         #endregion
 
         #region CameraFOVChange
-        public static EventArgs CameraFOVChangeFactory(float duration, float newFOV)
+        public static EventArgs CameraFOVChangeFactory(float duration, float newFOV, bool overrideCoroutine)
         {
             EventArgs message = new EventArgs();
-            message.variables = new object[2];
+            message.variables = new object[3];
             message.variables[0] = duration;
             message.variables[1] = newFOV;
+            message.variables[2] = overrideCoroutine;
 
             return message;
         }
 
-        public static void CameraFOVParser(EventArgs message, out float duration, out float newFOV)
+        public static void CameraFOVParser(EventArgs message, out float duration, out float newFOV, out bool overrideCoroutine)
         {
             duration = (float)message.variables[0];
             newFOV = (float)message.variables[1];
+            overrideCoroutine= (bool)message.variables[2];
         }
         #endregion
     }
