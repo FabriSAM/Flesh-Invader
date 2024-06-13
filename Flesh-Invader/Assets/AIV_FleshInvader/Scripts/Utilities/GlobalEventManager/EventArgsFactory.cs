@@ -157,20 +157,20 @@ namespace NotserializableEventManager {
         #endregion
 
         #region CameraFOVChange
-        public static EventArgs CameraFOVChangeFactory(float duration, float newFOV, bool overrideCoroutine)
+        public static EventArgs CameraFOVChangeFactory(float speed, float newFOV, bool overrideCoroutine)
         {
             EventArgs message = new EventArgs();
             message.variables = new object[3];
-            message.variables[0] = duration;
+            message.variables[0] = speed;
             message.variables[1] = newFOV;
             message.variables[2] = overrideCoroutine;
 
             return message;
         }
 
-        public static void CameraFOVParser(EventArgs message, out float duration, out float newFOV, out bool overrideCoroutine)
+        public static void CameraFOVParser(EventArgs message, out float speed, out float newFOV, out bool overrideCoroutine)
         {
-            duration = (float)message.variables[0];
+            speed = (float)message.variables[0];
             newFOV = (float)message.variables[1];
             overrideCoroutine= (bool)message.variables[2];
         }
