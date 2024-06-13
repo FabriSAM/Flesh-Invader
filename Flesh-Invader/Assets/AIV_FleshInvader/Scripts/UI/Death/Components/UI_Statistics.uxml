@@ -10,11 +10,11 @@
                 <ui:Label tabindex="-1" text="0 of 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="mission-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
             </ui:VisualElement>
             <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
-                <ui:Label tabindex="-1" text="Possession success:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-success-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="Possessions success:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-success-label" style="-unity-text-align: middle-left; width: 70%;" />
                 <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-success-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
             </ui:VisualElement>
             <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
-                <ui:Label tabindex="-1" text="Possession failed:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-failed-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="Possessions failed:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-failed-label" style="-unity-text-align: middle-left; width: 70%;" />
                 <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-failed-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
             </ui:VisualElement>
             <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
