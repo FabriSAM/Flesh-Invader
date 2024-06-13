@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class PlayerStateHealth : MonoBehaviour
 {
+    #region Const
+    private const float possessionHpMultiplier = 0.25f;
+    #endregion
+
     #region SerializedField
     [SerializeField]
     private float maxHP;
@@ -54,6 +58,11 @@ public class PlayerStateHealth : MonoBehaviour
     {
         currentHP = Mathf.Clamp(currentHP + healthToAdd, 0, maxHP);
         SendMessageHealthUpdate();
+    }
+
+    public void SetHealthForPossession()
+    {
+        HealthAdd(maxHP * possessionHpMultiplier);
     }
 
     public void PlayerDeath()
