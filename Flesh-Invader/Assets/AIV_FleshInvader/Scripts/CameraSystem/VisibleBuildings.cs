@@ -11,20 +11,13 @@ public class VisibleBuildings : MonoBehaviour
     private List<GameObject> buildings = new List<GameObject>();
     void FixedUpdate()
     {
-        //Vector3.Dot(gameObject.transform.position, PlayerState.Get().CurrentPlayer.transform.position)
-        RaycastHit[] hits = Physics.RaycastAll(PlayerState.Get().CurrentPlayer.transform.position, 
+        RaycastHit[] hits = Physics.RaycastAll(PlayerState.Get().CurrentPlayer.transform.position,
              gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position, (gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position).sqrMagnitude, LayerMask.GetMask("StaticEnv"));
-        Debug.Log(hits.Length);
-        //Debug.DrawLine(gameObject.transform.position,);
         if (hits.Length == 0 || CheckContain(hits)) ClearArray();
-
 
         foreach (RaycastHit hit in hits)
         {
             hit.transform.gameObject.GetComponentInChildren<MeshRenderer>().material = materials[1];
-            
-
-
             buildings.Add(hit.transform.gameObject);
         }
     }
@@ -39,7 +32,7 @@ public class VisibleBuildings : MonoBehaviour
 
     private bool CheckContain(RaycastHit[] hits)
     {
-        for(int i = 0; i < hits.Length; i++)
+        for (int i = 0; i < hits.Length; i++)
         {
             if (!buildings.Contains(hits[i].transform.gameObject))
             {

@@ -261,9 +261,40 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.9388083
-  m_Height: 3.1551974
+  m_Height: 2.9834883
   m_Direction: 1
-  m_Center: {x: -0.03728068, y: 0.9598278, z: 0}
+  m_Center: {x: -0.03728068, y: 1.0456823, z: 0}
+--- !u!1 &2865031952172541041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8303250285780501641}
+  m_Layer: 6
+  m_Name: LowerStepUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8303250285780501641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2865031952172541041}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.468, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7831944776499348051}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4351390998614605469
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +324,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8303250285780501641}
+  - {fileID: 2339662203409378142}
   m_Father: {fileID: 2062565049027398399}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8792888931747606958
@@ -310,6 +343,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   rotSpeed: 20
+  lowerStepUp: {fileID: 2865031952172541041}
+  upperStepUp: {fileID: 5549485884799572983}
+  stepHeight: 0.3
+  stepSmooth: 0.1
 --- !u!1 &4779161349459516030
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,6 +411,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a432df66b2b40784087a8a7c96503241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5549485884799572983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2339662203409378142}
+  m_Layer: 6
+  m_Name: HigherStepUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2339662203409378142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549485884799572983}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.169, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7831944776499348051}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6611466569897550188
 GameObject:
   m_ObjectHideFlags: 0
