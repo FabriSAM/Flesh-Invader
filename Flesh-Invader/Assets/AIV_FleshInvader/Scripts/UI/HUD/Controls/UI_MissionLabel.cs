@@ -24,6 +24,6 @@ public class UI_MissionLabel : MonoBehaviour
     private void OnMissionUpdated(EventArgs message)
     {
         EventArgsFactory.MissionUpdatedParser(message, out Collectible collectible);
-        mission.text = $"{collectible.CurrentObject.ToString()} of {collectible.MaxObject.ToString()}";
+        mission.text = $"Found {collectible.CurrentObject.ToString()} of {collectible.MaxObject.ToString()}";
     }
 }
