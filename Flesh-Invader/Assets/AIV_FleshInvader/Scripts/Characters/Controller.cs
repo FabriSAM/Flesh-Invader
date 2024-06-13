@@ -89,6 +89,11 @@ public class Controller : MonoBehaviour, IPossessable
         lookRot.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, lookRot.eulerAngles.y, transform.rotation.eulerAngles.z);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotSpeed);
     }
+
+    public void SetPosition(Vector3 newPos)
+    {
+        characterRigidbody.position = newPos;
+    }
     #endregion
 
     #region Object Interactions
