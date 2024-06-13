@@ -159,6 +159,7 @@ public class Controller : MonoBehaviour, IPossessable
 
         combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
         OnCharacterPossessed?.Invoke();
+        playerStateHealth.SetHealthForPossession();
         Debug.Log("Possessed");
     }
     public void InternalOnUnposses()

@@ -12,7 +12,8 @@ public class VisibleBuildings : MonoBehaviour
     void FixedUpdate()
     {
         //Vector3.Dot(gameObject.transform.position, PlayerState.Get().CurrentPlayer.transform.position)
-        RaycastHit[] hits = Physics.RaycastAll(gameObject.transform.position, PlayerState.Get().CurrentPlayer.transform.position - gameObject.transform.position , Mathf.Infinity  , LayerMask.GetMask("StaticEnv"));
+        RaycastHit[] hits = Physics.RaycastAll(PlayerState.Get().CurrentPlayer.transform.position, 
+             gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position, (gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position).sqrMagnitude, LayerMask.GetMask("StaticEnv"));
         Debug.Log(hits.Length);
         //Debug.DrawLine(gameObject.transform.position,);
         if (hits.Length == 0 || CheckContain(hits)) ClearArray();
