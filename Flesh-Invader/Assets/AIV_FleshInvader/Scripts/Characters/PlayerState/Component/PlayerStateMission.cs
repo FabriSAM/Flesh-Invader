@@ -16,11 +16,11 @@ public class PlayerStateMission : MonoBehaviour
 
     public void AddMe()
     {
-        collectible.MaxObject++;
+        collectible.collectiblesFound.MaxObject++;
     }
     public void Collected(CollectibleInfo info)
     {
-        collectible.CurrentObject++;
+        collectible.collectiblesFound.CurrentObject++;
         collectible.Info = info;
         CallGlobalEvent();
     }

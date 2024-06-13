@@ -89,8 +89,8 @@ public class PlayerStateHealth : MonoBehaviour
 
     private void SendMessagePlayerDeath()
     {
-        GlobalEventSystem.CastEvent(EventName.PlayerDeath,
-            EventArgsFactory.PlayerDeathFactory(Time.time, PlayerState.Get().MissionController.Collectible.CurrentObject));
+        //GlobalEventSystem.CastEvent(EventName.PlayerDeath,
+        //    EventArgsFactory.PlayerDeathFactory(Time.time, PlayerState.Get().MissionController.Collectible.CurrentObject));
     }
     #endregion
 }
