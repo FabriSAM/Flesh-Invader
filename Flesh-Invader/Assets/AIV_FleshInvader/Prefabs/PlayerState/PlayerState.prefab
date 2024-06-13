@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50f19659798e2942a53e1cff0dc24b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseLevelXP: 20
   level:
-    nextLevelXp: 500
     currentLevel: 1
 --- !u!114 &1827953672241843292
 MonoBehaviour:

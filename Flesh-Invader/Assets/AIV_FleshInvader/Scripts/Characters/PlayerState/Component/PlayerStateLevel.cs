@@ -6,6 +6,8 @@ public class PlayerStateLevel : MonoBehaviour
 {
     #region Serialized Field
     [SerializeField]
+    private float baseLevelXP;
+    [SerializeField]
     private LevelStruct level;
     #endregion
 
@@ -36,7 +38,7 @@ public class PlayerStateLevel : MonoBehaviour
             EventArgsFactory.PlayerXPUpdatedFactory(level));
     }
 
-    public int GetXP()
+    public int GetCurrentLevel()
     {
         return level.CurrentLevel;
     }
@@ -48,12 +50,14 @@ public class PlayerStateLevel : MonoBehaviour
 
     public void LeveUp()
     {
+        level.NextLevelXp = baseLevelXP * level.CurrentLevel;
         OnLevelChange?.Invoke(level.CurrentLevel);
     }
 
     public void InitMe()
     {
         level.CurrentLevel = 1;
+        level.NextLevelXp = baseLevelXP;
     }
     #endregion
 }
