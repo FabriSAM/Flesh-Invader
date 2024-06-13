@@ -31,7 +31,6 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private void OnEnable()
     {   
         GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDead);
-        lifeCoroutine = StartCoroutine(LifeCoroutine());
     }
     private void OnDisable()
     {
@@ -49,6 +48,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
         this.owner = owner;
         GlobalEventSystem.CastEvent(EventName.CameraFOVChange, EventArgsFactory.CameraFOVChangeFactory(fovSpeed, maxFov, false));
         gameObject.SetActive(true);
+        lifeCoroutine = StartCoroutine(LifeCoroutine());
     }
 
     public void Shoot(Transform spawnTransform, float speed)
@@ -71,6 +71,10 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private void Destroy()
     {
         GlobalEventSystem.CastEvent(EventName.CameraFOVChange, EventArgsFactory.CameraFOVChangeFactory(fovSpeed, defaultFov, true));
+        if(lifeCoroutine != null)
+        {
+            StopCoroutine(lifeCoroutine);
+        }
         gameObject.SetActive(false);
     }
     #endregion
