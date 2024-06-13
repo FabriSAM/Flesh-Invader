@@ -99,16 +99,25 @@ public class FixedCamera : MonoBehaviour
 
     IEnumerator CameraFovCoroutine(float speed, float endFov)
     {
-        if (ownerCamera.fieldOfView == endFov) yield break;
-
-        if (ownerCamera.fieldOfView > endFov)
+        float startFov = ownerCamera.fieldOfView;
+        endFov=Mathf.Clamp(endFov,minFov,maxFov);
+        if (startFov > endFov)
         {
-            speed *= -1;
+            while (ownerCamera.fieldOfView!=endFov)
+            {
+                ownerCamera.fieldOfView -= speed * Time.deltaTime;
+                ownerCamera.fieldOfView=Mathf.Clamp(ownerCamera.fieldOfView,endFov,startFov);
+                yield return new WaitForEndOfFrame();
+            }  
         }
-        while (Mathf.Abs(ownerCamera.fieldOfView - endFov) > 0.1)
+        if(startFov < endFov)
         {
-            ownerCamera.fieldOfView += speed * Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            while (ownerCamera.fieldOfView != endFov)
+            {
+                ownerCamera.fieldOfView += speed * Time.deltaTime;
+                ownerCamera.fieldOfView = Mathf.Clamp(ownerCamera.fieldOfView, startFov, endFov);
+                yield return new WaitForEndOfFrame();
+            }
         }
         cameraFovCoroutine = null;
         yield return new WaitForEndOfFrame();
