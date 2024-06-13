@@ -3,9 +3,7 @@ using UnityEngine;
 
 public struct Collectible
 {
-    public int MaxObject;
-    public int CurrentObject;
-
+    public CollectiblesFound collectiblesFound;
     public CollectibleInfo Info;
 }
 
@@ -14,4 +12,10 @@ public struct CollectibleInfo
 {
     public string Title;
     public Texture2D Icon;
+}
+
+[Serializable]
+public struct CollectiblesFound {
+    public int MaxObject;
+    public int CurrentObject;
 }

@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="root" style="flex-grow: 1; -unity-font: url(&apos;project://database/Assets/AIV_FleshInvader/Fonts/SpaceCrusaders-x3DP0.ttf?fileID=12800000&amp;guid=8843f95fd244acc4dbfbd20ddf9151b8&amp;type=3#SpaceCrusaders-x3DP0&apos;); -unity-font-definition: initial;">
+        <ui:VisualElement name="container" style="flex-grow: 1; background-color: rgb(255, 255, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+            <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Time:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="time-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="0h 0m 0s" parse-escape-sequences="true" display-tooltip-when-elided="true" name="time-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Collectibles:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="mission-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="0 of 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="mission-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Possession success:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-success-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-success-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Possession failed:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-failed-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possessions-failed-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Bullets fired:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="bullets-fired-label" style="-unity-text-align: middle-left; width: 70%;" />
+                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="bullets-fired-value" style="width: 30%; -unity-text-align: middle-left; font-size: 16px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

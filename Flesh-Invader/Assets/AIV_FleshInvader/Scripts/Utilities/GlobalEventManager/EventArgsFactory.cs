@@ -16,17 +16,15 @@ namespace NotserializableEventManager {
         #endregion
 
         #region PlayerDeath
-        public static EventArgs PlayerDeathFactory(float runTimer, int questProgression) {
+        public static EventArgs PlayerDeathFactory(Statistics statistics) {
             EventArgs message = new EventArgs();
-            message.variables = new object[2];
-            message.variables[0] = runTimer;
-            message.variables[1] = questProgression;
+            message.variables = new object[1];
+            message.variables[0] = statistics;
             return message;
         }
 
-        public static void PlayerDeathParser(EventArgs message, out float runTimer, out int questProgression) {
-            runTimer = (float)message.variables[0];
-            questProgression = (int)message.variables[1];
+        public static void PlayerDeathParser(EventArgs message, out Statistics statistics) {
+            statistics = (Statistics)message.variables[0];
         }
         #endregion
 

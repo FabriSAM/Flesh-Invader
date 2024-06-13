@@ -112,7 +112,7 @@ public class UI_Collectible : MonoBehaviour, IDisplayer {
 
     private void OnMissionUpdated(EventArgs message) {
         EventArgsFactory.MissionUpdatedParser(message, out Collectible collectible);
-        collectibleFound.text = $"{collectible.CurrentObject.ToString()} of {collectible.MaxObject.ToString()}";
+        collectibleFound.text = $"{collectible.collectiblesFound.CurrentObject.ToString()} of {collectible.collectiblesFound.MaxObject.ToString()}";
         title.text = collectible.Info.Title;
         icon.style.backgroundImage = collectible.Info.Icon;
     }
