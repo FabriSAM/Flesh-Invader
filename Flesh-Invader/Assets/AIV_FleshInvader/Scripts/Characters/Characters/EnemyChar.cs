@@ -291,7 +291,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     protected void CalculateDamage()
     {
-        int playerLevel = PlayerState.Get().LevelController.GetXP();
+        int playerLevel = PlayerState.Get().LevelController.GetCurrentLevel();
         characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
     }
     #endregion
