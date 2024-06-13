@@ -46527,11 +46527,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 64524943119710512, guid: eba2e3e06af84f34c8fc50f460a71c3e, type: 3}
       propertyPath: m_Convex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 64524943119710512, guid: eba2e3e06af84f34c8fc50f460a71c3e, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
