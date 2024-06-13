@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class ButtonsHandler : MonoBehaviour
+public class MainMenuButtonsHandler : MonoBehaviour
 {
     Button quitButton;
     Button newGameButton;
@@ -35,7 +33,7 @@ public class ButtonsHandler : MonoBehaviour
         var loadingBar = rootVisualElement.Q<ProgressBar>("LoadingBar");
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
-
+        //yield return new WaitForSeconds(1);
         while (!asyncOperation.isDone && loadingBar != null) {
             float progress = asyncOperation.progress;
             loadingBar.value = progress;
@@ -50,3 +48,14 @@ public class ButtonsHandler : MonoBehaviour
         Application.Quit();
     }
 }
+
+//ToDo
+/*
+    continue
+    new game
+    settings {
+        volume
+        video
+    }
+    quit
+ */

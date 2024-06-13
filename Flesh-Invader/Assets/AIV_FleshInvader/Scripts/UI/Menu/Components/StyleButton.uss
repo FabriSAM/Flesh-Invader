@@ -1,5 +1,5 @@
 .styleButton {
-    align-self: center;
+    align-self: stretch;
     flex-shrink: 0;
     flex-grow: 0;
     display: flex;
@@ -9,21 +9,21 @@
     border-bottom-right-radius: 0;
     -unity-font-style: bold;
     font-size: 28px;
-    justify-content: center;
     border-top-width: 5px;
     border-right-width: 5px;
     border-bottom-width: 5px;
     border-left-width: 5px;
     -unity-text-outline-width: 0;
-    border-left-color: rgb(41, 41, 41);
-    border-right-color: rgb(41, 41, 41);
-    border-top-color: rgb(41, 41, 41);
-    border-bottom-color: rgb(41, 41, 41);
-    transition-duration: 0.5s;
+    border-left-color: rgb(60, 60, 60);
+    border-right-color: rgb(60, 60, 60);
+    border-top-color: rgb(60, 60, 60);
+    border-bottom-color: rgb(60, 60, 60);
+    transition-duration: 0.25s;
+    justify-content: center;
 }
 
 .styleButton:hover {
-    align-self: center;
+    align-self: stretch;
     flex-shrink: 0;
     flex-grow: 0;
     display: flex;
@@ -39,10 +39,35 @@
     border-bottom-width: 5px;
     border-left-width: 5px;
     -unity-text-outline-width: 0;
-    border-left-color: rgb(41, 41, 41);
-    border-right-color: rgb(41, 41, 41);
-    border-top-color: rgb(41, 41, 41);
-    border-bottom-color: rgb(41, 41, 41);
+    border-left-color: rgb(60, 60, 60);
+    border-right-color: rgb(60, 60, 60);
+    border-top-color: rgb(60, 60, 60);
+    border-bottom-color: rgb(60, 60, 60);
     scale: 1.1 1.1;
+    transition-duration: 0.25s;
+}
+
+.styleWipButton {
+    align-self: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    -unity-font-style: bold;
+    font-size: 24px;
+    justify-content: center;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    -unity-text-outline-width: 0;
+    border-left-color: rgb(60, 60, 60);
+    border-right-color: rgb(60, 60, 60);
+    border-top-color: rgb(60, 60, 60);
+    border-bottom-color: rgb(60, 60, 60);
     transition-duration: 0.5s;
+    background-color: rgb(96, 96, 96);
 }

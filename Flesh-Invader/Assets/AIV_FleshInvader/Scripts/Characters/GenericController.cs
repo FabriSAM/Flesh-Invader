@@ -38,10 +38,14 @@ public class GenericController : MonoBehaviour
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
+        InputManager.Player.PauseEnable.performed += EnablePauseMenu;
         playerState.onLevelChange += OnLevelChange;
 
         InputManager.Vertical.Pos1.performed += Pos1Performed;
     }
+
+    
+
     private void OnDestroy()
     {
         InputManager.Player.Interact.performed -= InteractionPerformed;
@@ -88,6 +92,10 @@ public class GenericController : MonoBehaviour
     public void InteractionPerformed(InputAction.CallbackContext context)
     {
         Interact?.Invoke();
+    }
+
+    private void EnablePauseMenu(InputAction.CallbackContext context) {
+        PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
     }
     #endregion
 
