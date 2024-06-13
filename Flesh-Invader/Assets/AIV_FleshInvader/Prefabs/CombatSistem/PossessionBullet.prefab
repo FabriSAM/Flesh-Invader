@@ -96,7 +96,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4992373158119588301}
-  lifeTime: 1
+  lifeTime: 2
+  defaultFov: 60
+  maxFov: 100
+  fovSpeed: 20
 --- !u!1 &3612753243536247416
 GameObject:
   m_ObjectHideFlags: 0

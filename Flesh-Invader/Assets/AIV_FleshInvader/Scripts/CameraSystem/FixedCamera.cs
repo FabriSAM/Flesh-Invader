@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -9,7 +10,6 @@ public class FixedCamera : MonoBehaviour
     #region Consts
     private const float minFov = 10.0f;
     private const float maxFov = 120.0f;
-    private const float defaultFovSpeed = 50.0f;
     #endregion
 
     #region SerializeField
@@ -23,24 +23,29 @@ public class FixedCamera : MonoBehaviour
     private Vector3 offset;
     private Vector3 newPos;
     private Vector3 currentPos;
-    private float defaultFov;
     private Coroutine cameraShakeCoroutine;
     private Coroutine cameraFovCoroutine;
     #endregion
 
     #region Mono
+    private void OnEnable()
+    {
+        GlobalEventSystem.AddListener(EventName.CameraFOVChange, CameraFovCallBack);
+    }
     void Start()
     {
         offset = gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position;
         newPos = gameObject.transform.position;
         currentPos = gameObject.transform.position;
-        defaultFov = ownerCamera.fieldOfView;
     }
-
     // Update is called once per frame
     void Update()
     {
         CameraMovement();
+    }
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.CameraFOVChange, CameraFovCallBack);
     }
     #endregion
 
@@ -76,10 +81,6 @@ public class FixedCamera : MonoBehaviour
         endFov = Mathf.Clamp(endFov, minFov, maxFov);
         cameraFovCoroutine=StartCoroutine(CameraFovCoroutine(speed,endFov));
     }
-    private void ReturnToDefaultFov()
-    {
-        CameraFov(defaultFovSpeed, defaultFov, true);
-    }
     #endregion
 
     #region Coroutine
@@ -104,13 +105,21 @@ public class FixedCamera : MonoBehaviour
         {
             speed *= -1;
         }
-        while (ownerCamera.fieldOfView - endFov <= 0.1)
+        while (Mathf.Abs(ownerCamera.fieldOfView - endFov) > 0.1)
         {
             ownerCamera.fieldOfView += speed * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         cameraFovCoroutine = null;
         yield return new WaitForEndOfFrame();
+    }
+    #endregion
+
+    #region CallBacks
+    private void CameraFovCallBack(EventArgs message)
+    {
+        EventArgsFactory.CameraFOVParser(message, out float speed, out float newFov, out bool overrideCoroutine);
+        CameraFov(speed,newFov,overrideCoroutine);
     }
     #endregion
 }
