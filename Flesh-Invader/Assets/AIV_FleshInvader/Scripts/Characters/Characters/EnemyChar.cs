@@ -147,7 +147,7 @@ public abstract class EnemyChar : MonoBehaviour
         protected virtual State SetUpAttack()
         {
             State attack = new State();
-            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
+            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed*0.5f, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
 
             AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
             SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
@@ -270,9 +270,6 @@ public abstract class EnemyChar : MonoBehaviour
             unpossessableMaterials.Add(unpossesableMaterial);
             mesh.SetMaterials(unpossessableMaterials);
 
-
-            //transform.parent.localScale *= 3;
-            //characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius *= 3;
         }
         else
         {
@@ -284,8 +281,6 @@ public abstract class EnemyChar : MonoBehaviour
                 unpossessableMaterials.Remove(unpossesableMaterial);
                 mesh.SetMaterials(unpossessableMaterials);
             }
-            //transform.parent.localScale = Vector3.one;
-            //characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius = characterStartingInfo.CharInfo.CharStatesStats.patrolPointsGenerationRadius;
         }
     }
 

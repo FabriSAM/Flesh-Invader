@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,6 +48,16 @@ public class Movement : AbilityBase
     #region Properties
     Camera CameraMain { get { return Camera.main; } }
     #endregion
+
+    private void OnEnable()
+    {
+        GlobalEventSystem.AddListener(EventName.PossessionExecuted, OnPossess);
+    }
+
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.PossessionExecuted, OnPossess);
+    }
 
     #region PrivateMethods
     private void Move()
@@ -113,7 +124,7 @@ public class Movement : AbilityBase
     {
         // Grounded
         RaycastHit grounded;
-        if (Physics.Raycast(lowerStepUp.transform.position, -Vector3.up, out grounded, groundedRayCast))
+        if (Physics.Raycast(lowerStepUp.transform.position, -transform.up, out grounded, groundedRayCast))
         {
             characterController.CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         }
@@ -133,6 +144,14 @@ public class Movement : AbilityBase
     public override void Init(Controller characterController)
     {
         base.Init(characterController);
+    }
+
+    public void OnPossess(EventArgs args)
+    {
+        EnemyInfo info;
+        EventArgsFactory.PossessionExecutedParser(args, out info);
+
+        speed = info.CharStats.BaseSpeed;
     }
 
     public override void RegisterInput()

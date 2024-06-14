@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ public struct EnemyPoolProbabilityDict
 
 public class CharacterSpawner : MonoBehaviour, IPoolRequester
 {
-    [SerializeField] private PoolData[] characterType;
     // Hipotetically we could use a special PoolData array to bring some special enemyPool that have to spawn independently from zone
     //[SerializeField] private PoolData[] specialCharacterType
     //[SerializeField] private EnemyPoolProbabilityDict specialSpawnProbability;
+
+    [SerializeField] private PoolData[] characterType;
+    [SerializeField] private int maxEnemiesInScene;
 
     [SerializeField] protected float spawnRadius;
     [SerializeField] protected float spawnTime;
@@ -26,6 +29,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
     [SerializeField] private EnemyPoolProbabilityDict spawnProbability;
     private NavMeshHit navMeshSpawnHit;
 
+    private int activeEnemies;
 
     public PoolData[] Datas
     {
@@ -38,11 +42,17 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         get => spawnProbability; 
         set => spawnProbability = value; }
 
+
+    private void Awake()
+    {
+        GlobalEventSystem.AddListener(EventName.EnemyDeath, CountEnemyDeath);
+    }
+
     private void Update()
     {
         spawnTimeCounter += Time.deltaTime;
 
-        if (spawnTimeCounter >= spawnTime)
+        if (spawnTimeCounter >= spawnTime && activeEnemies < maxEnemiesInScene)
         {
             spawnTimeCounter = 0;
             SpawnCharacter();
@@ -86,7 +96,13 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
             obj.transform.position = navMeshSpawnHit.position;
 
             obj.SetActive(true);
+            activeEnemies++;
         }
+    }
+
+    private void CountEnemyDeath(EventArgs _)
+    {
+        activeEnemies--;
     }
 
 }

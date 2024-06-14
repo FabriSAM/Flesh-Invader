@@ -173,6 +173,22 @@ namespace NotserializableEventManager {
             overrideCoroutine= (bool)message.variables[2];
         }
         #endregion
+
+        #region EnemyDeath
+
+        public static EventArgs EnemyDeathFactory()
+        {
+            EventArgs message = new EventArgs();
+            return message;
+        }
+
+        public static void EnemyDeathParser(EventArgs _)
+        {
+
+        }
+
+
+        #endregion
     }
 
 }
