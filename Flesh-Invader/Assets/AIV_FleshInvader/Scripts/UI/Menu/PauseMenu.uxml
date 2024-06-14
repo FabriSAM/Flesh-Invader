@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/Menu/Components/StyleButton.uss?fileID=7433441132597879392&amp;guid=d0f56ec9148e99545978f4883545b13c&amp;type=3#StyleButton" />
+    <ui:VisualElement name="AllVE" style="flex-grow: 1; flex-direction: row; margin-top: 65px; margin-right: 65px; margin-bottom: 65px; margin-left: 65px; background-color: rgba(0, 0, 0, 0.39); border-top-left-radius: 55px; border-top-right-radius: 55px; border-bottom-right-radius: 55px; border-bottom-left-radius: 55px;">
+        <ui:Label tabindex="-1" text="PAUSE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PauseText" style="font-size: 128px; -unity-font-style: bold; align-self: flex-start; top: 8%; left: 8%; text-shadow: 15px 15px 0 rgb(89, 89, 89); color: rgb(43, 43, 43);" />
+        <ui:VisualElement name="ButtonVE" style="flex-grow: 0; flex-basis: auto; flex-shrink: 0; top: 8%; flex-direction: column; align-self: center; right: 14%; display: flex; height: 35%; flex-wrap: nowrap; justify-content: space-between;">
+            <ui:Button text="Continue" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ContinueButton" class="styleButton" />
+            <ui:Button text="Main Menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenuButton" class="styleButton" />
+            <ui:Button text="Quit Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitGameButton" class="styleButton" />
+            <ui:VisualElement name="ConfirmVE" style="flex-grow: 0; flex-direction: row; justify-content: space-around; flex-shrink: 0; bottom: 2%;">
+                <ui:Button text="CONFIRM" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ConfirmButton" class="styleButton" style="font-size: 14px;" />
+                <ui:Button text="NVM" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CancelButton" class="styleButton" style="font-size: 14px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="StatsVE" style="flex-grow: 0; flex-basis: auto; font-size: 34px; background-color: rgba(0, 0, 0, 0.2); border-top-left-radius: 35px; border-top-right-radius: 35px; border-bottom-right-radius: 35px; border-bottom-left-radius: 35px; -unity-text-align: upper-left; align-self: center; right: 5%;">
+            <ui:Label tabindex="-1" text="Bullet Shots" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BulletShots" style="align-self: stretch;" />
+            <ui:Label tabindex="-1" text="Steps Done" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StepsDone" />
+            <ui:Label tabindex="-1" text="Succesful Possessions" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SuccessfulPossessions" />
+            <ui:Label tabindex="-1" text="Failed Possessions" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FailedPossessions" />
+            <ui:Label tabindex="-1" text="Game Time" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GameTime" />
+        </ui:VisualElement>
+        <ui:VisualElement name="PortraitVE" style="flex-basis: 25%; align-self: center; height: 65%; left: 10%; background-color: rgba(0, 0, 0, 0.22); border-top-left-radius: 35px; border-top-right-radius: 35px; border-bottom-right-radius: 35px; border-bottom-left-radius: 35px;" />
+    </ui:VisualElement>
+</ui:UXML>
