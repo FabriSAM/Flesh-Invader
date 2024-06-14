@@ -24,15 +24,13 @@ public class GenericController : MonoBehaviour
     #region Mono
     void Awake()
     {
-        possessionCD = defaultPossessionCD;
+        //possessionCD = defaultPossessionCD;
         canUsePossession = true;
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
         InputManager.Player.PauseEnable.performed += EnablePauseMenu;
-        playerState.onLevelChange += OnLevelChange;
-
-        InputManager.Vertical.Pos1.performed += Pos1Performed;
+        //playerState.onLevelChange += OnLevelChange;
     }
 
     
@@ -42,23 +40,6 @@ public class GenericController : MonoBehaviour
         InputManager.Player.Interact.performed -= InteractionPerformed;
         InputManager.Player.Possession.performed -= PossessionPerformed;
         InputManager.Player.Attack.performed -= AttackPerformed;
-        InputManager.Vertical.Pos1.performed -= Pos1Performed;
-    }
-
-    private void Pos1Performed(InputAction.CallbackContext context)
-    {
-        GameObject.Find("Pooler").GetComponentInChildren(typeof(CharacterSpawner), true).gameObject.SetActive(true);
-        Pos2Invoke();
-        //async load with loading widget
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    private void Pos2Invoke()
-    {
-       
-        Pos2?.Invoke();
-        StopCoroutine(PossesCoroutine());
-        possesCoroutine = null;
     }
     
     void FixedUpdate()
