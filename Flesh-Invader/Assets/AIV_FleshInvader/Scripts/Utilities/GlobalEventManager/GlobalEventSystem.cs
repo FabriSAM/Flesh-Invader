@@ -12,7 +12,8 @@ using UnityEngine;
         MissionUpdated,
         PossessionAbilityState,
         CameraShake,
-        CameraFOVChange
+        CameraFOVChange,
+        PlayerWin
     }
 
     public class EventArgs {
