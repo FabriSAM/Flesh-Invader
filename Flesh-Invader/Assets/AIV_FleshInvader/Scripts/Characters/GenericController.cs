@@ -7,13 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GenericController : MonoBehaviour
 {
-    #region SerializeField
-    [SerializeField]
-    private float defaultPossessionCD;
-    [SerializeField]
-    private PlayerState playerState;
-    #endregion
-
     #region PrivateMembers
     private float possessionCD;
     private bool canUsePossession;
@@ -26,8 +19,6 @@ public class GenericController : MonoBehaviour
     public Action Interact;
     public Action Rotate;
     public Action Posses;
-
-    public Action Pos2;
     #endregion
 
     #region Mono
@@ -69,7 +60,7 @@ public class GenericController : MonoBehaviour
         StopCoroutine(PossesCoroutine());
         possesCoroutine = null;
     }
-
+    
     void FixedUpdate()
     {
         Move?.Invoke();
@@ -83,7 +74,7 @@ public class GenericController : MonoBehaviour
     }
     private void PossessionPerformed(InputAction.CallbackContext context)
     {
-        if (canUsePossession)
+        if (canUsePossession && !PlayerState.Get().HealthController.DeadStatus)
         {
             possesCoroutine = StartCoroutine(PossesCoroutine());
             Posses?.Invoke();
@@ -96,13 +87,6 @@ public class GenericController : MonoBehaviour
 
     private void EnablePauseMenu(InputAction.CallbackContext context) {
         PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
-    }
-    #endregion
-
-    #region CallBack
-    private void OnLevelChange(int newLevel)
-    {
-        possessionCD = defaultPossessionCD / newLevel;
     }
     #endregion
 
@@ -122,6 +106,17 @@ public class GenericController : MonoBehaviour
     {
         GlobalEventSystem.CastEvent(EventName.PossessionAbilityState,
                 EventArgsFactory.PossessionAbilityStateFactory(state));
+    }
+    #endregion
+
+    #region PublicMethods
+    public void InitMe(float possessionCD)
+    {
+        this.possessionCD = possessionCD;
+        canUsePossession = true;
+        InputManager.Player.Interact.performed += InteractionPerformed;
+        InputManager.Player.Possession.performed += PossessionPerformed;
+        InputManager.Player.Attack.performed += AttackPerformed;
     }
     #endregion
 }

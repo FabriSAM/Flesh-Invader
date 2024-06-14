@@ -10,11 +10,13 @@ public abstract class InteractableBase : MonoBehaviour
     protected Collider trigger;
     [SerializeField]
     protected GameObject canvas;
+
+    [SerializeField]
+    protected CollectibleInfo info;
     #endregion
 
     #region Variables
     protected Controller controller;
-    //protected EnemyChar character;
     #endregion
 
     #region ProtectedMethods

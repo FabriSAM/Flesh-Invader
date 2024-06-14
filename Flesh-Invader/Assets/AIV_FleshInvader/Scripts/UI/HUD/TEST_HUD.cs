@@ -15,6 +15,8 @@ public class TEST_HUD : MonoBehaviour
     private Button increaseLevel;
     private Button possessionStartCooldown;
     private Button possessionEndCooldown;
+    private Button death;
+    private Button win;
 
     //parameters
     private int maxHP = 10;
@@ -42,6 +44,8 @@ public class TEST_HUD : MonoBehaviour
         increaseLevel = GetComponent<UIDocument>().rootVisualElement.Q<Button>("next-level");
         possessionStartCooldown = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possession-start-cooldown");
         possessionEndCooldown = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possession-end-cooldown");
+        death = GetComponent<UIDocument>().rootVisualElement.Q<Button>("death");
+        win = GetComponent<UIDocument>().rootVisualElement.Q<Button>("win");
     }
 
     void Start()
@@ -107,7 +111,10 @@ public class TEST_HUD : MonoBehaviour
         mission.clickable.clicked += delegate {
             currentMissionObjects++;
             currentMissionObjects = Mathf.Clamp(currentMissionObjects, 0, totalMissionObjects);
-            GlobalEventSystem.CastEvent(EventName.MissionUpdated, EventArgsFactory.MissionUpdatedFactory(totalMissionObjects, currentMissionObjects));
+            Collectible c = new Collectible();
+            c.collectiblesFound.CurrentObject = currentMissionObjects;
+            c.collectiblesFound.MaxObject = totalMissionObjects;
+            GlobalEventSystem.CastEvent(EventName.MissionUpdated, EventArgsFactory.MissionUpdatedFactory(c));
         };
         increaseLevel.clickable.clicked += delegate {
             currentLevel++;
@@ -120,6 +127,30 @@ public class TEST_HUD : MonoBehaviour
         };
         possessionEndCooldown.clickable.clicked += delegate {
             GlobalEventSystem.CastEvent(EventName.PossessionAbilityState, EventArgsFactory.PossessionAbilityStateFactory(true));
+        };
+        death.clickable.clicked += delegate {
+            Statistics statistics = new Statistics();
+            statistics.GameTime = 432523;
+            CollectiblesFound collectiblesFound = new CollectiblesFound();
+            collectiblesFound.CurrentObject = 1;
+            collectiblesFound.MaxObject = 3;
+            statistics.CollectiblesFound = collectiblesFound;
+            statistics.PossessionSuccess = 54;
+            statistics.PossessionFailed = 15;
+            statistics.BulletFired = 234;
+            GlobalEventSystem.CastEvent(EventName.PlayerDeath, EventArgsFactory.PlayerDeathFactory(statistics));
+        };
+        win.clickable.clicked += delegate {
+            Statistics statistics = new Statistics();
+            statistics.GameTime = 432523;
+            CollectiblesFound collectiblesFound = new CollectiblesFound();
+            collectiblesFound.CurrentObject = 1;
+            collectiblesFound.MaxObject = 3;
+            statistics.CollectiblesFound = collectiblesFound;
+            statistics.PossessionSuccess = 54;
+            statistics.PossessionFailed = 15;
+            statistics.BulletFired = 234;
+            GlobalEventSystem.CastEvent(EventName.PlayerWin, EventArgsFactory.PlayerWinFactory(statistics));
         };
     }
 }

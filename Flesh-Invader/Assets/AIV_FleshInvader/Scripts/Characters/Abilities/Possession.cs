@@ -21,7 +21,6 @@ public class Possession : AbilityBase, IPoolRequester
     public override void RegisterInput()
     {
         PlayerState.Get().GenericController.Posses += ShootPossession;
-        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
     }
 
     public override void StopAbility()

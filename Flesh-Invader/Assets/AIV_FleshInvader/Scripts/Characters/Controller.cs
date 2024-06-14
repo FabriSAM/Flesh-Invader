@@ -1,8 +1,13 @@
+using NotserializableEventManager;
 using System;
 using UnityEngine;
 
-public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
+public class Controller : MonoBehaviour, IPossessable
 {
+    #region Const
+    private const string AnimatorDeadParameter = "Dead";
+    #endregion
+
     #region References
     [SerializeField]
     protected Transform characterTransform;
@@ -11,20 +16,17 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     [SerializeField]
     protected Collider characterPhysicsCollider;
     [SerializeField]
-    protected MeleeCollider[] meleeColliders;
-    [SerializeField]
-    protected HealthModule healthModule;
-    [SerializeField]
     protected Visual visual;
+    [SerializeField]
+    protected CombatManager combatManager;
     [SerializeField]
     protected bool isPossessed;
     #endregion //References
 
-
     #region PrivateAttributes
     private AbilityBase[] abilities;
     private PlayerStateHealth playerStateHealth;
-    //private DamageContainer meleeContainer;
+    private PlayerStateLevel playerStateLevel;
     #endregion
 
     #region ReferenceGetter
@@ -51,6 +53,10 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     public Visual Visual
     {
         get { return visual; }
+    }
+    public CombatManager CombatManager 
+    { 
+        get { return combatManager; } 
     }
 
     public EnemyInfo CharacterInfo { get; set; }
@@ -83,30 +89,56 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         lookRot.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, lookRot.eulerAngles.y, transform.rotation.eulerAngles.z);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotSpeed);
     }
+
+    public void SetPosition(Vector3 newPos)
+    {
+        characterRigidbody.position = newPos;
+    }
     #endregion
 
     #region Object Interactions
     public Action OnInteractPerformed;
     #endregion
 
+    #region Actions
     public Action attack;
     public Action OnCharacterPossessed;
     public Action OnCharacterUnpossessed;
-    public Action<DamageContainer> OnControllerDamageTaken;
-    public Action OnControllerDeath;
+    public Action OnCharacterDeathEnd;
+    #endregion
 
     #region Mono
     private void Awake()
     {
         abilities = GetComponentsInChildren<AbilityBase>();
-        playerStateHealth = PlayerState.Get().GetComponentInChildren<PlayerStateHealth>();
-        healthModule.OnDamageTaken += OnInternalDamageTaken;
-        healthModule.OnDeath += OnInternalDeath;
+        playerStateHealth = PlayerState.Get().HealthController;
+        playerStateLevel = PlayerState.Get().LevelController;
+        if (isPossessed) 
+        { 
+            PlayerState.Get().CurrentPlayer = gameObject; 
+        }
+
+        OnCharacterDeathEnd += InternalOnDeathEnd;
+        combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
+        combatManager.OnHealthModuleDeath += InternalOnDeath;
 
         foreach (var ability in abilities)
         {
             ability.Init(this);
         }
+    }
+
+    void OnEnable()
+    {
+        characterPhysicsCollider.enabled = true;
+        if (CharacterInfo != null)
+        {
+            combatManager.OnControllerEnabled?.Invoke(CharacterInfo.CharStats.Health);
+        }
+    }
+
+    private void Start()
+    {
         if (isPossessed)
         {
             InternalOnPosses();
@@ -115,25 +147,6 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
         {
             InternalOnUnposses();
         }
-
-        foreach (MeleeCollider collider in meleeColliders)
-        {
-            collider.DamageableHitted += OnMeleeHitted;
-        }
-    }
-
-    //PORCATA DA CAMBIARE
-    void OnEnable()
-    {
-        if (CharacterInfo != null)
-        {
-            healthModule.SetHP(CharacterInfo.CharStats.Health);
-        }
-    }
-
-    void Start()
-    {
-        healthModule.SetHP(CharacterInfo.CharStats.Health);
     }
     #endregion
 
@@ -142,97 +155,74 @@ public class Controller : MonoBehaviour, IDamageable, IDamager, IPossessable
     {
         gameObject.layer = LayerMask.NameToLayer("Player");
         isPossessed = true;
-        PlayerState.Get().PlayerTransform = transform;
+        PlayerState.Get().CurrentPlayer = gameObject;
+        GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDeath);
         foreach (var ability in abilities)
         {
             ability.RegisterInput();
         }
-        SetDamagerCollidersLayerType("EnemyDamager");
 
+        combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
         OnCharacterPossessed?.Invoke();
-
+        playerStateHealth.SetHealthForPossession();
         Debug.Log("Possessed");
-
-
     }
-
     public void InternalOnUnposses()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
         foreach (var ability in abilities)
         {
             ability.UnRegisterInput();
         }
-        SetDamagerCollidersLayerType("PlayerDamager");
 
+        combatManager.OnPossessionChanged?.Invoke("PlayerDamager");
         OnCharacterUnpossessed?.Invoke();
-        //gameObject.SetActive(false);
     }
-    #endregion
 
-    #region Callbacks
-    private void OnMeleeHitted(IDamageable otherDamageable, Vector3 hitPosition)
+    private void InternalOnPerceivedDamage(DamageContainer damage)
     {
-        DamageContainer damage = new DamageContainer();
-        damage.Damage = ((IPossessable)otherDamageable).CharacterInfo.CharStats.Damage;
-        damage.Damager = this;
-
-        // Need to specify a DamageContainer. Maybe add it to Database? Or set it later
-        otherDamageable.TakeDamage(damage);
-    }
-    #endregion
-
-    #region Private Methods
-    private void SetDamagerCollidersLayerType(string newLayer)
-    {
-        foreach (MeleeCollider collider in meleeColliders)
+        if (IsPossessed)
         {
-            Collider currentCollider = collider.GetComponent<Collider>();
-            if (currentCollider == null) continue;
-            currentCollider.gameObject.layer = LayerMask.NameToLayer(newLayer);
+            if (playerStateHealth == null) { return; }
+            if (playerStateHealth.DeadStatus) { return; }
+            playerStateHealth.HealthReduce(damage.Damage); 
         }
+        else
+        {
+            combatManager.OnControllerDamageTaken?.Invoke(damage);
+        }
+    }
+    private void InternalOnDeath()
+    {
+        characterPhysicsCollider.enabled = false;
+        playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
+    }
+    private void InternalOnDeathEnd()
+    {
+        gameObject.SetActive(false);
+    }
+    private void OnPlayerStateDeath(EventArgs _)
+    {
+        foreach (var ability in abilities)
+        {
+            ability.UnRegisterInput();
+        }
+        characterPhysicsCollider.enabled = false;
+        visual.SetAnimatorParameter(AnimatorDeadParameter, true);
     }
     #endregion
 
     #region Interface Methods
-    public void TakeDamage(DamageContainer damage)
-    {
-        if (IsPossessed)
-        {
-            if (playerStateHealth == null) return;
-            playerStateHealth.HealthReduce(damage.Damage);
-        }
-        else
-        {
-            if (healthModule == null) return;
-            healthModule.TakeDamage(damage);
-        }
-    }
-    #endregion
-
-    #region Health Module
-    private void OnInternalDamageTaken(DamageContainer damage)
-    {
-        Debug.Log($"CUrrent HP: {healthModule.CurrentHP} - MaxHP : {healthModule.MaxHP}");
-        OnControllerDamageTaken?.Invoke(damage);
-    }
-    private void OnInternalDeath()
-    {
-        PlayerState.Get().GetComponentInChildren<PlayerStateLevel>().SetXP(CharacterInfo.CharStats.Xp);
-        gameObject.SetActive(false);
-        OnControllerDeath?.Invoke();
-    }
-
     public void Possess()
     {
         InternalOnPosses();
     }
-
     public void UnPossess()
     {
         InternalOnUnposses();
     }
-    
     #endregion
+  
 }

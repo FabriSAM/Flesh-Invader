@@ -1,23 +1,23 @@
 using NotserializableEventManager;
+using System;
 using UnityEngine;
 
 public class PlayerStateLevel : MonoBehaviour
 {
     #region Serialized Field
     [SerializeField]
-    private LevelStruct level;
+    private float baseLevelXP;
     [SerializeField]
-    private PlayerState playerState;
+    private LevelStruct level;
+    #endregion
+
+    #region Action
+    public Action<int> OnLevelChange;
     #endregion
 
     #region Variables
     private float xpMultiplier = 1f;
     #endregion
-
-    private void Awake()
-    {
-        level.CurrentLevel = 1;
-    }
 
     #region PublicMehtdos
     public void SetXP(float xpToAdd)
@@ -38,7 +38,7 @@ public class PlayerStateLevel : MonoBehaviour
             EventArgsFactory.PlayerXPUpdatedFactory(level));
     }
 
-    public int GetXP()
+    public int GetCurrentLevel()
     {
         return level.CurrentLevel;
     }
@@ -50,7 +50,14 @@ public class PlayerStateLevel : MonoBehaviour
 
     public void LeveUp()
     {
-        playerState.onLevelChange?.Invoke(level.CurrentLevel);
+        level.NextLevelXp = baseLevelXP * level.CurrentLevel;
+        OnLevelChange?.Invoke(level.CurrentLevel);
+    }
+
+    public void InitMe()
+    {
+        level.CurrentLevel = 1;
+        level.NextLevelXp = baseLevelXP;
     }
     #endregion
 }

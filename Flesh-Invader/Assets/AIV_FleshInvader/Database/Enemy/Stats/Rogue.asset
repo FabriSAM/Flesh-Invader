@@ -28,8 +28,10 @@ MonoBehaviour:
     CharStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75
-      distanceToStartAttack: 5
-      distanceToStopAttack: 5.1
+      distanceToStartCombat: 4
+      distanceToStopCombat: 4.2
+      distanceToStartAttack: 2.5
+      distanceToStopAttack: 2.6
       patrolAcceptableRadius: 5
       patrolPointsGenerationRadius: 15
       patrolPointNumber: 4

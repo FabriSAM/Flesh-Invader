@@ -49,6 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 7859504919402109278}
   canvas: {fileID: 4885395407788223309}
+  info:
+    Title: Alien Gun
+    Icon: {fileID: 2800000, guid: a01dd291e6949be4fa18868621cb30b5, type: 3}
+  dialogueID: 1
 --- !u!65 &7859504919402109278
 BoxCollider:
   m_ObjectHideFlags: 0

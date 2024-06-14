@@ -16,12 +16,15 @@ namespace NotserializableEventManager {
         #endregion
 
         #region PlayerDeath
-        public static EventArgs PlayerDeathFactory() {
-            return new EventArgs();
+        public static EventArgs PlayerDeathFactory(Statistics statistics) {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = statistics;
+            return message;
         }
 
-        public static void PlayerDeathParser(EventArgs message) {
-
+        public static void PlayerDeathParser(EventArgs message, out Statistics statistics) {
+            statistics = (Statistics)message.variables[0];
         }
         #endregion
 
@@ -102,18 +105,16 @@ namespace NotserializableEventManager {
         #endregion
 
         #region MissionUpdated
-        public static EventArgs MissionUpdatedFactory(int maxValue, int currentValue)
+        public static EventArgs MissionUpdatedFactory(Collectible collectible)
         {
             EventArgs message = new EventArgs();
             message.variables = new object[2];
-            message.variables[0] = maxValue;
-            message.variables[1] = currentValue;
+            message.variables[0] = collectible;
             return message;
         }
-        public static void MissionUpdatedParser(EventArgs message, out int maxValue, out int currentValue)
+        public static void MissionUpdatedParser(EventArgs message, out Collectible collectible)
         {
-            maxValue = (int)message.variables[0];
-            currentValue = (int)message.variables[1];
+            collectible = (Collectible)message.variables[0];
         }
         #endregion
 
@@ -130,6 +131,59 @@ namespace NotserializableEventManager {
         public static void PossessionAbilityStateParser(EventArgs message, out bool state)
         {
             state = (bool)message.variables[0];
+        }
+        #endregion
+
+        #region CameraShake
+        public static EventArgs CameraShakeFactory(float amplitude, float duration, bool overrideCoroutine)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[3];
+            message.variables[0] = amplitude;
+            message.variables[1] = duration;
+            message.variables[2] = overrideCoroutine;
+
+            return message;
+        }
+
+        public static void CameraShakeParser(EventArgs message, out float amplitude, out float duration, out bool overrideCoroutine)
+        {
+            amplitude = (float)message.variables[0];
+            duration = (float)message.variables[1];
+            overrideCoroutine = (bool)message.variables[2];
+        }
+        #endregion
+
+        #region CameraFOVChange
+        public static EventArgs CameraFOVChangeFactory(float speed, float newFOV, bool overrideCoroutine)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[3];
+            message.variables[0] = speed;
+            message.variables[1] = newFOV;
+            message.variables[2] = overrideCoroutine;
+
+            return message;
+        }
+
+        public static void CameraFOVParser(EventArgs message, out float speed, out float newFOV, out bool overrideCoroutine)
+        {
+            speed = (float)message.variables[0];
+            newFOV = (float)message.variables[1];
+            overrideCoroutine= (bool)message.variables[2];
+        }
+        #endregion
+
+        #region PlayerWin
+        public static EventArgs PlayerWinFactory(Statistics statistics) {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = statistics;
+            return message;
+        }
+
+        public static void PlayerWinParser(EventArgs message, out Statistics statistics) {
+            statistics = (Statistics)message.variables[0];
         }
         #endregion
     }

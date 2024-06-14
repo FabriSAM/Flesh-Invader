@@ -17,7 +17,6 @@ public class MeleeAttack : AbilityBase
     }
     public override void RegisterInput()
     {
-        PlayerState.Get().GenericController.Pos2 += UnRegisterInput;
         PlayerState.Get().GenericController.Attack += Attack;
     }
 
