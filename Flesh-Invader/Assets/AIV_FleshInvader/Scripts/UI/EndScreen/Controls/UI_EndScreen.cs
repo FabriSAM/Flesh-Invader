@@ -1,11 +1,12 @@
 using NotserializableEventManager;
 using System.Collections;
-using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class UI_EndScreen : MonoBehaviour {
+
     private VisualElement root;
     private VisualElement statistics;
     private Label title;
@@ -35,10 +36,10 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void Start() {
         retry.clickable.clicked += delegate {
-            //TODO: new game
+            SceneManager.LoadScene(1);
         };
         mainMenu.clickable.clicked += delegate {
-            //TODO: main menu
+            SceneManager.LoadScene(0);
         };
     }
 
@@ -53,15 +54,24 @@ public class UI_EndScreen : MonoBehaviour {
     }
 
     private void OnPlayerDeath(EventArgs message) {
+        SwitchInputMap();
         EventArgsFactory.PlayerDeathParser(message, out Statistics statistics);
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission failed!", Color.red, "navicella-rotta.jpg");
+        ShowEndScreen();
     }
 
     private void OnPlayerWin(EventArgs message) {
+        SwitchInputMap();
         EventArgsFactory.PlayerWinParser(message, out Statistics statistics);
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission success!", Color.green, "navicella-riparata.jpg");
+        ShowEndScreen();
+    }
+
+    private void SwitchInputMap() {
+        InputManager.EnablePlayerMap(false);
+        InputManager.EnableUIMap(true);
     }
 
     private void SetSpecificEndScreenInfo(string titleLabel, Color titleColor, string background) {
@@ -82,6 +92,9 @@ public class UI_EndScreen : MonoBehaviour {
         possessionSuccess.text = statistics.PossessionSuccess.ToString();
         possessionFailed.text = statistics.PossessionFailed.ToString();
         bulletsFired.text = statistics.BulletFired.ToString();
+    }
+
+    private void ShowEndScreen() {
         root.style.display = DisplayStyle.Flex;
         StartCoroutine(ChangeBorderColor());
     }
