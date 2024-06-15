@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,19 +11,41 @@ public class ChasePlayerAction : StateAction
     private float chaseSpeed;
     private float distanceToReach;
 
-    public ChasePlayerAction(NavMeshAgent chaser, float chaseSpeed, float distanceToReach)
+    private float pathCalculusFrequency;
+    private float pathCalculusCounter;
+
+    public ChasePlayerAction(NavMeshAgent chaser, float chaseSpeed, float distanceToReach, float pathCalculusFrequency)
     {
         chaserAgent = chaser;
         this.chaseSpeed = chaseSpeed;
         this.distanceToReach = distanceToReach;
+        this.pathCalculusFrequency = pathCalculusFrequency;
+
         navPath = new NavMeshPath();
+    }
+
+    public override void OnEnter()
+    {
+        InternalSetVelocity();
     }
 
     public override void OnUpdate()
     {
-        if (chaserAgent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        pathCalculusCounter += Time.deltaTime;
+
+        if (pathCalculusCounter >= pathCalculusFrequency)
         {
-            chaserAgent.destination = PlayerState.Get().CurrentPlayer.transform.position + ((chaserAgent.transform.position -  PlayerState.Get().CurrentPlayer.transform.position).normalized * distanceToReach);
+            InternalSetVelocity();
+            pathCalculusCounter = 0;
+        }
+
+    }
+
+    private void InternalSetVelocity()
+    {
+        if (chaserAgent.gameObject.activeSelf && chaserAgent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        {
+            chaserAgent.destination = PlayerState.Get().CurrentPlayer.transform.position + ((chaserAgent.transform.position - PlayerState.Get().CurrentPlayer.transform.position).normalized * distanceToReach);
         }
         chaserAgent.speed = chaseSpeed;
     }

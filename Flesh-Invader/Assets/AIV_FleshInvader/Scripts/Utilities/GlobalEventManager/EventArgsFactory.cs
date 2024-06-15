@@ -186,6 +186,7 @@ namespace NotserializableEventManager {
         {
 
         }
+        #endregion
 
         #region PlayerWin
         public static EventArgs PlayerWinFactory(Statistics statistics) {

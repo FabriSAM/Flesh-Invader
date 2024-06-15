@@ -10,6 +10,7 @@ public abstract class EnemyChar : MonoBehaviour
 
     protected Controller controller;
     protected NavMeshAgent agent;
+    [SerializeField] protected float calculusFrequency;
 
     [Header("Stats")]
     [SerializeField] protected EnemyStatisticsTemplate characterStartingInfo;
@@ -112,7 +113,7 @@ public abstract class EnemyChar : MonoBehaviour
 
             GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position,
                 characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius, characterCurrentInfo.CharStatesStats.patrolPointNumber, PatrolPositions);
-            PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed);
+            PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed, calculusFrequency);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
@@ -125,7 +126,7 @@ public abstract class EnemyChar : MonoBehaviour
         {
             State chase = new State();
 
-            ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
+            ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f, calculusFrequency);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
             chase.SetUpMe(new StateAction[] { chaseTarget, setRunning });
@@ -135,19 +136,18 @@ public abstract class EnemyChar : MonoBehaviour
         protected virtual State SetUpStutter()
         {
             State stutter = new State();
-            //TEST_ChangeMaterialAction changeMaterial = new TEST_ChangeMaterialAction(GetComponentInParent<Transform>().gameObject.GetComponentInChildren<SkinnedMeshRenderer>(), characterCurrentInfo.CharStatesStats.testStutterMaterial);
             ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
             AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, false);
             SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
 
-            stutter.SetUpMe(new StateAction[] { setRunning, /*changeMaterial,*/ stopCharacter });
+            stutter.SetUpMe(new StateAction[] { setRunning, stopCharacter });
             return stutter;
         }
 
         protected virtual State SetUpAttack()
         {
             State attack = new State();
-            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed*0.5f, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f);
+            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed*0.5f, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f, calculusFrequency);
 
             AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
             SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
@@ -180,8 +180,10 @@ public abstract class EnemyChar : MonoBehaviour
             AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
             SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, 0.25f, true);
             SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, 0.25f, true);
-            
-            backgroundMoving.SetUpMe(new StateAction[] { animSpeedX, animSpeedZ });
+
+            LookDistanceForDespawnAction lookForDespawn = new LookDistanceForDespawnAction(controller.gameObject, characterCurrentInfo.CharStatesStats.distanceToFollowPlayer* 1.5f, calculusFrequency);
+
+            backgroundMoving.SetUpMe(new StateAction[] { animSpeedX, animSpeedZ, lookForDespawn });
             return backgroundMoving;
         }
 

@@ -13,7 +13,7 @@ using UnityEngine;
         PossessionAbilityState,
         CameraShake,
         CameraFOVChange,
-        EnemyDeath
+        EnemyDeath,
         PlayerWin
     }
 

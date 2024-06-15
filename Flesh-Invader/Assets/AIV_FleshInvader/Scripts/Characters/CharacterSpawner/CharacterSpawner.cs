@@ -22,6 +22,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
     [SerializeField] private PoolData[] characterType;
     [SerializeField] private int maxEnemiesInScene;
 
+    [Tooltip("Enemy distance from player at spawn")]
     [SerializeField] protected float spawnRadius;
     [SerializeField] protected float spawnTime;
     protected float spawnTimeCounter;
