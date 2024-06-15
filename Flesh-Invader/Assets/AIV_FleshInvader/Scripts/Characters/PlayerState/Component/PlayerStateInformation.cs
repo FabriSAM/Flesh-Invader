@@ -9,12 +9,15 @@ public class PlayerStateInformation : MonoBehaviour
     Statistics stats = new Statistics();
     // Start is called before the first frame update
 
+    private int totalPossessionBullet = 0;
+
 
     #region PublicMethods
     public void OpenPauseMenu()
     {
         stats.GameTime = Time.time;
         stats.CollectiblesFound = PlayerState.Get().MissionController.Collectible.collectiblesFound;
+        stats.PossessionFailed = totalPossessionBullet - stats.PossessionSuccess;
         GlobalEventSystem.CastEvent(EventName.PauseMenuEvent, EventArgsFactory.PauseMenuEventFactory(stats));
         //PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
     }
@@ -27,9 +30,9 @@ public class PlayerStateInformation : MonoBehaviour
     {
         stats.PossessionSuccess++;
     }
-    public void PossessionFailed()
+    public void PossessionShoot()
     {
-        stats.PossessionFailed++;
+        totalPossessionBullet++;
     }
 
     #endregion
