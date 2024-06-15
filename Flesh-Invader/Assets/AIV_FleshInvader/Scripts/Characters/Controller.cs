@@ -62,6 +62,7 @@ public class Controller : MonoBehaviour, IPossessable
     public EnemyInfo CharacterInfo { get; set; }
 
     public bool UnPossessable { get; set; }
+    public bool IsDead { get; set; }
     #endregion
 
     #region RigidbodyMethods
@@ -133,6 +134,7 @@ public class Controller : MonoBehaviour, IPossessable
         characterPhysicsCollider.enabled = true;
         if (CharacterInfo != null)
         {
+            IsDead = false;
             combatManager.OnControllerEnabled?.Invoke(CharacterInfo.CharStats.Health);
         }
     }
@@ -196,7 +198,10 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void InternalOnDeath()
     {
+        IsDead = true;
+        SetVelocity(Vector3.zero);
         characterPhysicsCollider.enabled = false;
+        CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
     }
     private void InternalOnDeathEnd()

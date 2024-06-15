@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 860098842}
   - component: {fileID: 860098841}
   - component: {fileID: 860098840}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,8 +527,8 @@ Transform:
   m_GameObject: {fileID: 860098839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.73402, y: 0.98849404, z: -18.247644}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -18, y: -1.62, z: -18.247644}
+  m_LocalScale: {x: 8.5035, y: 0.2918, z: 5.6837}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 3e5b7321cf2fea642a532dd4cd300158, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 71261710a5cadef428bc67108669daca, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1580535023
 Transform:
