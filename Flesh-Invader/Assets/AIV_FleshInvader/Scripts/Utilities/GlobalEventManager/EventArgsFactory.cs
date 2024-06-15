@@ -174,6 +174,20 @@ namespace NotserializableEventManager {
         }
         #endregion
 
+        #region EnemyDeath
+
+        public static EventArgs EnemyDeathFactory()
+        {
+            EventArgs message = new EventArgs();
+            return message;
+        }
+
+        public static void EnemyDeathParser(EventArgs _)
+        {
+
+        }
+        #endregion
+
         #region PlayerWin
         public static EventArgs PlayerWinFactory(Statistics statistics) {
             EventArgs message = new EventArgs();
@@ -185,6 +199,7 @@ namespace NotserializableEventManager {
         public static void PlayerWinParser(EventArgs message, out Statistics statistics) {
             statistics = (Statistics)message.variables[0];
         }
+
         #endregion
     }
 

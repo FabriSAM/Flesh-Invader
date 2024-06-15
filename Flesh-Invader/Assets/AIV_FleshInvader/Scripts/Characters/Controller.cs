@@ -208,6 +208,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void InternalOnDeathEnd()
     {
         gameObject.SetActive(false);
+        GlobalEventSystem.CastEvent(EventName.EnemyDeath, EventArgsFactory.EnemyDeathFactory());
     }
     private void OnPlayerStateDeath(EventArgs _)
     {

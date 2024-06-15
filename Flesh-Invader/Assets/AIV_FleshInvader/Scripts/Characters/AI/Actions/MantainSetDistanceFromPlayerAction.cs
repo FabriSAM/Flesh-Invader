@@ -10,15 +10,32 @@ public class MantainSetDistanceFromPlayerAction : StateAction
     private float speed;
     private float distanceToReach;
 
-    public MantainSetDistanceFromPlayerAction(NavMeshAgent distancer, float speed, float distanceToReach)
+    private float pathCalculusFrequency;
+    private float pathCalculusCounter;
+
+
+    public MantainSetDistanceFromPlayerAction(NavMeshAgent distancer, float speed, float distanceToReach, float pathCalculusFrequency)
     {
         agent = distancer;
         this.speed = speed;
         this.distanceToReach = distanceToReach;
+        this.pathCalculusFrequency = pathCalculusFrequency;
         navPath = new NavMeshPath();
     }
 
     public override void OnUpdate()
+    {
+        pathCalculusCounter += Time.deltaTime;
+
+        if (pathCalculusCounter >= pathCalculusFrequency)
+        {
+            InternalSetVelocity();
+            pathCalculusCounter = 0;
+        }
+    }
+
+
+    private void InternalSetVelocity()
     {
         if (agent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
         {
@@ -27,3 +44,4 @@ public class MantainSetDistanceFromPlayerAction : StateAction
         agent.speed = speed;
     }
 }
+
