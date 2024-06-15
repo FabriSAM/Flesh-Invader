@@ -8,6 +8,8 @@ public interface IPossessable
 
     public bool UnPossessable { get; set; }
 
+    public bool IsDead {  get; set; }
+
     public void Possess();
     public void UnPossess();
 }

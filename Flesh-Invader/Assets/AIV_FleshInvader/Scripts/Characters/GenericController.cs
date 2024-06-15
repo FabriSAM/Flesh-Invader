@@ -22,26 +22,6 @@ public class GenericController : MonoBehaviour
     #endregion
 
     #region Mono
-    void Awake()
-    {
-        //possessionCD = defaultPossessionCD;
-        canUsePossession = true;
-        InputManager.Player.Interact.performed += InteractionPerformed;
-        InputManager.Player.Possession.performed += PossessionPerformed;
-        InputManager.Player.Attack.performed += AttackPerformed;
-        InputManager.Player.PauseEnable.performed += EnablePauseMenu;
-        //playerState.onLevelChange += OnLevelChange;
-    }
-
-    
-
-    private void OnDestroy()
-    {
-        InputManager.Player.Interact.performed -= InteractionPerformed;
-        InputManager.Player.Possession.performed -= PossessionPerformed;
-        InputManager.Player.Attack.performed -= AttackPerformed;
-    }
-    
     void FixedUpdate()
     {
         Move?.Invoke();
@@ -98,6 +78,7 @@ public class GenericController : MonoBehaviour
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
+        InputManager.Player.PauseEnable.performed += EnablePauseMenu;
     }
     #endregion
 }
