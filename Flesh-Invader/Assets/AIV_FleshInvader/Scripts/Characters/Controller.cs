@@ -5,7 +5,8 @@ using UnityEngine;
 public class Controller : MonoBehaviour, IPossessable
 {
     #region Const
-    private const string AnimatorDeadParameter = "Dead";
+    private const string animatorDeadParameter = "Dead";
+    private const float defaultPossesDamage = float.MaxValue;
     #endregion
 
     #region References
@@ -215,7 +216,19 @@ public class Controller : MonoBehaviour, IPossessable
             ability.UnRegisterInput();
         }
         characterPhysicsCollider.enabled = false;
-        visual.SetAnimatorParameter(AnimatorDeadParameter, true);
+        visual.SetAnimatorParameter(animatorDeadParameter, true);
+    }
+    #endregion
+
+    #region Public Methods
+    public void RequestDamage(DamageContainer damage = null)
+    {
+        if (damage == null)
+        {
+            damage = new DamageContainer();
+            damage.Damage = defaultPossesDamage;
+        }
+        combatManager.TakeDamage(damage);
     }
     #endregion
 
@@ -227,6 +240,7 @@ public class Controller : MonoBehaviour, IPossessable
     public void UnPossess()
     {
         InternalOnUnposses();
+        RequestDamage();
     }
     #endregion
   
