@@ -36,16 +36,11 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void Start() {
         retry.clickable.clicked += delegate {
-            //TODO: new game
+            SceneManager.LoadScene(1);
         };
         mainMenu.clickable.clicked += delegate {
             SceneManager.LoadScene(0);
-            //TODO: qui c'è da fare/distruggere qualcosa????
         };
-        
-        //TEST togliere quando finito
-        //StartCoroutine(TEST_EndScreen());
-        //TEST togliere quando finito
     }
 
     private void OnEnable() {
@@ -114,19 +109,5 @@ public class UI_EndScreen : MonoBehaviour {
             statistics.style.borderBottomColor = green ? Color.green : Color.red;
             statistics.style.borderLeftColor = green ? Color.green : Color.red;
         }
-    }
-
-    private IEnumerator TEST_EndScreen() {
-        yield return new WaitForSecondsRealtime(5f);
-        Statistics statistics = new Statistics();
-        statistics.GameTime = 432523;
-        CollectiblesFound collectiblesFound = new CollectiblesFound();
-        collectiblesFound.CurrentObject = 1;
-        collectiblesFound.MaxObject = 3;
-        statistics.CollectiblesFound = collectiblesFound;
-        statistics.PossessionSuccess = 54;
-        statistics.PossessionFailed = 15;
-        statistics.BulletFired = 234;
-        GlobalEventSystem.CastEvent(EventName.PlayerDeath, EventArgsFactory.PlayerDeathFactory(statistics));
     }
 }
