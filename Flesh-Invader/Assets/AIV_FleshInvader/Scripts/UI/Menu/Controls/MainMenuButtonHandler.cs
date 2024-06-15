@@ -33,6 +33,8 @@ public class MainMenuButtonsHandler : MonoBehaviour
         var loadingBar = rootVisualElement.Q<ProgressBar>("LoadingBar");
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+        InputManager.EnablePlayerMap(true);
+        InputManager.EnableUIMap(false);
         //yield return new WaitForSeconds(1);
         while (!asyncOperation.isDone && loadingBar != null) {
             float progress = asyncOperation.progress;

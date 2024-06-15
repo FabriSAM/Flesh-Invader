@@ -1,11 +1,12 @@
 using NotserializableEventManager;
 using System.Collections;
-using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class UI_EndScreen : MonoBehaviour {
+
     private VisualElement root;
     private VisualElement statistics;
     private Label title;
@@ -38,8 +39,13 @@ public class UI_EndScreen : MonoBehaviour {
             //TODO: new game
         };
         mainMenu.clickable.clicked += delegate {
-            //TODO: main menu
+            SceneManager.LoadScene(0);
+            //TODO: qui c'è da fare/distruggere qualcosa????
         };
+        
+        //TEST togliere quando finito
+        //StartCoroutine(TEST_EndScreen());
+        //TEST togliere quando finito
     }
 
     private void OnEnable() {
@@ -53,15 +59,24 @@ public class UI_EndScreen : MonoBehaviour {
     }
 
     private void OnPlayerDeath(EventArgs message) {
+        SwitchInputMap();
         EventArgsFactory.PlayerDeathParser(message, out Statistics statistics);
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission failed!", Color.red, "navicella-rotta.jpg");
+        ShowEndScreen();
     }
 
     private void OnPlayerWin(EventArgs message) {
+        SwitchInputMap();
         EventArgsFactory.PlayerWinParser(message, out Statistics statistics);
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission success!", Color.green, "navicella-riparata.jpg");
+        ShowEndScreen();
+    }
+
+    private void SwitchInputMap() {
+        InputManager.EnablePlayerMap(false);
+        InputManager.EnableUIMap(true);
     }
 
     private void SetSpecificEndScreenInfo(string titleLabel, Color titleColor, string background) {
@@ -82,6 +97,9 @@ public class UI_EndScreen : MonoBehaviour {
         possessionSuccess.text = statistics.PossessionSuccess.ToString();
         possessionFailed.text = statistics.PossessionFailed.ToString();
         bulletsFired.text = statistics.BulletFired.ToString();
+    }
+
+    private void ShowEndScreen() {
         root.style.display = DisplayStyle.Flex;
         StartCoroutine(ChangeBorderColor());
     }
@@ -96,5 +114,19 @@ public class UI_EndScreen : MonoBehaviour {
             statistics.style.borderBottomColor = green ? Color.green : Color.red;
             statistics.style.borderLeftColor = green ? Color.green : Color.red;
         }
+    }
+
+    private IEnumerator TEST_EndScreen() {
+        yield return new WaitForSecondsRealtime(5f);
+        Statistics statistics = new Statistics();
+        statistics.GameTime = 432523;
+        CollectiblesFound collectiblesFound = new CollectiblesFound();
+        collectiblesFound.CurrentObject = 1;
+        collectiblesFound.MaxObject = 3;
+        statistics.CollectiblesFound = collectiblesFound;
+        statistics.PossessionSuccess = 54;
+        statistics.PossessionFailed = 15;
+        statistics.BulletFired = 234;
+        GlobalEventSystem.CastEvent(EventName.PlayerDeath, EventArgsFactory.PlayerDeathFactory(statistics));
     }
 }
