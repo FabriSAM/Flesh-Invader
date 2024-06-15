@@ -25,9 +25,9 @@ public class PlayerBullet: MonoBehaviour, IBullet
         gameObject.SetActive(true);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        InternalTrigger(collision);
+        InternalTrigger(other);
         Destroy();
     }
 
@@ -51,7 +51,7 @@ public class PlayerBullet: MonoBehaviour, IBullet
         gameObject.SetActive(true);
     }
 
-    protected void InternalTrigger(Collision other)
+    protected void InternalTrigger(Collider other)
     {
         IDamageable otherDamageable = other.gameObject.GetComponent<IDamageable>();
         if (otherDamageable == null) return;
