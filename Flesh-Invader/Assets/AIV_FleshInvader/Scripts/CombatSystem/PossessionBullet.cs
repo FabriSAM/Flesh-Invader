@@ -36,6 +36,16 @@ public class PossessionBullet : MonoBehaviour, IBullet
     {
         GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDead);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        IPossessable possessableChar = other.gameObject.GetComponentInChildren<IPossessable>();
+        if (possessableChar != null && !possessableChar.UnPossessable && !possessableChar.IsDead)
+        {
+            owner.UnPossess();
+            possessableChar.Possess();
+        }
+        Destroy();
+    }
     #endregion
 
     #region PublicMethods
@@ -57,16 +67,6 @@ public class PossessionBullet : MonoBehaviour, IBullet
     #endregion
 
     #region PrivateMethods
-    private void OnCollisionEnter(Collision collision)
-    {
-        IPossessable possessableChar = collision.gameObject.GetComponentInChildren<IPossessable>();
-        if (possessableChar != null && !possessableChar.UnPossessable)
-        {
-            owner.UnPossess();
-            possessableChar.Possess();
-        }
-        Destroy();
-    }
 
     private void Destroy()
     {

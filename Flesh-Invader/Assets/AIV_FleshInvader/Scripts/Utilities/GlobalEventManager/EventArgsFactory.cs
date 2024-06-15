@@ -187,6 +187,17 @@ namespace NotserializableEventManager {
 
         }
 
+        #region PlayerWin
+        public static EventArgs PlayerWinFactory(Statistics statistics) {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = statistics;
+            return message;
+        }
+
+        public static void PlayerWinParser(EventArgs message, out Statistics statistics) {
+            statistics = (Statistics)message.variables[0];
+        }
 
         #endregion
     }

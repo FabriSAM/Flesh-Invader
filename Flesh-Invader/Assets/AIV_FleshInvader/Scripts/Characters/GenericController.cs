@@ -45,6 +45,10 @@ public class GenericController : MonoBehaviour
     {
         Interact?.Invoke();
     }
+
+    private void EnablePauseMenu(InputAction.CallbackContext context) {
+        PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
+    }
     #endregion
 
     #region Coroutine
@@ -74,6 +78,7 @@ public class GenericController : MonoBehaviour
         InputManager.Player.Interact.performed += InteractionPerformed;
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
+        InputManager.Player.PauseEnable.performed += EnablePauseMenu;
     }
     #endregion
 }

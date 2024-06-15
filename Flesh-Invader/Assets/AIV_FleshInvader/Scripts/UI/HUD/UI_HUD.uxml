@@ -45,6 +45,7 @@
                     <ui:Button text="CD start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possession-start-cooldown" enable-rich-text="false" class="test-button" />
                     <ui:Button text="CD end" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possession-end-cooldown" enable-rich-text="false" class="test-button" />
                     <ui:Button text="Death" parse-escape-sequences="true" display-tooltip-when-elided="true" name="death" enable-rich-text="false" class="test-button" />
+                    <ui:Button text="Win" parse-escape-sequences="true" display-tooltip-when-elided="true" name="win" enable-rich-text="false" class="test-button" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

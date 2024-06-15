@@ -276,10 +276,18 @@ public abstract class EnemyChar : MonoBehaviour
 
             SkinnedMeshRenderer mesh = controller.Visual.GetComponentInChildren<SkinnedMeshRenderer>();
             List<Material> unpossessableMaterials = mesh.materials.ToList();
-            if (unpossessableMaterials.Contains(unpossesableMaterial))
+            if (unpossessableMaterials.Count > 1) 
             {
-                unpossessableMaterials.Remove(unpossesableMaterial);
-                mesh.SetMaterials(unpossessableMaterials);
+                //Trovare soluzione!!!!!!!
+                try
+                {
+                    unpossessableMaterials.RemoveAt(1);
+                    mesh.SetMaterials(unpossessableMaterials);
+                }
+                catch 
+                {
+                }
+                /////////////
             }
         }
     }

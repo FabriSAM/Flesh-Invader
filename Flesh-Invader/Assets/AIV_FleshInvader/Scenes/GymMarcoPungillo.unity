@@ -527,8 +527,8 @@ Transform:
   m_GameObject: {fileID: 860098839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.73402, y: -1.58, z: -13.61}
-  m_LocalScale: {x: 14.177, y: 1, z: 8.5458}
+  m_LocalPosition: {x: -18, y: -1.62, z: -18.247644}
+  m_LocalScale: {x: 8.5035, y: 0.2918, z: 5.6837}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 76d30a93da16a01499774c38894f050e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 71261710a5cadef428bc67108669daca, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1580535023
 Transform:
@@ -941,11 +941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnTime
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
-      propertyPath: maxEnemiesInScene
-      value: 50
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: characterType.Array.size

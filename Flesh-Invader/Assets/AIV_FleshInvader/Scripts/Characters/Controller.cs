@@ -5,7 +5,8 @@ using UnityEngine;
 public class Controller : MonoBehaviour, IPossessable
 {
     #region Const
-    private const string AnimatorDeadParameter = "Dead";
+    private const string animatorDeadParameter = "Dead";
+    private const float defaultPossesDamage = float.MaxValue;
     #endregion
 
     #region References
@@ -62,6 +63,7 @@ public class Controller : MonoBehaviour, IPossessable
     public EnemyInfo CharacterInfo { get; set; }
 
     public bool UnPossessable { get; set; }
+    public bool IsDead { get; set; }
     #endregion
 
     #region RigidbodyMethods
@@ -133,6 +135,7 @@ public class Controller : MonoBehaviour, IPossessable
         characterPhysicsCollider.enabled = true;
         if (CharacterInfo != null)
         {
+            IsDead = false;
             combatManager.OnControllerEnabled?.Invoke(CharacterInfo.CharStats.Health);
         }
     }
@@ -196,7 +199,10 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void InternalOnDeath()
     {
+        IsDead = true;
+        SetVelocity(Vector3.zero);
         characterPhysicsCollider.enabled = false;
+        CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
     }
     private void InternalOnDeathEnd()
@@ -211,7 +217,19 @@ public class Controller : MonoBehaviour, IPossessable
             ability.UnRegisterInput();
         }
         characterPhysicsCollider.enabled = false;
-        visual.SetAnimatorParameter(AnimatorDeadParameter, true);
+        visual.SetAnimatorParameter(animatorDeadParameter, true);
+    }
+    #endregion
+
+    #region Public Methods
+    public void RequestDamage(DamageContainer damage = null)
+    {
+        if (damage == null)
+        {
+            damage = new DamageContainer();
+            damage.Damage = defaultPossesDamage;
+        }
+        combatManager.TakeDamage(damage);
     }
     #endregion
 
@@ -223,6 +241,7 @@ public class Controller : MonoBehaviour, IPossessable
     public void UnPossess()
     {
         InternalOnUnposses();
+        RequestDamage();
     }
     #endregion
   

@@ -16,6 +16,7 @@ public class TEST_HUD : MonoBehaviour
     private Button possessionStartCooldown;
     private Button possessionEndCooldown;
     private Button death;
+    private Button win;
 
     //parameters
     private int maxHP = 10;
@@ -44,6 +45,7 @@ public class TEST_HUD : MonoBehaviour
         possessionStartCooldown = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possession-start-cooldown");
         possessionEndCooldown = GetComponent<UIDocument>().rootVisualElement.Q<Button>("possession-end-cooldown");
         death = GetComponent<UIDocument>().rootVisualElement.Q<Button>("death");
+        win = GetComponent<UIDocument>().rootVisualElement.Q<Button>("win");
     }
 
     void Start()
@@ -137,6 +139,18 @@ public class TEST_HUD : MonoBehaviour
             statistics.PossessionFailed = 15;
             statistics.BulletFired = 234;
             GlobalEventSystem.CastEvent(EventName.PlayerDeath, EventArgsFactory.PlayerDeathFactory(statistics));
+        };
+        win.clickable.clicked += delegate {
+            Statistics statistics = new Statistics();
+            statistics.GameTime = 432523;
+            CollectiblesFound collectiblesFound = new CollectiblesFound();
+            collectiblesFound.CurrentObject = 1;
+            collectiblesFound.MaxObject = 3;
+            statistics.CollectiblesFound = collectiblesFound;
+            statistics.PossessionSuccess = 54;
+            statistics.PossessionFailed = 15;
+            statistics.BulletFired = 234;
+            GlobalEventSystem.CastEvent(EventName.PlayerWin, EventArgsFactory.PlayerWinFactory(statistics));
         };
     }
 }

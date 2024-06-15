@@ -84,7 +84,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6492350819497919430, guid: 20e0d98333f392741bb60f08040a2763, type: 3}
       propertyPath: m_Name
-      value: Collectible
+      value: UI_Collectible
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -146,7 +146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015442819725347300, guid: 0d2ee45fdce5e974b9da36581f3fed22, type: 3}
       propertyPath: m_Name
-      value: HUD
+      value: UI_HUD
       objectReference: {fileID: 0}
     - target: {fileID: 3015442819725347300, guid: 0d2ee45fdce5e974b9da36581f3fed22, type: 3}
       propertyPath: m_IsActive
@@ -216,7 +216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8279601300126967322, guid: ae361a6e8b6d6dc40bdf772ff3a1991f, type: 3}
       propertyPath: m_Name
-      value: EndScreen
+      value: UI_EndScreen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
