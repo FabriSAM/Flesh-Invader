@@ -15,6 +15,8 @@ public class PlayerState : MonoBehaviour
     [SerializeField]
     PlayerStateHealth healthController;
     [SerializeField]
+    PlayerStateInformation informationController;
+    [SerializeField]
     float possessionCD;
     #endregion
 
@@ -39,6 +41,7 @@ public class PlayerState : MonoBehaviour
     public PlayerStateMission MissionController { get { return missionController; } }
     public PlayerStateLevel LevelController { get { return levelController; } }
     public PlayerStateHealth HealthController { get { return healthController; } }
+    public PlayerStateInformation InformationController { get { return informationController; } }
     #endregion
     
     #region StaticMembers

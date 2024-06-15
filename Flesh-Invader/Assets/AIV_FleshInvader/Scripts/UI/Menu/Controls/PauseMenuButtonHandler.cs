@@ -8,6 +8,11 @@ using UnityEngine.InputSystem;
 
 public class PauseMenuButtonHandler : MonoBehaviour
 {
+    [SerializeField]
+    private Transform rogueModelCameraPosition;
+    [SerializeField]
+    private Transform bossModelCameraPosition;
+
     public static PauseMenuButtonHandler Instance;
 
     VisualElement rootVisualElement;
@@ -25,7 +30,7 @@ public class PauseMenuButtonHandler : MonoBehaviour
     Label gameTimeLabel;
 
     VisualElement portraitVE;
-
+    private Camera portraitCamera;
     public bool IsPaused { 
         get => isPaused;
         set {
@@ -41,7 +46,7 @@ public class PauseMenuButtonHandler : MonoBehaviour
                 failedPossessionsLabel.text = $"Failed possessions: {"null"}";
                 double t = Math.Truncate(Time.time);
                 gameTimeLabel.text = $"Game time: {Math.Truncate(t / 3600)}h:{Math.Truncate(t / 60)}m:{t}s";
-
+                portraitCamera.gameObject.transform.position = rogueModelCameraPosition.position;
             }
             else {
                 Time.timeScale = 1;
@@ -105,9 +110,9 @@ public class PauseMenuButtonHandler : MonoBehaviour
         gameTimeLabel = rootVisualElement.Q<Label>("GameTime");
 
         portraitVE = rootVisualElement.Q<VisualElement>("PortraitVE");
-        Camera camera = GameObject.Find("PortraitCamera").GetComponent<Camera>();
+        portraitCamera = GameObject.Find("PortraitCamera").GetComponent<Camera>();
         Background bg = new Background();
-        bg.renderTexture = camera.targetTexture;
+        bg.renderTexture = portraitCamera.targetTexture;
         StyleBackground sb = new StyleBackground(bg);
         portraitVE.style.backgroundImage = sb;
 

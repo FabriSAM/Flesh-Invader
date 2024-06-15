@@ -13,7 +13,8 @@ using UnityEngine;
         PossessionAbilityState,
         CameraShake,
         CameraFOVChange,
-        PlayerWin
+        PlayerWin,
+        PauseMenuEvent
     }
 
     public class EventArgs {

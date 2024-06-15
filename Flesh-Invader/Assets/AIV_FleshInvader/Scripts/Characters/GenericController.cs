@@ -47,7 +47,8 @@ public class GenericController : MonoBehaviour
     }
 
     private void EnablePauseMenu(InputAction.CallbackContext context) {
-        PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
+        //PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
+        PlayerState.Get().InformationController.OpenPauseMenu();
     }
     #endregion
 
