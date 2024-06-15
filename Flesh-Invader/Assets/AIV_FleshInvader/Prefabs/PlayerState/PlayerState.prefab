@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4248269308850797335}
   - component: {fileID: 7554742074606887923}
   - component: {fileID: 1827953672241843292}
+  - component: {fileID: 6754704997751405008}
   m_Layer: 0
   m_Name: PlayerState
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
   missionController: {fileID: 4248269308850797335}
   levelController: {fileID: 7554742074606887923}
   healthController: {fileID: 1827953672241843292}
+  informationController: {fileID: 6754704997751405008}
   possessionCD: 5
 --- !u!114 &5289984539432353125
 MonoBehaviour:
@@ -107,3 +109,15 @@ MonoBehaviour:
   maxHP: 500
   constantDamage: 5
   maxTimer: 5
+--- !u!114 &6754704997751405008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505877393007878990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0cbce3e44d38645b9af4f80ffcf2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

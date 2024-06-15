@@ -31,12 +31,14 @@ public class GenericController : MonoBehaviour
     #region InputCallBack
     private void AttackPerformed(InputAction.CallbackContext context)
     {
+        PlayerState.Get().InformationController.BulletFired();
         Attack?.Invoke();
     }
     private void PossessionPerformed(InputAction.CallbackContext context)
     {
         if (canUsePossession && !PlayerState.Get().HealthController.DeadStatus)
         {
+            PlayerState.Get().InformationController.PossessionShoot();
             possesCoroutine = StartCoroutine(PossesCoroutine());
             Posses?.Invoke();
         }
@@ -47,7 +49,8 @@ public class GenericController : MonoBehaviour
     }
 
     private void EnablePauseMenu(InputAction.CallbackContext context) {
-        PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
+        //PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
+        PlayerState.Get().InformationController.OpenPauseMenu();
     }
     #endregion
 

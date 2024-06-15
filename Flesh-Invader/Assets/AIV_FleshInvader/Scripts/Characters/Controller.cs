@@ -28,6 +28,7 @@ public class Controller : MonoBehaviour, IPossessable
     private AbilityBase[] abilities;
     private PlayerStateHealth playerStateHealth;
     private PlayerStateLevel playerStateLevel;
+    private PlayerStateInformation playerStateInformation;
     #endregion
 
     #region ReferenceGetter
@@ -115,6 +116,7 @@ public class Controller : MonoBehaviour, IPossessable
         abilities = GetComponentsInChildren<AbilityBase>();
         playerStateHealth = PlayerState.Get().HealthController;
         playerStateLevel = PlayerState.Get().LevelController;
+        playerStateInformation = PlayerState.Get().InformationController;
         if (isPossessed) 
         { 
             PlayerState.Get().CurrentPlayer = gameObject; 
@@ -236,6 +238,7 @@ public class Controller : MonoBehaviour, IPossessable
     #region Interface Methods
     public void Possess()
     {
+        playerStateInformation.PossessionSuccess();
         InternalOnPosses();
     }
     public void UnPossess()

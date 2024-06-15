@@ -1,35 +1,42 @@
 
-namespace NotserializableEventManager {
-    public static class EventArgsFactory {
+namespace NotserializableEventManager
+{
+    public static class EventArgsFactory
+    {
 
         #region LockPlayer
-        public static EventArgs LockPlayerFactory(bool lockValue) {
+        public static EventArgs LockPlayerFactory(bool lockValue)
+        {
             EventArgs message = new EventArgs();
             message.variables = new object[1];
             message.variables[0] = lockValue;
             return message;
         }
 
-        public static void LockPlayerParser(EventArgs message, out bool lockValue) {
+        public static void LockPlayerParser(EventArgs message, out bool lockValue)
+        {
             lockValue = (bool)message.variables[0];
         }
         #endregion
 
         #region PlayerDeath
-        public static EventArgs PlayerDeathFactory(Statistics statistics) {
+        public static EventArgs PlayerDeathFactory(Statistics statistics)
+        {
             EventArgs message = new EventArgs();
             message.variables = new object[1];
             message.variables[0] = statistics;
             return message;
         }
 
-        public static void PlayerDeathParser(EventArgs message, out Statistics statistics) {
+        public static void PlayerDeathParser(EventArgs message, out Statistics statistics)
+        {
             statistics = (Statistics)message.variables[0];
         }
         #endregion
 
         #region PlayerHealthUpdated
-        public static EventArgs PlayerHealthUpdatedFactory(float maxHP, float currentHP) {
+        public static EventArgs PlayerHealthUpdatedFactory(float maxHP, float currentHP)
+        {
             EventArgs message = new EventArgs();
             message.variables = new object[2];
             message.variables[0] = maxHP;
@@ -37,7 +44,8 @@ namespace NotserializableEventManager {
             return message;
         }
 
-        public static void PlayerHealthUpdatedParser(EventArgs message, out float maxHP, out float currentHP) {
+        public static void PlayerHealthUpdatedParser(EventArgs message, out float maxHP, out float currentHP)
+        {
             maxHP = (float)message.variables[0];
             currentHP = (float)message.variables[1];
         }
@@ -60,7 +68,8 @@ namespace NotserializableEventManager {
         #endregion
 
         #region StartDialogue
-        public static EventArgs StartDialogueFactory(uint dialogueID, int entryID) {
+        public static EventArgs StartDialogueFactory(uint dialogueID, int entryID)
+        {
             EventArgs message = new EventArgs();
             message.variables = new object[2];
             message.variables[0] = dialogueID;
@@ -68,7 +77,8 @@ namespace NotserializableEventManager {
             return message;
         }
 
-        public static void StartDialogueParser(EventArgs message, out uint dialogueID, out int entryID) {
+        public static void StartDialogueParser(EventArgs message, out uint dialogueID, out int entryID)
+        {
             dialogueID = (uint)message.variables[0];
             entryID = (int)message.variables[1];
         }
@@ -100,7 +110,7 @@ namespace NotserializableEventManager {
 
         public static void PossessionExecutedParser(EventArgs message, out EnemyInfo enemyInfo)
         {
-            enemyInfo =  (EnemyInfo) message.variables[0];
+            enemyInfo = (EnemyInfo)message.variables[0];
         }
         #endregion
 
@@ -170,7 +180,7 @@ namespace NotserializableEventManager {
         {
             speed = (float)message.variables[0];
             newFOV = (float)message.variables[1];
-            overrideCoroutine= (bool)message.variables[2];
+            overrideCoroutine = (bool)message.variables[2];
         }
         #endregion
 
@@ -189,14 +199,31 @@ namespace NotserializableEventManager {
         #endregion
 
         #region PlayerWin
-        public static EventArgs PlayerWinFactory(Statistics statistics) {
+        public static EventArgs PlayerWinFactory(Statistics statistics)
+        {
             EventArgs message = new EventArgs();
             message.variables = new object[1];
             message.variables[0] = statistics;
             return message;
         }
 
-        public static void PlayerWinParser(EventArgs message, out Statistics statistics) {
+        public static void PlayerWinParser(EventArgs message, out Statistics statistics)
+        {
+            statistics = (Statistics)message.variables[0];
+        }
+        #endregion
+
+        #region PauseMenuEvent
+        public static EventArgs PauseMenuEventFactory(Statistics statistics)
+        {
+            EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = statistics;
+            return message;
+        }
+
+        public static void PauseMenuEventParser(EventArgs message, out Statistics statistics)
+        {
             statistics = (Statistics)message.variables[0];
         }
 

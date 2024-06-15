@@ -14,7 +14,8 @@ using UnityEngine;
         CameraShake,
         CameraFOVChange,
         EnemyDeath,
-        PlayerWin
+        PlayerWin,
+        PauseMenuEvent
     }
 
     public class EventArgs {
