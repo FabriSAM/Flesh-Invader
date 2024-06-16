@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class MainMenuButtonsHandler : MonoBehaviour
+public class UI_MainMenu : MonoBehaviour
 {
     Button quitButton;
     Button newGameButton;
