@@ -25,7 +25,7 @@ public class Pooler : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         instance = this;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -101,7 +101,7 @@ public class Pooler : MonoBehaviour
 
     private GameObject InternalInstantiate (GameObject prefab) {
         GameObject temp = Instantiate(prefab);
-        DontDestroyOnLoad(temp);
+        //DontDestroyOnLoad(temp);
         temp.SetActive(false);
         return temp;
     }

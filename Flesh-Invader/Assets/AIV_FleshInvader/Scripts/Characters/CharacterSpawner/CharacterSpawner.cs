@@ -49,6 +49,11 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         GlobalEventSystem.AddListener(EventName.EnemyDeath, CountEnemyDeath);
     }
 
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.EnemyDeath, CountEnemyDeath);
+    }
+
     private void Update()
     {
         spawnTimeCounter += Time.deltaTime;

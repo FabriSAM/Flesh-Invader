@@ -158,6 +158,11 @@ public class Controller : MonoBehaviour, IPossessable
             InternalOnUnposses();
         }
     }
+
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
+    }
     #endregion
 
     #region Internal

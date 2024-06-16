@@ -1,11 +1,3 @@
-using Codice.Client.BaseCommands.Import;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using UnityEngine;
-using static PlasticPipe.Server.MonitorStats;
-using UnityEngine.AI;
-
 public class RogueEnemyChar : EnemyChar
 {
     protected State combat;

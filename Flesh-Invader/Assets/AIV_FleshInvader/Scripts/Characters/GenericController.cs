@@ -49,7 +49,6 @@ public class GenericController : MonoBehaviour
     }
 
     private void EnablePauseMenu(InputAction.CallbackContext context) {
-        //PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
         PlayerState.Get().InformationController.OpenPauseMenu();
     }
     #endregion
@@ -82,6 +81,14 @@ public class GenericController : MonoBehaviour
         InputManager.Player.Possession.performed += PossessionPerformed;
         InputManager.Player.Attack.performed += AttackPerformed;
         InputManager.Player.PauseEnable.performed += EnablePauseMenu;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Player.Interact.performed -= InteractionPerformed;
+        InputManager.Player.Possession.performed -= PossessionPerformed;
+        InputManager.Player.Attack.performed -= AttackPerformed;
+        InputManager.Player.PauseEnable.performed -= EnablePauseMenu;
     }
     #endregion
 }

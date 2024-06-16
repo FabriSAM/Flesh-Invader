@@ -64,16 +64,16 @@ public class PlayerState : MonoBehaviour
             return;
         }
         instance = this;
-        levelController.InitMe();
-        missionController.InitMe();
+        levelController.InitMe();        
         genericController.InitMe(possessionCD);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         if (instance != this) return;
         healthController.InitMe(this);
+        missionController.InitMe();
     }
     #endregion
 }

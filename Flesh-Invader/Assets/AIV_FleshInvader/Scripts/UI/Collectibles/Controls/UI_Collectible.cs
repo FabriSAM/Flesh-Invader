@@ -63,6 +63,8 @@ public class UI_Collectible : MonoBehaviour, IDisplayer {
         root.style.display = DisplayStyle.None;
         StopCoroutine("ChangeBorderColor");
         Time.timeScale = 1;
+        GlobalEventSystem.CastEvent(EventName.UICollectableClose,
+            EventArgsFactory.UICollectableCloseFactory());
     }
 
     public Action OnEntryDisplayed {

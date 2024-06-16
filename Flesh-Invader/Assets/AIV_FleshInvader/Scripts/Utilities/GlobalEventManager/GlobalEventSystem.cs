@@ -15,7 +15,8 @@ using UnityEngine;
         CameraFOVChange,
         EnemyDeath,
         PlayerWin,
-        PauseMenuEvent
+        PauseMenuEvent,
+        UICollectableClose
     }
 
     public class EventArgs {
