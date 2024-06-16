@@ -17,6 +17,14 @@ public abstract class InteractableBase : MonoBehaviour
 
     #region Variables
     protected Controller controller;
+    protected bool alreadyUsed;
+    #endregion
+
+    #region Mono
+    private void OnEnable()
+    {
+        alreadyUsed = false;
+    }
     #endregion
 
     #region ProtectedMethods
@@ -45,8 +53,8 @@ public abstract class InteractableBase : MonoBehaviour
     }
     protected virtual bool CanOpen(Collider other)
     {
+        if (alreadyUsed) return false;
         if (!other.TryGetComponent(out controller)) return false;
-        //if (!other.TryGetComponent(out character)) return;
         if (!controller.IsPossessed) return false;
         if (!controller.CharacterInfo.CharStats.CanLockpick) return false;
 

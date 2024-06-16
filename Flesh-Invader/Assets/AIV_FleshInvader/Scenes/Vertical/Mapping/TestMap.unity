@@ -6826,7 +6826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnTime
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.data[0].result
