@@ -49,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 5026784414776744300}
   canvas: {fileID: 756294302572499277}
+  info:
+    Title: Barrel
+    Icon: {fileID: 2800000, guid: 3ff06c3ce03133341bd425d8a189491b, type: 3}
   dialogueID: 0
 --- !u!65 &5026784414776744300
 BoxCollider:
@@ -127,6 +130,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2391664, guid: 667f8d64d1420be4c89570f844aad2e5, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2391664, guid: 667f8d64d1420be4c89570f844aad2e5, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e96ddb48beffbf344adf0bf6c23d0c36, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

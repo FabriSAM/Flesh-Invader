@@ -23,7 +23,7 @@ public class UI_MissionLabel : MonoBehaviour
 
     private void OnMissionUpdated(EventArgs message)
     {
-        EventArgsFactory.MissionUpdatedParser(message, out int maxValue, out int currentValue);
-        mission.text = $"Hai raccolto {currentValue.ToString()} di {maxValue.ToString()}";
+        EventArgsFactory.MissionUpdatedParser(message, out Collectible collectible);
+        mission.text = $"Found {collectible.collectiblesFound.CurrentObject.ToString()} of {collectible.collectiblesFound.MaxObject.ToString()}";
     }
 }

@@ -4,27 +4,46 @@ using UnityEngine;
 
 public class PlayerStateMission : MonoBehaviour
 {
-    private int maxObject;
-    private int currentObject;
 
-    private void Start()
+    private Collectible collectible = new Collectible();
+
+    public Collectible Collectible { get { return collectible; } }
+
+    public void InitMe()
     {
         CallGlobalEvent();
+        GlobalEventSystem.AddListener(EventName.UICollectableClose, CallWinMenu);
+    }
+
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.UICollectableClose, CallWinMenu);
     }
 
     public void AddMe()
     {
-        maxObject++;
+        collectible.collectiblesFound.MaxObject++;
+        CallGlobalEvent();
     }
-    public void Collected()
+    public void Collected(CollectibleInfo info)
     {
-        currentObject++;
+        collectible.collectiblesFound.CurrentObject++;
+        collectible.Info = info;
         CallGlobalEvent();
     }
 
     private void CallGlobalEvent()
     {
         GlobalEventSystem.CastEvent(EventName.MissionUpdated,
-                                    EventArgsFactory.MissionUpdatedFactory(maxObject, currentObject));
+            EventArgsFactory.MissionUpdatedFactory(collectible));
+    }
+
+    private void CallWinMenu(EventArgs _)
+    {
+        if (collectible.collectiblesFound.CurrentObject == collectible.collectiblesFound.MaxObject)
+        {
+            GlobalEventSystem.CastEvent(EventName.PlayerWin,
+                EventArgsFactory.PlayerWinFactory(PlayerState.Get().InformationController.GetStats()));
+        }
     }
 }

@@ -10,7 +10,13 @@ using UnityEngine;
         DialoguePerformed,
         PossessionExecuted,
         MissionUpdated,
-        PossessionAbilityState
+        PossessionAbilityState,
+        CameraShake,
+        CameraFOVChange,
+        EnemyDeath,
+        PlayerWin,
+        PauseMenuEvent,
+        UICollectableClose
     }
 
     public class EventArgs {

@@ -29,6 +29,7 @@ public class Gate : InteractableBase
     protected override void OnOpen()
     {
         open = StartCoroutine(OpenDoor());
+        alreadyUsed = true;
     }
     #endregion
 

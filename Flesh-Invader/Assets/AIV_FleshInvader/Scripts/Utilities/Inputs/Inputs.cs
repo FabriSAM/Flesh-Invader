@@ -71,6 +71,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PauseEnable"",
+                    ""type"": ""Button"",
+                    ""id"": ""587b487a-5188-4aca-b857-e9df236b462b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95bc1a53-143a-4db3-b438-c12b2957f590"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseEnable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -187,6 +207,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseDisable"",
+                    ""type"": ""Button"",
+                    ""id"": ""b820605a-327c-4537-8177-5405ce30552e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +227,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DialogueSkip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""105529b5-5ee4-4d9a-bce3-e6ac8103d25c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseDisable"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -281,9 +321,11 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Player_Possession = m_Player.FindAction("Possession", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+        m_Player_PauseEnable = m_Player.FindAction("PauseEnable", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_DialogueSkip = m_UI.FindAction("DialogueSkip", throwIfNotFound: true);
+        m_UI_PauseDisable = m_UI.FindAction("PauseDisable", throwIfNotFound: true);
         // Vertical
         m_Vertical = asset.FindActionMap("Vertical", throwIfNotFound: true);
         m_Vertical_Pos1 = m_Vertical.FindAction("Pos1", throwIfNotFound: true);
@@ -355,6 +397,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Possession;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_MousePosition;
+    private readonly InputAction m_Player_PauseEnable;
     public struct PlayerActions
     {
         private @Inputs m_Wrapper;
@@ -364,6 +407,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         public InputAction @Possession => m_Wrapper.m_Player_Possession;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+        public InputAction @PauseEnable => m_Wrapper.m_Player_PauseEnable;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -388,6 +432,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @PauseEnable.started += instance.OnPauseEnable;
+            @PauseEnable.performed += instance.OnPauseEnable;
+            @PauseEnable.canceled += instance.OnPauseEnable;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -407,6 +454,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @PauseEnable.started -= instance.OnPauseEnable;
+            @PauseEnable.performed -= instance.OnPauseEnable;
+            @PauseEnable.canceled -= instance.OnPauseEnable;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -429,11 +479,13 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_DialogueSkip;
+    private readonly InputAction m_UI_PauseDisable;
     public struct UIActions
     {
         private @Inputs m_Wrapper;
         public UIActions(@Inputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @DialogueSkip => m_Wrapper.m_UI_DialogueSkip;
+        public InputAction @PauseDisable => m_Wrapper.m_UI_PauseDisable;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -446,6 +498,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @DialogueSkip.started += instance.OnDialogueSkip;
             @DialogueSkip.performed += instance.OnDialogueSkip;
             @DialogueSkip.canceled += instance.OnDialogueSkip;
+            @PauseDisable.started += instance.OnPauseDisable;
+            @PauseDisable.performed += instance.OnPauseDisable;
+            @PauseDisable.canceled += instance.OnPauseDisable;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -453,6 +508,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @DialogueSkip.started -= instance.OnDialogueSkip;
             @DialogueSkip.performed -= instance.OnDialogueSkip;
             @DialogueSkip.canceled -= instance.OnDialogueSkip;
+            @PauseDisable.started -= instance.OnPauseDisable;
+            @PauseDisable.performed -= instance.OnPauseDisable;
+            @PauseDisable.canceled -= instance.OnPauseDisable;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -539,10 +597,12 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         void OnPossession(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnPauseEnable(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
         void OnDialogueSkip(InputAction.CallbackContext context);
+        void OnPauseDisable(InputAction.CallbackContext context);
     }
     public interface IVerticalActions
     {

@@ -15,14 +15,17 @@ public class PatrolAction : StateAction
     private NavMeshPath navPath;
 
     private float patrolSpeed;
+    private float pathCalculusFrequency;
+    private float pathCalculusCounter;
 
-    public PatrolAction(NavMeshAgent patroller, Vector3[] patrolPositions, float acceptableRadius, float patrolSpeed)
+    public PatrolAction(NavMeshAgent patroller, Vector3[] patrolPositions, float acceptableRadius, float patrolSpeed, float pathCalculusFrequency)
     {
         navMeshAgent = patroller;
 
         this.patrolPositions = patrolPositions;
         this.acceptableRadius = acceptableRadius;
         this.patrolSpeed = patrolSpeed;
+        this.pathCalculusFrequency = pathCalculusFrequency;
         navPath = new NavMeshPath();
     }
 
@@ -37,7 +40,13 @@ public class PatrolAction : StateAction
 
     public override void OnUpdate()
     {
-        InternalSetVelocity();
+        pathCalculusCounter += Time.deltaTime;
+
+        if (pathCalculusCounter >= pathCalculusFrequency)
+        {
+            InternalSetVelocity();
+            pathCalculusCounter = 0;
+        }
         Vector3 positionToReachLocal = navMeshAgent.transform.InverseTransformPoint(currentTransformToReach);
        
         if (Vector3.SqrMagnitude(positionToReachLocal) < acceptableRadius * acceptableRadius)
@@ -57,7 +66,7 @@ public class PatrolAction : StateAction
 
     private void InternalSetVelocity()
     {
-        if(navMeshAgent.CalculatePath(currentTransformToReach, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        if(navMeshAgent.gameObject.activeSelf && navMeshAgent.CalculatePath(currentTransformToReach, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
         {
             navMeshAgent.SetPath(navPath);
             //navMeshAgent.destination = currentTransformToReach;

@@ -7,13 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GenericController : MonoBehaviour
 {
-    #region SerializeField
-    [SerializeField]
-    private float defaultPossessionCD;
-    [SerializeField]
-    private PlayerState playerState;
-    #endregion
-
     #region PrivateMembers
     private float possessionCD;
     private bool canUsePossession;
@@ -26,46 +19,9 @@ public class GenericController : MonoBehaviour
     public Action Interact;
     public Action Rotate;
     public Action Posses;
-
-    public Action Pos2;
     #endregion
 
     #region Mono
-    void Awake()
-    {
-        possessionCD = defaultPossessionCD;
-        canUsePossession = true;
-        InputManager.Player.Interact.performed += InteractionPerformed;
-        InputManager.Player.Possession.performed += PossessionPerformed;
-        InputManager.Player.Attack.performed += AttackPerformed;
-        playerState.onLevelChange += OnLevelChange;
-
-        InputManager.Vertical.Pos1.performed += Pos1Performed;
-    }
-    private void OnDestroy()
-    {
-        InputManager.Player.Interact.performed -= InteractionPerformed;
-        InputManager.Player.Possession.performed -= PossessionPerformed;
-        InputManager.Player.Attack.performed -= AttackPerformed;
-        InputManager.Vertical.Pos1.performed -= Pos1Performed;
-    }
-
-    private void Pos1Performed(InputAction.CallbackContext context)
-    {
-        GameObject.Find("Pooler").GetComponentInChildren(typeof(CharacterSpawner), true).gameObject.SetActive(true);
-        Pos2Invoke();
-        //async load with loading widget
-        SceneManager.LoadSceneAsync(2);
-    }
-
-    private void Pos2Invoke()
-    {
-       
-        Pos2?.Invoke();
-        StopCoroutine(PossesCoroutine());
-        possesCoroutine = null;
-    }
-
     void FixedUpdate()
     {
         Move?.Invoke();
@@ -75,12 +31,14 @@ public class GenericController : MonoBehaviour
     #region InputCallBack
     private void AttackPerformed(InputAction.CallbackContext context)
     {
+        PlayerState.Get().InformationController.BulletFired();
         Attack?.Invoke();
     }
     private void PossessionPerformed(InputAction.CallbackContext context)
     {
-        if (canUsePossession)
+        if (canUsePossession && !PlayerState.Get().HealthController.DeadStatus)
         {
+            PlayerState.Get().InformationController.PossessionShoot();
             possesCoroutine = StartCoroutine(PossesCoroutine());
             Posses?.Invoke();
         }
@@ -89,12 +47,9 @@ public class GenericController : MonoBehaviour
     {
         Interact?.Invoke();
     }
-    #endregion
 
-    #region CallBack
-    private void OnLevelChange(int newLevel)
-    {
-        possessionCD = defaultPossessionCD / newLevel;
+    private void EnablePauseMenu(InputAction.CallbackContext context) {
+        PlayerState.Get().InformationController.OpenPauseMenu();
     }
     #endregion
 
@@ -114,6 +69,26 @@ public class GenericController : MonoBehaviour
     {
         GlobalEventSystem.CastEvent(EventName.PossessionAbilityState,
                 EventArgsFactory.PossessionAbilityStateFactory(state));
+    }
+    #endregion
+
+    #region PublicMethods
+    public void InitMe(float possessionCD)
+    {
+        this.possessionCD = possessionCD;
+        canUsePossession = true;
+        InputManager.Player.Interact.performed += InteractionPerformed;
+        InputManager.Player.Possession.performed += PossessionPerformed;
+        InputManager.Player.Attack.performed += AttackPerformed;
+        InputManager.Player.PauseEnable.performed += EnablePauseMenu;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Player.Interact.performed -= InteractionPerformed;
+        InputManager.Player.Possession.performed -= PossessionPerformed;
+        InputManager.Player.Attack.performed -= AttackPerformed;
+        InputManager.Player.PauseEnable.performed -= EnablePauseMenu;
     }
     #endregion
 }

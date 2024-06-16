@@ -8,30 +8,40 @@ public class PlayerState : MonoBehaviour
     #region SerializeField
     [SerializeField]
     GenericController genericController;
+    [SerializeField]
+    PlayerStateMission missionController;
+    [SerializeField]
+    PlayerStateLevel levelController;
+    [SerializeField]
+    PlayerStateHealth healthController;
+    [SerializeField]
+    PlayerStateInformation informationController;
+    [SerializeField]
+    float possessionCD;
     #endregion
 
     #region PrivateMembers
-    private Transform playerTransform;
+    private GameObject currentPlayer;
     #endregion
 
     #region Properties
-    public Transform PlayerTransform 
-    { 
-        get 
-        { 
-            if(playerTransform == null)
+    public GameObject CurrentPlayer
+    {
+        get
+        {
+            if (currentPlayer == null)
             {
-                return gameObject.transform; 
+                return gameObject;
             }
-            return playerTransform; 
-        } 
-        set { playerTransform = value; } 
+            return currentPlayer;
+        }
+        set { currentPlayer = value; }
     }
     public GenericController GenericController { get { return genericController; } }
-    #endregion
-
-    #region Action
-    public Action<int> onLevelChange;
+    public PlayerStateMission MissionController { get { return missionController; } }
+    public PlayerStateLevel LevelController { get { return levelController; } }
+    public PlayerStateHealth HealthController { get { return healthController; } }
+    public PlayerStateInformation InformationController { get { return informationController; } }
     #endregion
     
     #region StaticMembers
@@ -54,12 +64,16 @@ public class PlayerState : MonoBehaviour
             return;
         }
         instance = this;
-        DontDestroyOnLoad(gameObject);
+        levelController.InitMe();        
+        genericController.InitMe(possessionCD);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         if (instance != this) return;
+        healthController.InitMe(this);
+        missionController.InitMe();
     }
     #endregion
 }

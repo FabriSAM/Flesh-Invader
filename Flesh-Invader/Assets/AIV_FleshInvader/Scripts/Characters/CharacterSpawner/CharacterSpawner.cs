@@ -1,8 +1,11 @@
+using NotserializableEventManager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.InputSystem.HID;
 
 [Serializable]
 public struct EnemyPoolProbabilityDict
@@ -12,18 +15,22 @@ public struct EnemyPoolProbabilityDict
 
 public class CharacterSpawner : MonoBehaviour, IPoolRequester
 {
-    [SerializeField] private PoolData[] characterType;
     // Hipotetically we could use a special PoolData array to bring some special enemyPool that have to spawn independently from zone
     //[SerializeField] private PoolData[] specialCharacterType
     //[SerializeField] private EnemyPoolProbabilityDict specialSpawnProbability;
 
+    [SerializeField] private PoolData[] characterType;
+    [SerializeField] private int maxEnemiesInScene;
+
+    [Tooltip("Enemy distance from player at spawn")]
     [SerializeField] protected float spawnRadius;
     [SerializeField] protected float spawnTime;
     protected float spawnTimeCounter;
 
     [SerializeField] private EnemyPoolProbabilityDict spawnProbability;
+    private NavMeshHit navMeshSpawnHit;
 
-
+    private int activeEnemies;
 
     public PoolData[] Datas
     {
@@ -36,11 +43,22 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         get => spawnProbability; 
         set => spawnProbability = value; }
 
+
+    private void Awake()
+    {
+        GlobalEventSystem.AddListener(EventName.EnemyDeath, CountEnemyDeath);
+    }
+
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.EnemyDeath, CountEnemyDeath);
+    }
+
     private void Update()
     {
         spawnTimeCounter += Time.deltaTime;
 
-        if (spawnTimeCounter >= spawnTime)
+        if (spawnTimeCounter >= spawnTime && activeEnemies < maxEnemiesInScene)
         {
             spawnTimeCounter = 0;
             SpawnCharacter();
@@ -75,9 +93,22 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         {
             Vector2 spawnOffset2D = UnityEngine.Random.insideUnitCircle * spawnRadius;
             Vector3 spawnOffset = new Vector3(spawnOffset2D.x,0,spawnOffset2D.y);
-            obj.transform.position = PlayerState.Get().PlayerTransform.position + spawnOffset;
+
+            NavMesh.SamplePosition(
+                PlayerState.Get().CurrentPlayer.transform.position + spawnOffset,
+                out navMeshSpawnHit, 2000, 1
+            ) ;
+
+            obj.transform.position = navMeshSpawnHit.position;
+
             obj.SetActive(true);
+            activeEnemies++;
         }
+    }
+
+    private void CountEnemyDeath(EventArgs _)
+    {
+        activeEnemies--;
     }
 
 }

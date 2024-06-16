@@ -3,31 +3,40 @@ using UnityEngine;
 
 public class PlayerStateHealth : MonoBehaviour
 {
+    #region Const
+    private const float possessionHpMultiplier = 0.5f;
+    #endregion
+
     #region SerializedField
+    [Header("Health related parameters")]
     [SerializeField]
-    private float maxHP;
+    private float defaultMaxHp;
     [SerializeField]
-    private float constantDamage;
+    private float defaultConstantDamage;
     [SerializeField]
-    private float maxTimer;
+    private float defaultMaxTimer;
+
+    [Header("CameraShake parameters")]
     [SerializeField]
-    private PlayerState playerState;
+    private float amplitude;
+    [SerializeField]
+    private float duration;
+    [SerializeField]
+    private bool overrideCameraShakeCoroutine;
     #endregion
 
     #region Variable
     private float reduceTimer;
     private float currentHP;
+    private bool deadStatus;
+    private float maxHP;
+    private float maxTimer;
+    private float constantDamage;
+
+    public bool DeadStatus {  get { return deadStatus; } }
     #endregion
 
     #region Mono
-    private void Start()
-    {
-        reduceTimer = maxTimer;
-        currentHP = maxHP;
-        playerState.onLevelChange += OnLevelChange;
-        SendMessage();
-    }
-
     void Update()
     {
         reduceTimer -= Time.deltaTime;
@@ -35,6 +44,7 @@ public class PlayerStateHealth : MonoBehaviour
         if (reduceTimer < 0)
         {
             HealthReduce(constantDamage);
+            SendCameraShakeEvent();
             reduceTimer = maxTimer;
         }
     }
@@ -43,31 +53,81 @@ public class PlayerStateHealth : MonoBehaviour
     #region PublicMehtods
     public void HealthReduce(float damage)
     {
+        if (deadStatus) { return; }
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-        SendMessage();
+        SendMessageHealthUpdate();
+
+        if (currentHP <= 0)
+        {
+            PlayerDeath();
+        }
     }
 
-    public void HeathAdd(float healthToAdd)
+    public void HealthAdd(float healthToAdd)
     {
         currentHP = Mathf.Clamp(currentHP + healthToAdd, 0, maxHP);
-        SendMessage();
+        SendMessageHealthUpdate();
+    }
+
+    public void SetHealthForPossession()
+    {
+        HealthAdd(maxHP * possessionHpMultiplier);
+    }
+
+    public void PlayerDeath()
+    {
+        deadStatus = true;
+        SendMessagePlayerDeath();
+    }
+
+    public void HealthReset()
+    {
+        deadStatus = false;
+        maxHP = defaultMaxHp;
+        currentHP = maxHP;
+    }
+
+    public void HealthDamageTimerReset()
+    {
+        maxTimer = defaultMaxTimer;
+        reduceTimer = maxTimer;
+        constantDamage = defaultConstantDamage;
+    }
+
+    public void InitMe(PlayerState playerState)
+    {
+        HealthReset();
+        HealthDamageTimerReset();
+        playerState.LevelController.OnLevelChange += OnLevelChange;
+        SendMessageHealthUpdate();
     }
     #endregion
 
     #region PrivateMethods
     private void OnLevelChange(int value)
     {
-        currentHP *= value;
-        maxHP *= value;
-        maxTimer *= value;
-        reduceTimer *= value;
-        constantDamage = Mathf.Clamp(constantDamage - value, 1, constantDamage);
+        // Balance new stats when level up
+        maxHP = defaultMaxHp * value;
+        maxTimer = defaultMaxTimer * value;
+        constantDamage = defaultConstantDamage;
     }
 
-    private void SendMessage()
+    private void SendCameraShakeEvent()
+    {
+        GlobalEventSystem.CastEvent(EventName.CameraShake,
+            EventArgsFactory.CameraShakeFactory(amplitude, duration, overrideCameraShakeCoroutine));
+    }
+
+    private void SendMessageHealthUpdate()
     {
         GlobalEventSystem.CastEvent(EventName.PlayerHealthUpdated,
             EventArgsFactory.PlayerHealthUpdatedFactory(maxHP, currentHP));
+    }
+
+    private void SendMessagePlayerDeath()
+    {
+        GlobalEventSystem.CastEvent(EventName.PlayerDeath,
+            EventArgsFactory.PlayerDeathFactory(PlayerState.Get().InformationController.GetStats()));
     }
     #endregion
 }

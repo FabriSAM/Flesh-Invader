@@ -30,13 +30,13 @@ public class Chest : InteractableBase, ICollectable
     protected override void OnOpen()
     {
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
-        Collect();
         UnscribeInteract();
+        Collect();
     }
 
     public void Collect()
     {
-        missionController.Collected();
+        missionController.Collected(info);
         gameObject.SetActive(false);
     }
 
@@ -50,7 +50,7 @@ public class Chest : InteractableBase, ICollectable
     #region Mono
     void Awake()
     {
-        missionController = PlayerState.Get().GetComponentInChildren<PlayerStateMission>();
+        missionController = PlayerState.Get().MissionController;
         AddMission();
     }
     #endregion

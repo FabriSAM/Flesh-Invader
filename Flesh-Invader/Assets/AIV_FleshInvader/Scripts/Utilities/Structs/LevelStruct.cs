@@ -7,7 +7,6 @@ using UnityEngine;
 public struct LevelStruct
 {    
     private float currentXP;
-    [SerializeField]
     private float nextLevelXp;
     [SerializeField]
     private int currentLevel;
