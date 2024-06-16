@@ -30,8 +30,8 @@ public class Chest : InteractableBase, ICollectable
     protected override void OnOpen()
     {
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
-        Collect();
         UnscribeInteract();
+        Collect();
     }
 
     public void Collect()
