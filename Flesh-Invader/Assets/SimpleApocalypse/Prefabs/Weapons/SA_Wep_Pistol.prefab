@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 467678}
   - component: {fileID: 3310844}
   - component: {fileID: 2336204}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SA_Wep_Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -31,8 +31,8 @@ public class HealthModule : MonoBehaviour
 
     #region PrivateAttributes
     private bool invulnerable;
-    private float maxHP;
-    private float currentHP;
+    private float maxHP = 1;
+    private float currentHP = 1;
     #endregion
 
     #region PublicMethods
