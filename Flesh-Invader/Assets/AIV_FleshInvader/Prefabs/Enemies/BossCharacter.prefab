@@ -366,6 +366,7 @@ GameObject:
   - component: {fileID: 8381141818442175194}
   - component: {fileID: 1929918194066226273}
   - component: {fileID: 3307555125700478708}
+  - component: {fileID: 5946631002369032525}
   - component: {fileID: 9143152901889861711}
   m_Layer: 7
   m_Name: BossCharacter
@@ -459,6 +460,8 @@ MonoBehaviour:
   visual: {fileID: 1020975654700025000}
   combatManager: {fileID: 3307555125700478708}
   isPossessed: 0
+  overlay: {fileID: 5946631002369032525}
+  overlayMaterial: {fileID: 2100000, guid: 159cf240c154c904387c07e5bdaaca6f, type: 2}
 --- !u!114 &3307555125700478708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,6 +476,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeColliders: []
   healthModule: {fileID: 8509879122205763137}
+--- !u!114 &5946631002369032525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5380751241265888436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ae341f62c618347855d352f4119a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 7860147314885161351}
 --- !u!136 &9143152901889861711
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -742,6 +758,11 @@ Transform:
 --- !u!95 &7860147314881111573 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
+  m_PrefabInstance: {fileID: 7860147314871653237}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &7860147314885161351 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13771506, guid: eaa87c0130c9b1f4ba9e270558d2e0a9, type: 3}
   m_PrefabInstance: {fileID: 7860147314871653237}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8600952662611792714

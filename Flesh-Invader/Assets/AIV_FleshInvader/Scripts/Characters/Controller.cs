@@ -22,6 +22,10 @@ public class Controller : MonoBehaviour, IPossessable
     protected CombatManager combatManager;
     [SerializeField]
     protected bool isPossessed;
+    [SerializeField]
+    private SetOverlay overlay;
+    [SerializeField]
+    private Material overlayMaterial;
     #endregion //References
 
     #region PrivateAttributes
@@ -60,6 +64,7 @@ public class Controller : MonoBehaviour, IPossessable
     { 
         get { return combatManager; } 
     }
+    public SetOverlay Overlay { get { return overlay; } }
 
     public EnemyInfo CharacterInfo { get; set; }
 
@@ -166,11 +171,12 @@ public class Controller : MonoBehaviour, IPossessable
         {
             ability.RegisterInput();
         }
-
+        
         combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
         OnCharacterPossessed?.Invoke();
         playerStateHealth.SetHealthForPossession();
         Debug.Log("Possessed");
+        Overlay.AddOverlay(overlayMaterial);
     }
     public void InternalOnUnposses()
     {
@@ -184,6 +190,7 @@ public class Controller : MonoBehaviour, IPossessable
 
         combatManager.OnPossessionChanged?.Invoke("PlayerDamager");
         OnCharacterUnpossessed?.Invoke();
+        Overlay.RemoveOverlay(overlayMaterial);
     }
 
     private void InternalOnPerceivedDamage(DamageContainer damage)

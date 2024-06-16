@@ -2,6 +2,7 @@ using NotserializableEventManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,6 +20,8 @@ public abstract class EnemyChar : MonoBehaviour
     private bool isDead;
 
     [SerializeField] protected Material unpossesableMaterial;
+
+    private string hashClonedMaterial;
 
     #region ProtectedProperties
     public EnemyInfo CharacterInfo {get { return characterCurrentInfo; }}
@@ -266,32 +269,13 @@ public abstract class EnemyChar : MonoBehaviour
         {
             Debug.Log("Spawn unposessable enemyChar");
 
-            // Unpossessable Enemy differences with normal enemy
-            SkinnedMeshRenderer mesh = controller.Visual.GetComponentInChildren<SkinnedMeshRenderer>();
-            List<Material> unpossessableMaterials = mesh.materials.ToList();
-            unpossessableMaterials.Add(unpossesableMaterial);
-            mesh.SetMaterials(unpossessableMaterials);
+            controller.Overlay.AddOverlay(unpossesableMaterial);
 
         }
         else
         {
-
-            SkinnedMeshRenderer mesh = controller.Visual.GetComponentInChildren<SkinnedMeshRenderer>();
-            List<Material> unpossessableMaterials = mesh.materials.ToList();
-            if (unpossessableMaterials.Count > 1) 
-            {
-                //Trovare soluzione!!!!!!!
-                try
-                {
-                    unpossessableMaterials.RemoveAt(1);
-                    mesh.SetMaterials(unpossessableMaterials);
-                }
-                catch 
-                {
-                }
-                /////////////
-            }
-        }
+            controller.Overlay.RemoveOverlay(unpossesableMaterial);            
+        }        
     }
 
     protected void CalculateDamage()
@@ -309,7 +293,7 @@ public abstract class EnemyChar : MonoBehaviour
         FSM.enabled = false;
         agent.enabled = false;
 
-
+        PlayerState.Get().InformationController.SetCurrentIndexEnemy((int)characterCurrentInfo.CharStats.EnemyType);
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
             EventArgsFactory.PossessionExecutedFactory(characterCurrentInfo)

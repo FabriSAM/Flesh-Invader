@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 486700847704459266}
   - component: {fileID: 7414945148087197966}
   - component: {fileID: 729619551507855735}
+  - component: {fileID: 9125081165327885137}
   - component: {fileID: 8690166444889035717}
   m_Layer: 7
   m_Name: RogueCharacter
@@ -140,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3711381827548582195
 Transform:
   m_ObjectHideFlags: 0
@@ -226,6 +227,8 @@ MonoBehaviour:
   visual: {fileID: 8936908340003558207}
   combatManager: {fileID: 729619551507855735}
   isPossessed: 0
+  overlay: {fileID: 9125081165327885137}
+  overlayMaterial: {fileID: 2100000, guid: 159cf240c154c904387c07e5bdaaca6f, type: 2}
 --- !u!114 &729619551507855735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +244,19 @@ MonoBehaviour:
   meleeColliders:
   - {fileID: 6038205273019473983}
   healthModule: {fileID: 4799463754217226140}
+--- !u!114 &9125081165327885137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459255521996219516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ae341f62c618347855d352f4119a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 4774326097381248879}
 --- !u!136 &8690166444889035717
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -840,6 +856,11 @@ PrefabInstance:
 --- !u!95 &4774326097377213727 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: d494053454742064a9b78ed357c16868, type: 3}
+  m_PrefabInstance: {fileID: 4774326097386621055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4774326097381248879 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13764368, guid: d494053454742064a9b78ed357c16868, type: 3}
   m_PrefabInstance: {fileID: 4774326097386621055}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4774326097386589853 stripped

@@ -7,6 +7,13 @@ using UnityEngine.UIElements;
 
 public class UI_PauseMenu : MonoBehaviour
 {
+    #region SerializedField
+    [SerializeField]
+    private Transform[] modelPortraitLocation;
+    [SerializeField]
+    private Camera portraitCamera;
+    #endregion
+
     private VisualElement root;
     private VisualElement HUDroot;
     //buttons
@@ -25,6 +32,8 @@ public class UI_PauseMenu : MonoBehaviour
     private Label bulletsFired;
     //portrait
     private VisualElement portrait;
+    
+
 
     #region Mono
 
@@ -91,10 +100,10 @@ public class UI_PauseMenu : MonoBehaviour
         //statistics
         WriteStatistics(statistics);
         //Portrait
-        Camera camera = GameObject.Find("PortraitCamera")?.GetComponent<Camera>();
-        if (camera != null) {
+        //portraitCamera = GameObject.Find("PortraitCamera")?.GetComponent<Camera>();
+        if (portraitCamera != null) {
             Background bg = new Background();
-            bg.renderTexture = camera.targetTexture;
+            bg.renderTexture = portraitCamera.targetTexture;
             StyleBackground sb = new StyleBackground(bg);
             portrait.style.backgroundImage = sb;
         }
@@ -111,8 +120,14 @@ public class UI_PauseMenu : MonoBehaviour
         possessionSuccess.text = statistics.PossessionSuccess.ToString();
         possessionFailed.text = statistics.PossessionFailed.ToString();
         bulletsFired.text = statistics.BulletFired.ToString();
+        Debug.Log("CURRENT INDEX ENEMY" + statistics.CurrentIndexEnemy);
+        SetPortraitCameraTransform(statistics.CurrentIndexEnemy);
     }
-
+    private void SetPortraitCameraTransform(int enemyIndex)
+    {
+        Debug.Log(portraitCamera.transform);
+        portraitCamera.transform.position = modelPortraitLocation[enemyIndex].position;
+    }
     private void ClosePauseMenu() {
         root.style.display = DisplayStyle.None;
         sureQuit.style.visibility = Visibility.Hidden;
