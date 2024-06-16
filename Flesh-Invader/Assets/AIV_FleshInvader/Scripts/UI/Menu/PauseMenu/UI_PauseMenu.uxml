@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="UI_Statistics" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/EndScreen/Components/UI_Statistics.uxml?fileID=9197481963319205126&amp;guid=2d9b3fa2abebd7745b05f2c990fd7612&amp;type=3#UI_Statistics" />
+    <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/StyleSheets/StyleButton.uss?fileID=7433441132597879392&amp;guid=d0f56ec9148e99545978f4883545b13c&amp;type=3#StyleButton" />
+    <ui:VisualElement name="root" style="flex-grow: 0; flex-direction: column; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-shrink: 0; justify-content: center; align-self: center; align-items: center; width: 100%; height: 100%; -unity-font: url(&apos;project://database/Assets/AIV_FleshInvader/Fonts/SpaceCrusaders-x3DP0.ttf?fileID=12800000&amp;guid=8843f95fd244acc4dbfbd20ddf9151b8&amp;type=3#SpaceCrusaders-x3DP0&apos;); -unity-font-definition: initial; display: flex; visibility: visible; opacity: 1;">
+        <ui:VisualElement name="pause-container" style="flex-grow: 0; border-top-left-radius: 55px; border-top-right-radius: 55px; border-bottom-right-radius: 55px; border-bottom-left-radius: 55px; background-color: rgba(48, 48, 48, 0.37); width: 90%; height: 90%; flex-shrink: 0; display: flex; visibility: visible;">
+            <ui:Label tabindex="-1" text="PAUSE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title" style="font-size: 100px; -unity-font-style: bold; text-shadow: 15px 15px 0 rgb(89, 89, 89); color: rgb(43, 43, 43); padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: lower-center; text-overflow: clip; white-space: nowrap; height: 20%;" />
+            <ui:VisualElement name="body-container" style="flex-grow: 0; flex-direction: column; flex-shrink: 0; height: 80%; display: flex;">
+                <ui:VisualElement name="buttons-portrait" style="flex-grow: 0; align-items: stretch; justify-content: center; flex-direction: row; flex-shrink: 0; height: 60%;">
+                    <ui:VisualElement name="left" style="width: 50%; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <ui:VisualElement name="buttons-container" style="flex-grow: 0; flex-basis: auto; flex-shrink: 0; flex-direction: column; align-self: center; display: flex; height: auto; flex-wrap: nowrap; justify-content: space-between; width: 70%;">
+                            <ui:Button text="Continue" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-continue" class="styleButton" style="width: auto;" />
+                            <ui:Button text="Main Menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-main-menu" class="styleButton" />
+                            <ui:Button text="Quit Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-quit" class="styleButton" />
+                            <ui:VisualElement name="are-you-sure-quit" style="flex-grow: 0; flex-direction: row; justify-content: space-around; flex-shrink: 0; bottom: 2%; visibility: hidden;">
+                                <ui:Button text="CONFIRM" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-confirm-quit" class="styleButton" style="font-size: 14px;" />
+                                <ui:Button text="Cancel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-cancel-quit" class="styleButton" style="font-size: 14px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="right" style="flex-grow: 0; align-items: center; justify-content: center; flex-shrink: 0; width: 50%;">
+                        <ui:VisualElement name="portrait" style="align-self: center; height: 80%; background-color: rgba(0, 0, 0, 0.22); border-top-left-radius: 35px; border-top-right-radius: 35px; border-bottom-right-radius: 35px; border-bottom-left-radius: 35px; flex-shrink: 0; width: 80%;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="statistics" style="flex-grow: 1; height: 40%; flex-shrink: 0; align-items: center; justify-content: flex-start;">
+                    <ui:Instance template="UI_Statistics" name="UI_Statistics" style="width: 50%; height: 90%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

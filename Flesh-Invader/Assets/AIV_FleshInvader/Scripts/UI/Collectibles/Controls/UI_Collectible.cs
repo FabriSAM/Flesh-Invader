@@ -51,7 +51,8 @@ public class UI_Collectible : MonoBehaviour, IDisplayer {
         InputManager.EnableUIMap(true);
         InputManager.UI.DialogueSkip.performed += OnDialogueSkip;
         root.style.display = DisplayStyle.Flex;
-        StartCoroutine(ChangeBorderColor());
+        StartCoroutine("ChangeBorderColor");
+        Time.timeScale = 0;
     }
 
     public void Close() {
@@ -60,7 +61,8 @@ public class UI_Collectible : MonoBehaviour, IDisplayer {
         InputManager.EnableUIMap(false);
         //hide root
         root.style.display = DisplayStyle.None;
-        StopCoroutine(ChangeBorderColor());
+        StopCoroutine("ChangeBorderColor");
+        Time.timeScale = 1;
     }
 
     public Action OnEntryDisplayed {
@@ -81,7 +83,7 @@ public class UI_Collectible : MonoBehaviour, IDisplayer {
         int i = 2;
         dialogue.text = currentText.Substring(0, i);
         while (i <= currentText.Length) {
-            yield return new WaitForSeconds(typeWriteSpeed);
+            yield return new WaitForSecondsRealtime(typeWriteSpeed);
             dialogue.text = currentText.Substring(0, i);
             i++;
         }

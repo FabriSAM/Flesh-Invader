@@ -36,9 +36,11 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void Start() {
         retry.clickable.clicked += delegate {
+            StopCoroutine("ChangeBorderColor");
             SceneManager.LoadScene(1);
         };
         mainMenu.clickable.clicked += delegate {
+            StopCoroutine("ChangeBorderColor");
             SceneManager.LoadScene(0);
         };
     }
@@ -96,7 +98,7 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void ShowEndScreen() {
         root.style.display = DisplayStyle.Flex;
-        StartCoroutine(ChangeBorderColor());
+        StartCoroutine("ChangeBorderColor");
     }
 
     private IEnumerator ChangeBorderColor() {
