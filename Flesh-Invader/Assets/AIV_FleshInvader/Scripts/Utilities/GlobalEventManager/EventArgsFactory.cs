@@ -228,6 +228,19 @@ namespace NotserializableEventManager
         }
 
         #endregion
+
+        #region UICollectableClose
+        public static EventArgs UICollectableCloseFactory()
+        {
+            return new EventArgs();
+        }
+
+        public static void UICollectableCloseParser(EventArgs _)
+        {
+        }
+
+        
+        #endregion
     }
 
 }

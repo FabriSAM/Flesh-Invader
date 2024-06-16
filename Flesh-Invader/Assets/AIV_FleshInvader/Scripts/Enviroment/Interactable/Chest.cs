@@ -30,7 +30,6 @@ public class Chest : InteractableBase, ICollectable
     protected override void OnOpen()
     {
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
-        Collect();
         UnscribeInteract();
     }
 
@@ -47,11 +46,25 @@ public class Chest : InteractableBase, ICollectable
 
     #endregion
 
+    #region InternalMethods
+    private void InternalCollect(EventArgs _)
+    {
+        Collect();
+    }
+    #endregion
+
+
     #region Mono
     void Awake()
     {
         missionController = PlayerState.Get().MissionController;
         AddMission();
+        GlobalEventSystem.AddListener(EventName.UICollectableClose, InternalCollect);
+    }
+
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.UICollectableClose, InternalCollect);
     }
     #endregion
 }

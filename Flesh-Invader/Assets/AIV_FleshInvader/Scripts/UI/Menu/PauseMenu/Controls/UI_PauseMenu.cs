@@ -59,7 +59,6 @@ public class UI_PauseMenu : MonoBehaviour
         sureQuit.style.visibility = Visibility.Hidden;
         portrait = root.Q<VisualElement>("portrait");
         statistics = root.Q<VisualElement>("statistics-container");
-        InputManager.UI.PauseDisable.performed += OnPauseMenuClose;
     }
 
     private void OnPauseMenuClose(InputAction.CallbackContext context) {
@@ -75,11 +74,13 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     private void OnEnable() {
+        InputManager.UI.PauseDisable.performed += OnPauseMenuClose;
         GlobalEventSystem.AddListener(EventName.PauseMenuEvent, OnPauseMenuOpen);
     }
 
     private void OnDisable() {
         GlobalEventSystem.RemoveListener(EventName.PauseMenuEvent, OnPauseMenuOpen);
+        InputManager.UI.PauseDisable.performed -= OnPauseMenuClose;
     }
 
     #endregion

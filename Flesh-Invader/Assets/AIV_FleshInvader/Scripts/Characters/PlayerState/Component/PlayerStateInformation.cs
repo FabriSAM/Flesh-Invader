@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands;
 using NotserializableEventManager;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,11 +16,15 @@ public class PlayerStateInformation : MonoBehaviour
     #region PublicMethods
     public void OpenPauseMenu()
     {
+        GlobalEventSystem.CastEvent(EventName.PauseMenuEvent, EventArgsFactory.PauseMenuEventFactory(GetStats()));
+    }
+
+    public Statistics GetStats()
+    {
         stats.GameTime = Time.time;
         stats.CollectiblesFound = PlayerState.Get().MissionController.Collectible.collectiblesFound;
         stats.PossessionFailed = totalPossessionBullet - stats.PossessionSuccess;
-        GlobalEventSystem.CastEvent(EventName.PauseMenuEvent, EventArgsFactory.PauseMenuEventFactory(stats));
-        //PauseMenuButtonHandler.Instance.OnPauseMenuTriggerEvent?.Invoke();
+        return stats;
     }
 
     public void BulletFired()

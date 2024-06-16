@@ -26,10 +26,6 @@ public class PlayerStateHealth : MonoBehaviour
     #endregion
 
     #region Mono
-    private void Awake()
-    {
-        HealthReset();
-    }
     void Update()
     {
         reduceTimer -= Time.deltaTime;
@@ -80,6 +76,7 @@ public class PlayerStateHealth : MonoBehaviour
 
     public void InitMe(PlayerState playerState)
     {
+        HealthReset();
         reduceTimer = maxTimer;
         currentHP = maxHP;
         playerState.LevelController.OnLevelChange += OnLevelChange;
@@ -104,8 +101,8 @@ public class PlayerStateHealth : MonoBehaviour
 
     private void SendMessagePlayerDeath()
     {
-        //GlobalEventSystem.CastEvent(EventName.PlayerDeath,
-        //    EventArgsFactory.PlayerDeathFactory(new Statistics()));
+        GlobalEventSystem.CastEvent(EventName.PlayerDeath,
+            EventArgsFactory.PlayerDeathFactory(PlayerState.Get().InformationController.GetStats()));
     }
     #endregion
 }

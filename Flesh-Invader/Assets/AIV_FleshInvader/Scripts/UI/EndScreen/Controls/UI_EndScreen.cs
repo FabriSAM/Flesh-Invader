@@ -37,7 +37,10 @@ public class UI_EndScreen : MonoBehaviour {
     private void Start() {
         retry.clickable.clicked += delegate {
             StopCoroutine("ChangeBorderColor");
-            SceneManager.LoadScene(1);
+            Time.timeScale = 1.0f;
+            InputManager.EnablePlayerMap(true);
+            InputManager.EnableUIMap(false);
+            SceneManager.LoadScene(1,LoadSceneMode.Single);
         };
         mainMenu.clickable.clicked += delegate {
             StopCoroutine("ChangeBorderColor");
@@ -56,6 +59,7 @@ public class UI_EndScreen : MonoBehaviour {
     }
 
     private void OnPlayerDeath(EventArgs message) {
+        Time.timeScale = 0;
         SwitchInputMap();
         EventArgsFactory.PlayerDeathParser(message, out Statistics statistics);
         WriteStatistics(statistics);
