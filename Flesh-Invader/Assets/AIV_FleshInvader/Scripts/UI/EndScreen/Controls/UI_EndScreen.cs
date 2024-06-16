@@ -7,6 +7,10 @@ using UnityEngine.UIElements;
 
 public class UI_EndScreen : MonoBehaviour {
 
+    [SerializeField]
+    private Texture2D[] backgrounds;
+
+
     private VisualElement root;
     private VisualElement statistics;
     private Label title;
@@ -44,7 +48,8 @@ public class UI_EndScreen : MonoBehaviour {
         };
         mainMenu.clickable.clicked += delegate {
             StopCoroutine("ChangeBorderColor");
-            SceneManager.LoadScene(0);
+            Time.timeScale = 1.0f;
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
         };
     }
 
@@ -63,7 +68,7 @@ public class UI_EndScreen : MonoBehaviour {
         SwitchInputMap();
         EventArgsFactory.PlayerDeathParser(message, out Statistics statistics);
         WriteStatistics(statistics);
-        SetSpecificEndScreenInfo("Mission failed!", Color.red, "navicella-rotta.jpg");
+        SetSpecificEndScreenInfo("Mission failed!", Color.red, 0);
         ShowEndScreen();
     }
 
@@ -71,7 +76,7 @@ public class UI_EndScreen : MonoBehaviour {
         SwitchInputMap();
         EventArgsFactory.PlayerWinParser(message, out Statistics statistics);
         WriteStatistics(statistics);
-        SetSpecificEndScreenInfo("Mission success!", Color.green, "navicella-riparata.jpg");
+        SetSpecificEndScreenInfo("Mission success!", Color.green, 1);
         ShowEndScreen();
     }
 
@@ -80,11 +85,11 @@ public class UI_EndScreen : MonoBehaviour {
         InputManager.EnableUIMap(true);
     }
 
-    private void SetSpecificEndScreenInfo(string titleLabel, Color titleColor, string background) {
+    private void SetSpecificEndScreenInfo(string titleLabel, Color titleColor, int backgroundID) {
         title.text = titleLabel;
         statisticsTitle.style.color = titleColor;
         title.style.color = titleColor;
-        root.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/AIV_FleshInvader/Images/EndScreen/" + background);
+        root.style.backgroundImage = backgrounds[backgroundID];
     }
 
     private void WriteStatistics(Statistics statistics) {

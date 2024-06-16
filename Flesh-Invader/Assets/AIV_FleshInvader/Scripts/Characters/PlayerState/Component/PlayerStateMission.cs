@@ -7,11 +7,17 @@ public class PlayerStateMission : MonoBehaviour
 
     private Collectible collectible = new Collectible();
 
-    public Collectible Collectible {  get { return collectible; } } 
+    public Collectible Collectible { get { return collectible; } }
 
     public void InitMe()
     {
         CallGlobalEvent();
+        GlobalEventSystem.AddListener(EventName.UICollectableClose, CallWinMenu);
+    }
+
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.UICollectableClose, CallWinMenu);
     }
 
     public void AddMe()
@@ -24,11 +30,6 @@ public class PlayerStateMission : MonoBehaviour
         collectible.collectiblesFound.CurrentObject++;
         collectible.Info = info;
         CallGlobalEvent();
-
-        if (collectible.collectiblesFound.CurrentObject == collectible.collectiblesFound.MaxObject)
-        {
-            CallWinMenu();
-        }
     }
 
     private void CallGlobalEvent()
@@ -37,9 +38,12 @@ public class PlayerStateMission : MonoBehaviour
             EventArgsFactory.MissionUpdatedFactory(collectible));
     }
 
-    private void CallWinMenu()
+    private void CallWinMenu(EventArgs _)
     {
-        GlobalEventSystem.CastEvent(EventName.PlayerWin,
-            EventArgsFactory.PlayerWinFactory(PlayerState.Get().InformationController.GetStats()));
+        if (collectible.collectiblesFound.CurrentObject == collectible.collectiblesFound.MaxObject)
+        {
+            GlobalEventSystem.CastEvent(EventName.PlayerWin,
+                EventArgsFactory.PlayerWinFactory(PlayerState.Get().InformationController.GetStats()));
+        }
     }
 }

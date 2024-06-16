@@ -38,6 +38,7 @@ public class AlienObject : InteractableBase, ICollectable
     protected override void OnOpen()
     {
         UnscribeInteract();
+        Collect();
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
     }
 
@@ -54,24 +55,11 @@ public class AlienObject : InteractableBase, ICollectable
 
     #endregion
 
-    #region InternalMethods
-    private void InternalCollect(EventArgs _)
-    {
-        Collect();
-    }
-    #endregion
-
     #region Mono
     void Awake()
     {
         missionController = PlayerState.Get().MissionController;
         AddMission();
-        GlobalEventSystem.AddListener(EventName.UICollectableClose, InternalCollect);
-    }
-
-    private void OnDisable()
-    {
-        GlobalEventSystem.RemoveListener(EventName.UICollectableClose, InternalCollect);
     }
     #endregion
 
