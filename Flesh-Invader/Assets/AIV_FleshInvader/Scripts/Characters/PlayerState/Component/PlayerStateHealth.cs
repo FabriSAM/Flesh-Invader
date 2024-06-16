@@ -8,12 +8,21 @@ public class PlayerStateHealth : MonoBehaviour
     #endregion
 
     #region SerializedField
+    [Header("Health related parameters")]
     [SerializeField]
     private float defaultMaxHp;
     [SerializeField]
-    private float constantDamage;
+    private float defaultConstantDamage;
     [SerializeField]
-    private float maxTimer;
+    private float defaultMaxTimer;
+
+    [Header("CameraShake parameters")]
+    [SerializeField]
+    private float amplitude;
+    [SerializeField]
+    private float duration;
+    [SerializeField]
+    private bool overrideCameraShakeCoroutine;
     #endregion
 
     #region Variable
@@ -21,6 +30,8 @@ public class PlayerStateHealth : MonoBehaviour
     private float currentHP;
     private bool deadStatus;
     private float maxHP;
+    private float maxTimer;
+    private float constantDamage;
 
     public bool DeadStatus {  get { return deadStatus; } }
     #endregion
@@ -33,6 +44,7 @@ public class PlayerStateHealth : MonoBehaviour
         if (reduceTimer < 0)
         {
             HealthReduce(constantDamage);
+            SendCameraShakeEvent();
             reduceTimer = maxTimer;
         }
     }
@@ -72,13 +84,20 @@ public class PlayerStateHealth : MonoBehaviour
     {
         deadStatus = false;
         maxHP = defaultMaxHp;
+        currentHP = maxHP;
+    }
+
+    public void HealthDamageTimerReset()
+    {
+        maxTimer = defaultMaxTimer;
+        reduceTimer = maxTimer;
+        constantDamage = defaultConstantDamage;
     }
 
     public void InitMe(PlayerState playerState)
     {
         HealthReset();
-        reduceTimer = maxTimer;
-        currentHP = maxHP;
+        HealthDamageTimerReset();
         playerState.LevelController.OnLevelChange += OnLevelChange;
         SendMessageHealthUpdate();
     }
@@ -87,10 +106,16 @@ public class PlayerStateHealth : MonoBehaviour
     #region PrivateMethods
     private void OnLevelChange(int value)
     {
+        // Balance new stats when level up
         maxHP = defaultMaxHp * value;
-        maxTimer *= value;
-        reduceTimer *= value;
-        constantDamage = Mathf.Clamp(constantDamage - value, 1, constantDamage);
+        maxTimer = defaultMaxTimer * value;
+        constantDamage = defaultConstantDamage;
+    }
+
+    private void SendCameraShakeEvent()
+    {
+        GlobalEventSystem.CastEvent(EventName.CameraShake,
+            EventArgsFactory.CameraShakeFactory(amplitude, duration, overrideCameraShakeCoroutine));
     }
 
     private void SendMessageHealthUpdate()

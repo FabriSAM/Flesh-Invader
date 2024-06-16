@@ -107,8 +107,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMaxHp: 100
-  constantDamage: 5
-  maxTimer: 5
+  defaultConstantDamage: 5
+  defaultMaxTimer: 5
+  amplitude: 20
+  duration: 0.5
+  overrideCameraShakeCoroutine: 1
 --- !u!114 &6754704997751405008
 MonoBehaviour:
   m_ObjectHideFlags: 0

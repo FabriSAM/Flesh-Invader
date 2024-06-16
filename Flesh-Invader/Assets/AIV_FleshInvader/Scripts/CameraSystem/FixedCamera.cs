@@ -31,6 +31,7 @@ public class FixedCamera : MonoBehaviour
     private void OnEnable()
     {
         GlobalEventSystem.AddListener(EventName.CameraFOVChange, CameraFovCallBack);
+        GlobalEventSystem.AddListener(EventName.CameraShake, CameraShakeCallBack);
     }
     void Start()
     {
@@ -46,6 +47,7 @@ public class FixedCamera : MonoBehaviour
     private void OnDisable()
     {
         GlobalEventSystem.RemoveListener(EventName.CameraFOVChange, CameraFovCallBack);
+        GlobalEventSystem.RemoveListener(EventName.CameraShake, CameraShakeCallBack);
     }
     #endregion
 
@@ -129,6 +131,12 @@ public class FixedCamera : MonoBehaviour
     {
         EventArgsFactory.CameraFOVParser(message, out float speed, out float newFov, out bool overrideCoroutine);
         CameraFov(speed,newFov,overrideCoroutine);
+    }
+
+    private void CameraShakeCallBack(EventArgs message) 
+    {
+        EventArgsFactory.CameraShakeParser(message, out float amplitude, out float duration, out bool overrideCoroutine);
+        CameraShake(amplitude,duration,overrideCoroutine);
     }
     #endregion
 }
