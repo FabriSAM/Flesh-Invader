@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b0af6aab520f3438737be8662b36c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 500
+  defaultMaxHp: 100
   constantDamage: 5
   maxTimer: 5
 --- !u!114 &6754704997751405008

@@ -4,12 +4,12 @@ using UnityEngine;
 public class PlayerStateHealth : MonoBehaviour
 {
     #region Const
-    private const float possessionHpMultiplier = 0.25f;
+    private const float possessionHpMultiplier = 0.5f;
     #endregion
 
     #region SerializedField
     [SerializeField]
-    private float maxHP;
+    private float defaultMaxHp;
     [SerializeField]
     private float constantDamage;
     [SerializeField]
@@ -20,6 +20,7 @@ public class PlayerStateHealth : MonoBehaviour
     private float reduceTimer;
     private float currentHP;
     private bool deadStatus;
+    private float maxHP;
 
     public bool DeadStatus {  get { return deadStatus; } }
     #endregion
@@ -27,7 +28,7 @@ public class PlayerStateHealth : MonoBehaviour
     #region Mono
     private void Awake()
     {
-        deadStatus = false;
+        HealthReset();
     }
     void Update()
     {
@@ -71,6 +72,12 @@ public class PlayerStateHealth : MonoBehaviour
         SendMessagePlayerDeath();
     }
 
+    public void HealthReset()
+    {
+        deadStatus = false;
+        maxHP = defaultMaxHp;
+    }
+
     public void InitMe(PlayerState playerState)
     {
         reduceTimer = maxTimer;
@@ -83,8 +90,7 @@ public class PlayerStateHealth : MonoBehaviour
     #region PrivateMethods
     private void OnLevelChange(int value)
     {
-        currentHP *= value;
-        maxHP *= value;
+        maxHP = defaultMaxHp * value;
         maxTimer *= value;
         reduceTimer *= value;
         constantDamage = Mathf.Clamp(constantDamage - value, 1, constantDamage);

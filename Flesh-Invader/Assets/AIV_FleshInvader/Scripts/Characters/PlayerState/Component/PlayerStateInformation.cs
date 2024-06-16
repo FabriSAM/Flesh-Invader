@@ -34,6 +34,9 @@ public class PlayerStateInformation : MonoBehaviour
     {
         totalPossessionBullet++;
     }
-
+    public void SetCurrentIndexEnemy(int enemyIndex)
+    {
+        stats.CurrentIndexEnemy = enemyIndex;
+    }
     #endregion
 }

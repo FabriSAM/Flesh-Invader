@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Collectible
       objectReference: {fileID: 0}
+    - target: {fileID: 7096127105246167163, guid: 20e0d98333f392741bb60f08040a2763, type: 3}
+      propertyPath: sourceAsset
+      value: 
+      objectReference: {fileID: 9197481963319205126, guid: a052885b7e213024d9f9e3ad21ff6c12, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -153,6 +157,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3736861112070304919, guid: 0d2ee45fdce5e974b9da36581f3fed22, type: 3}
+      propertyPath: sourceAsset
+      value: 
+      objectReference: {fileID: 9197481963319205126, guid: e8ade0b5383c7f24bbea05783119554f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
