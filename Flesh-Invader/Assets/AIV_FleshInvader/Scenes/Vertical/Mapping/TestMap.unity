@@ -453,6 +453,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 8600952662611930606, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600952662611931204, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600952662611955784, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600952662611959472, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600952662611974334, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13019,7 +13039,7 @@ MonoBehaviour:
   m_Center: {x: 11.75, y: -17.07, z: 19.81}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 2039
+    m_Bits: 2035
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
