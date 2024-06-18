@@ -80,11 +80,13 @@ public class Controller : MonoBehaviour, IPossessable
 
     public void SetVelocity(Vector3 velocity)
     {
+        if (characterRigidbody.isKinematic) return;
         characterRigidbody.velocity = new Vector3(velocity.x, characterRigidbody.velocity.y, velocity.z);
     }
 
     public void SetImpulse(Vector3 impulse)
     {
+        if (characterRigidbody.isKinematic) return;
         SetVelocity(Vector3.zero);
         characterRigidbody.AddForce(impulse, ForceMode.Impulse);
     }
