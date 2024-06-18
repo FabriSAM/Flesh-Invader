@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 64576746795587014}
   - component: {fileID: 64113337288755494}
   - component: {fileID: 3102121358007192623}
+  - component: {fileID: 7649477193305552907}
   m_Layer: 0
   m_Name: SA_Bld_Motel_Damaged_01
   m_TagString: Untagged
@@ -282,6 +283,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 41.50047, y: 11.958488, z: 11.016981}
   m_Center: {x: -2.0686054, y: 5.2166243, z: -1.0475721}
+--- !u!114 &7649477193305552907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 41.62792, y: 3, z: 11.00758}
+  m_Center: {x: -2.047945, y: 1, z: -0.97989845}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &177138
 GameObject:
   m_ObjectHideFlags: 0

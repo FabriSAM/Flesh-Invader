@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2347162}
   - component: {fileID: 64356374764712096}
   - component: {fileID: 3099787271765201333}
+  - component: {fileID: 7636927636020481785}
   m_Layer: 0
   m_Name: ST_Veh_Bus_Blue_Z
   m_TagString: Untagged
@@ -215,6 +216,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.4435296, y: 2.9917169, z: 9.444245}
   m_Center: {x: 0, y: 1.8904271, z: 0}
+--- !u!114 &7636927636020481785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 3.5393193, y: 2.0013592, z: 9.424376}
+  m_Center: {x: -0.002208829, y: 1.4993204, z: 0.020157814}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &150944
 GameObject:
   m_ObjectHideFlags: 0

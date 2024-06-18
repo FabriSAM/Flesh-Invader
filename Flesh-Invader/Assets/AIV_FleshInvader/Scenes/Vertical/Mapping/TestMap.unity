@@ -16669,6 +16669,7 @@ Transform:
   - {fileID: 1403885000}
   - {fileID: 1325015132}
   - {fileID: 361889241}
+  - {fileID: 1592619428}
   - {fileID: 1573718032}
   - {fileID: 1944180943}
   - {fileID: 770698525}
@@ -27974,7 +27975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 431170, guid: 983114827e9e54144a57ffc6084ffc36, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -88.0122
+      value: -88.03
       objectReference: {fileID: 0}
     - target: {fileID: 431170, guid: 983114827e9e54144a57ffc6084ffc36, type: 3}
       propertyPath: m_LocalRotation.w
@@ -32062,6 +32063,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 406490, guid: b83683c40c7a1d143b84171f2c2fc5c5, type: 3}
   m_PrefabInstance: {fileID: 79480800}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1592619427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1592619428}
+  - component: {fileID: 1592619429}
+  m_Layer: 0
+  m_Name: NavMesh Modifier Volume (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1592619428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592619427}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -78.53, y: 2.21, z: -91.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 842339497}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1592619429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592619427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 26.963356, y: 7.8065634, z: 13.461853}
+  m_Center: {x: 13.289074, y: -3.485005, z: 5.7127533}
+  m_Area: 1
+  m_AffectedAgents: 00000000
 --- !u!4 &1593296875 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 431170, guid: 983114827e9e54144a57ffc6084ffc36, type: 3}

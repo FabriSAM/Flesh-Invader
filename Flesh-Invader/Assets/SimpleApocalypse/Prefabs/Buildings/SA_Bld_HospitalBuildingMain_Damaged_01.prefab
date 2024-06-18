@@ -112,6 +112,9 @@ GameObject:
   - component: {fileID: 7383728923417365781}
   - component: {fileID: 8186690384603065035}
   - component: {fileID: 6457670979239783799}
+  - component: {fileID: 8323928516888376064}
+  - component: {fileID: 7406802129691914622}
+  - component: {fileID: 2333723072591215176}
   m_Layer: 0
   m_Name: SA_Bld_HospitalBuildingMain_Damaged_01
   m_TagString: Untagged
@@ -579,6 +582,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 28.057503, y: 8.650357, z: 28.4548}
   m_Center: {x: 1.4166374, y: 3.7495446, z: 4.2544956}
+--- !u!114 &8323928516888376064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 18.830605, y: 3, z: 26.255875}
+  m_Center: {x: 24.781677, y: 1, z: 0.67842484}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &7406802129691914622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 27.902832, y: 3, z: 28.511576}
+  m_Center: {x: 1.4014053, y: 1, z: 4.2606516}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &2333723072591215176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 18.07785, y: 3, z: 28.009762}
+  m_Center: {x: -21.705887, y: 1, z: -4.468828}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &178244
 GameObject:
   m_ObjectHideFlags: 0

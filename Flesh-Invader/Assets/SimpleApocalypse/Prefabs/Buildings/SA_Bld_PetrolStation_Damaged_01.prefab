@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 64674117443694710}
   - component: {fileID: 64607649220224598}
   - component: {fileID: 484059198586262181}
+  - component: {fileID: 2715662623428977915}
   m_Layer: 0
   m_Name: SA_Bld_PetrolStation_Damaged_01
   m_TagString: Untagged
@@ -336,6 +337,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 22.038101, y: 10.165505, z: 25.373257}
   m_Center: {x: 1.3970393, y: 4.5786185, z: -0.00000190775}
+--- !u!114 &2715662623428977915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 22.013615, y: 3, z: 25.32681}
+  m_Center: {x: 1.4333763, y: 1, z: -0.011670113}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &171716
 GameObject:
   m_ObjectHideFlags: 0

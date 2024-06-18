@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2317434}
   - component: {fileID: 64988651760926586}
   - component: {fileID: 869505838882733023}
+  - component: {fileID: 7523572720230557956}
   m_Layer: 0
   m_Name: SA_Bld_Trailer_Damaged_04
   m_TagString: Untagged
@@ -212,3 +213,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 9.386843, y: 7.287838, z: 14.76984}
   m_Center: {x: 0.000010967257, y: 3.5127048, z: -0.0000057220445}
+--- !u!114 &7523572720230557956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 9.340408, y: 2.630169, z: 14.778324}
+  m_Center: {x: -0.0021789074, y: 1.1849155, z: 0.008846283}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

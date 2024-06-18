@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2341360}
   - component: {fileID: 64028639886965338}
   - component: {fileID: 7250249181183948120}
+  - component: {fileID: 5310540281113034098}
   m_Layer: 0
   m_Name: SA_Bld_TrailerRV_Damaged_01
   m_TagString: Untagged
@@ -128,3 +129,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.2176547, y: 3.8979456, z: 11.265692}
   m_Center: {x: 0.000014781957, y: 1.910827, z: -0.000017166141}
+--- !u!114 &5310540281113034098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 7.141313, y: 2.494495, z: 11.115792}
+  m_Center: {x: -0.024509192, y: 1.2527525, z: -0.12986517}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
