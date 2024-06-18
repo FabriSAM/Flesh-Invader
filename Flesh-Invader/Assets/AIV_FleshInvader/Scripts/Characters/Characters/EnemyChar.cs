@@ -292,7 +292,7 @@ public abstract class EnemyChar : MonoBehaviour
     {
         FSM.enabled = false;
         agent.enabled = false;
-        controller.CharacterRigidbody.isKinematic = false;
+        //controller.CharacterRigidbody.isKinematic = false;
 
         PlayerState.Get().InformationController.SetCurrentIndexEnemy((int)characterCurrentInfo.CharStats.EnemyType);
         GlobalEventSystem.CastEvent(
@@ -305,7 +305,7 @@ public abstract class EnemyChar : MonoBehaviour
     {
         FSM.enabled = true;
         agent.enabled = true;
-        controller.CharacterRigidbody.isKinematic = true;
+        //controller.CharacterRigidbody.isKinematic = true;
     }
     #endregion
 }

@@ -254,7 +254,7 @@ public class Controller : MonoBehaviour, IPossessable
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
-        characterRigidbody.isKinematic = true;
+        //characterRigidbody.isKinematic = true;
     }
     private void UnpossessionUnregisterInputs()
     {
