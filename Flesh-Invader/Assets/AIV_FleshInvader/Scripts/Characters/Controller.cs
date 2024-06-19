@@ -1,7 +1,6 @@
 using NotserializableEventManager;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class Controller : MonoBehaviour, IPossessable
 {
