@@ -1,6 +1,7 @@
 using NotserializableEventManager;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class Controller : MonoBehaviour, IPossessable
 {
@@ -99,6 +100,11 @@ public class Controller : MonoBehaviour, IPossessable
     public void SetPosition(Vector3 newPos)
     {
         characterRigidbody.position = newPos;
+    }
+    private void SetRigidbodyParams(bool newIsKinematic, RigidbodyInterpolation newInterpolation)
+    {
+        CharacterRigidbody.isKinematic = newIsKinematic;
+        CharacterRigidbody.interpolation = newInterpolation;
     }
     #endregion
 
@@ -214,7 +220,7 @@ public class Controller : MonoBehaviour, IPossessable
         gameObject.layer = LayerMask.NameToLayer("Player");
         isPossessed = true;
         PlayerState.Get().CurrentPlayer = gameObject;
-        characterRigidbody.isKinematic = false;
+        SetRigidbodyParams(false, RigidbodyInterpolation.Interpolate);
     }
     private void PossessionRegisterInputs()
     {
@@ -254,7 +260,7 @@ public class Controller : MonoBehaviour, IPossessable
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         isPossessed = false;
-        //characterRigidbody.isKinematic = true;
+        SetRigidbodyParams(true, RigidbodyInterpolation.None);
     }
     private void UnpossessionUnregisterInputs()
     {

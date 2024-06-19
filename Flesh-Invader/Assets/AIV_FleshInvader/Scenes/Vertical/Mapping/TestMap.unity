@@ -27649,7 +27649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startEnabledVSync: 0
-  startNewFPS: 30
+  startNewFPS: 144
 --- !u!4 &1172443899
 Transform:
   m_ObjectHideFlags: 0

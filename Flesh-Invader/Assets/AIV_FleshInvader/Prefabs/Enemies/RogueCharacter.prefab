@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bd8800da89ce64594adf9c313a9bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  calculusFrequency: 0.5
+  calculusFrequency: 0.1
   characterStartingInfo: {fileID: 11400000, guid: 410fa8618462f06478ca532db7663627, type: 2}
   unpossesableMaterial: {fileID: 2100000, guid: b27f9c7b203f0dc498e34190fe85df26, type: 2}
 --- !u!114 &8350794714460825368

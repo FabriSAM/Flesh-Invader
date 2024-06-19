@@ -292,20 +292,17 @@ public abstract class EnemyChar : MonoBehaviour
     {
         FSM.enabled = false;
         agent.enabled = false;
-        //controller.CharacterRigidbody.isKinematic = false;
 
         PlayerState.Get().InformationController.SetCurrentIndexEnemy((int)characterCurrentInfo.CharStats.EnemyType);
         GlobalEventSystem.CastEvent(
             EventName.PossessionExecuted, 
-            EventArgsFactory.PossessionExecutedFactory(characterCurrentInfo)
-            );
+            EventArgsFactory.PossessionExecutedFactory(characterCurrentInfo));
     }
 
     public virtual void InternalUnPossess()
     {
         FSM.enabled = true;
         agent.enabled = true;
-        //controller.CharacterRigidbody.isKinematic = true;
     }
     #endregion
 }
