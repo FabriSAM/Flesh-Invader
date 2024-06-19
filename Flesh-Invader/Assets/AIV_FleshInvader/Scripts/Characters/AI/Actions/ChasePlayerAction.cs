@@ -43,9 +43,14 @@ public class ChasePlayerAction : StateAction
 
     private void InternalSetVelocity()
     {
-        if (chaserAgent.gameObject.activeSelf && chaserAgent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) && navPath.status == NavMeshPathStatus.PathComplete)
+        if (chaserAgent.gameObject.activeSelf &&
+            chaserAgent.CalculatePath(PlayerState.Get().CurrentPlayer.transform.position, navPath) &&
+            navPath.status == NavMeshPathStatus.PathComplete &&
+            !chaserAgent.pathPending)
         {
-            chaserAgent.destination = PlayerState.Get().CurrentPlayer.transform.position + ((chaserAgent.transform.position - PlayerState.Get().CurrentPlayer.transform.position).normalized * distanceToReach);
+            chaserAgent.destination = PlayerState.Get().CurrentPlayer.transform.position +
+                ((chaserAgent.transform.position - PlayerState.Get().CurrentPlayer.transform.position).normalized *
+                distanceToReach);
         }
         chaserAgent.speed = chaseSpeed;
     }
