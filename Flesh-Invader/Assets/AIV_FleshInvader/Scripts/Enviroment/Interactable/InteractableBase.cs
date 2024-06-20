@@ -54,7 +54,10 @@ public abstract class InteractableBase : MonoBehaviour
     protected virtual bool CanOpen(Collider other)
     {
         if (alreadyUsed) return false;
-        if (!other.TryGetComponent(out controller)) return false;
+        Controller tempController = other.GetComponent<Controller>();
+
+        if (tempController == null) return false;
+        controller = tempController;
         if (!controller.IsPossessed) return false;
         if (!controller.CharacterInfo.CharStats.CanLockpick) return false;
 
