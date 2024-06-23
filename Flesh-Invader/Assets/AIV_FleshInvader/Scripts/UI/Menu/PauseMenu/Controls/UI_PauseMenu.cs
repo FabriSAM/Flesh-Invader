@@ -2,6 +2,7 @@ using NotserializableEventManager;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,7 @@ public class UI_PauseMenu : MonoBehaviour
     private Camera portraitCamera;
     #endregion
 
+    #region InternalVariables
     private VisualElement root;
     private VisualElement HUDroot;
     //buttons
@@ -32,12 +34,13 @@ public class UI_PauseMenu : MonoBehaviour
     private Label bulletsFired;
     //portrait
     private VisualElement portrait;
-    
-
+    //others
+    private bool isPlayerDead;
+    #endregion
 
     #region Mono
-
     public void Awake() {
+        Debug.Log("UI_PauseMenu Awake" + isPlayerDead);
         //root
         root = GetComponent<UIDocument>().rootVisualElement;
         root.style.display = DisplayStyle.None;
@@ -61,11 +64,8 @@ public class UI_PauseMenu : MonoBehaviour
         statistics = root.Q<VisualElement>("statistics-container");
     }
 
-    private void OnPauseMenuClose(InputAction.CallbackContext context) {
-        ClosePauseMenu();
-    }
-
     public void Start() {
+        Debug.Log("UI_PauseMenu Start" + isPlayerDead);
         buttonContinue.clicked += ClosePauseMenu;
         buttonMainMenu.clicked += OnMainMenuClick;
         buttonQuit.clicked += OnQuitClick;
@@ -76,18 +76,20 @@ public class UI_PauseMenu : MonoBehaviour
     private void OnEnable() {
         InputManager.UI.PauseDisable.performed += OnPauseMenuClose;
         GlobalEventSystem.AddListener(EventName.PauseMenuEvent, OnPauseMenuOpen);
+        GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerDeath);
     }
 
     private void OnDisable() {
         GlobalEventSystem.RemoveListener(EventName.PauseMenuEvent, OnPauseMenuOpen);
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerDeath);
         InputManager.UI.PauseDisable.performed -= OnPauseMenuClose;
     }
 
     #endregion
 
     #region Internal
-
     private void OnPauseMenuOpen(EventArgs message) {
+        if (isPlayerDead) return;
         InputManager.EnablePlayerMap(false);
         InputManager.EnableUIMap(true);
         Time.timeScale = 0;
@@ -95,6 +97,14 @@ public class UI_PauseMenu : MonoBehaviour
         InitializeUI(statistics);
         root.style.display = DisplayStyle.Flex;
         StartCoroutine("ChangeBorderColor");
+    }
+
+    private void OnPlayerDeath(EventArgs message) {
+        isPlayerDead = true;
+    }
+
+    private void OnPauseMenuClose(InputAction.CallbackContext context) {
+        ClosePauseMenu();
     }
 
     private void InitializeUI(Statistics statistics) {
@@ -158,7 +168,6 @@ public class UI_PauseMenu : MonoBehaviour
     private void OnConfirmQuitClick() {
         Application.Quit();
     }
-
     #endregion
 
     #region Coroutine
