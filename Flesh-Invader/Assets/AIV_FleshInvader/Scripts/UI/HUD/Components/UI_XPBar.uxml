@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="root" style="width: auto; height: auto; justify-content: center;">
-        <ui:ProgressBar value="0" name="xp-bar" high-value="1" class="xp-bar" />
+    <ui:VisualElement name="root" style="width: 100%; height: 100%; justify-content: center; flex-shrink: 0; color: rgb(255, 255, 255); font-size: 20px;">
+        <ui:ProgressBar value="0" name="xp-bar" high-value="1" class="xp-bar" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 100%; height: 100%;" />
     </ui:VisualElement>
 </ui:UXML>
