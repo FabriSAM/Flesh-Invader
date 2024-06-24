@@ -4,34 +4,11 @@
     <ui:Template name="HealthBar" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/UI_HealthBar.uxml?fileID=9197481963319205126&amp;guid=c97b0b7ed26254448b885933604dc289&amp;type=3#UI_HealthBar" />
     <ui:Template name="XPBar" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/UI_XPBar.uxml?fileID=9197481963319205126&amp;guid=82f1ecd8b2c55d841a33142628d66121&amp;type=3#UI_XPBar" />
     <ui:Template name="LevelLabel" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/UI_LevelLabel.uxml?fileID=9197481963319205126&amp;guid=6d7535404f2187348835e43de63c9867&amp;type=3#UI_LevelLabel" />
-    <ui:Template name="Mission" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/UI_MissionLabel.uxml?fileID=9197481963319205126&amp;guid=92d9e74c637b2a94585efe1831f8cd6e&amp;type=3#UI_MissionLabel" />
+    <ui:Template name="UI_MissionLabelFound" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/UI_MissionLabelFound.uxml?fileID=9197481963319205126&amp;guid=3d6aa4908d905f645b6bc711e5dc8009&amp;type=3#UI_MissionLabelFound" />
+    <ui:Template name="Mission" src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/Components/UI_MissionLabelToFInd.uxml?fileID=9197481963319205126&amp;guid=92d9e74c637b2a94585efe1831f8cd6e&amp;type=3#UI_MissionLabelToFInd" />
     <Style src="project://database/Assets/AIV_FleshInvader/Scripts/UI/HUD/UI_HUD.uss?fileID=7433441132597879392&amp;guid=bfa7795f6b70bac4ca507f21c8842bdb&amp;type=3#UI_HUD" />
     <ui:VisualElement name="root" style="height: 100%; width: 100%; -unity-font: url(&apos;project://database/Assets/AIV_FleshInvader/Fonts/SpaceCrusaders-x3DP0.ttf?fileID=12800000&amp;guid=8843f95fd244acc4dbfbd20ddf9151b8&amp;type=3#SpaceCrusaders-x3DP0&apos;); -unity-font-definition: initial; display: flex;">
-        <ui:VisualElement name="header" style="flex-grow: 0; flex-basis: 25%; flex-direction: row; padding-top: 15px; padding-right: 15px; padding-bottom: 0; padding-left: 15px;">
-            <ui:VisualElement name="enemy-stats" style="flex-grow: 0; flex-basis: 50%; justify-content: center; align-items: flex-start;">
-                <ui:Instance template="EnemyPossessedPanel" name="EnemyStats" style="flex-grow: 0; width: 100%;" />
-            </ui:VisualElement>
-            <ui:VisualElement name="player-ability-and-stats-container" style="flex-basis: 50%; flex-direction: row;">
-                <ui:VisualElement name="player-ability-container" style="flex-grow: 1; flex-basis: 10%; justify-content: center; align-items: flex-end;">
-                    <ui:Instance template="PossessionAbilityIcon" name="possession-ability" style="justify-content: center; align-items: center;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="player-stats-container" style="flex-grow: 1; flex-basis: 80%; justify-content: center;">
-                    <ui:VisualElement name="health" style="flex-direction: row; flex-basis: 20%;">
-                        <ui:Label tabindex="-1" text="Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="health-label" style="width: 15%; -unity-text-align: middle-center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-basis: 20%;" />
-                        <ui:Instance template="HealthBar" name="health-bar" style="justify-content: center; flex-grow: 0; width: 85%; flex-basis: 80%;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="xp" style="flex-grow: 0; flex-direction: row; flex-basis: 20%;">
-                        <ui:Label tabindex="-1" text="XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="xp-label" style="width: 15%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-basis: 20%;" />
-                        <ui:Instance template="XPBar" name="xp-bar" style="width: 85%; justify-content: center; flex-basis: 80%;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="level-mission-container" style="flex-grow: 0; flex-direction: row; justify-content: space-between; align-items: flex-start; flex-shrink: 1; height: auto; flex-basis: auto;">
-                        <ui:Instance template="LevelLabel" name="level-label" style="flex-basis: 20%; align-items: center;" />
-                        <ui:Instance template="Mission" name="mission-label" style="margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0; flex-basis: 80%; align-items: flex-end;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement name="body" style="flex-grow: 0; flex-basis: 55%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+        <ui:VisualElement name="header" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-shrink: 0; height: 20%;">
             <ui:VisualElement name="TEST" style="flex-grow: 1; flex-direction: row; justify-content: center; visibility: visible; display: none;">
                 <ui:VisualElement name="test-container" style="flex-grow: 1;">
                     <ui:Button text="Boss" parse-escape-sequences="true" display-tooltip-when-elided="true" name="possess-boss" enable-rich-text="false" class="test-button" />
@@ -49,6 +26,36 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="footer" style="flex-grow: 0; flex-basis: 20%;" />
+        <ui:VisualElement name="body" style="flex-grow: 0; flex-shrink: 0; height: 60%;" />
+        <ui:VisualElement name="footer" style="flex-grow: 0; flex-direction: row; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; flex-shrink: 0; height: 20%;">
+            <ui:VisualElement name="enemy-stats" style="justify-content: center; align-items: flex-start; width: 50%;">
+                <ui:Instance template="EnemyPossessedPanel" name="EnemyStats" style="flex-grow: 0; width: 100%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="icon-container" style="flex-grow: 0; width: 10%; flex-shrink: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: stretch;">
+                <ui:Instance template="PossessionAbilityIcon" name="possession-ability" style="justify-content: center; align-items: center; width: auto; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; font-size: 0; height: 100%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="player-stats-container" style="flex-grow: 1; justify-content: center; width: 40%;">
+                <ui:VisualElement name="health" style="flex-direction: row; height: 33%; flex-shrink: 0;">
+                    <ui:Label tabindex="-1" text="Health" parse-escape-sequences="true" display-tooltip-when-elided="true" name="health-label" style="width: 20%; -unity-text-align: middle-center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-items: flex-start; color: rgb(255, 255, 255); font-size: 20px;" />
+                    <ui:Instance template="HealthBar" name="health-bar" style="justify-content: center; width: 80%; flex-shrink: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="xp" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; height: 33%;">
+                    <ui:Label tabindex="-1" text="XP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="xp-label" style="width: 20%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-basis: 20%; color: rgb(255, 255, 255); font-size: 20px;" />
+                    <ui:Instance template="XPBar" name="xp-bar" style="width: 80%; justify-content: center; flex-shrink: 0; height: auto; padding-top: 3px; padding-right: 0; padding-bottom: 3px; padding-left: 0;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="level-mission-container" style="flex-grow: 0; flex-direction: row; justify-content: space-between; align-items: flex-start; flex-shrink: 0; height: 34%; flex-basis: auto;">
+                    <ui:VisualElement name="level-container" style="flex-grow: 0; flex-direction: row; -unity-text-align: upper-center; justify-content: center; color: rgb(255, 255, 255); flex-shrink: 0; width: 20%; align-items: center;">
+                        <ui:Label tabindex="-1" text="Level:" parse-escape-sequences="false" display-tooltip-when-elided="true" name="level-title" style="font-size: 20px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:Instance template="LevelLabel" name="level-label" style="flex-basis: 20%; align-items: center; color: rgb(255, 235, 0); font-size: 25px; -unity-text-align: upper-left;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="mission-container" style="flex-grow: 1; width: 80%; flex-direction: row; align-items: center; justify-content: flex-end; color: rgb(255, 255, 255); font-size: 20px; -unity-text-align: middle-left;">
+                        <ui:Label tabindex="-1" text="Found" parse-escape-sequences="true" display-tooltip-when-elided="true" name="found" />
+                        <ui:Instance template="UI_MissionLabelFound" name="mission-label-found" style="font-size: 25px; color: rgb(255, 235, 0);" />
+                        <ui:Label tabindex="-1" text="of" parse-escape-sequences="true" display-tooltip-when-elided="true" name="to" />
+                        <ui:Instance template="Mission" name="mission-label-to-find" style="margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0; align-items: flex-end; color: rgb(255, 235, 0); font-size: 25px; -unity-text-align: upper-left; justify-content: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -2,13 +2,13 @@ using NotserializableEventManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UI_MissionLabel : MonoBehaviour
+public class UI_MissionLabelToFind : MonoBehaviour
 {
     private Label mission;
 
     private void Awake()
     {
-        mission = GetComponent<UIDocument>().rootVisualElement.Q<Label>("mission-label");
+        mission = GetComponent<UIDocument>().rootVisualElement.Q<Label>("mission-label-to-find");
     }
 
     private void OnEnable()
@@ -24,6 +24,6 @@ public class UI_MissionLabel : MonoBehaviour
     private void OnMissionUpdated(EventArgs message)
     {
         EventArgsFactory.MissionUpdatedParser(message, out Collectible collectible);
-        mission.text = $"Found {collectible.collectiblesFound.CurrentObject.ToString()} of {collectible.collectiblesFound.MaxObject.ToString()}";
+        mission.text = collectible.collectiblesFound.MaxObject.ToString();
     }
 }
