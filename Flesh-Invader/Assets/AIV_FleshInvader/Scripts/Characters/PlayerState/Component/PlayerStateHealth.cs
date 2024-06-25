@@ -110,6 +110,8 @@ public class PlayerStateHealth : MonoBehaviour
         maxHP = defaultMaxHp * value;
         maxTimer = defaultMaxTimer * value;
         constantDamage = defaultConstantDamage;
+
+        SendMessageHealthUpdate();
     }
 
     private void SendCameraShakeEvent()
