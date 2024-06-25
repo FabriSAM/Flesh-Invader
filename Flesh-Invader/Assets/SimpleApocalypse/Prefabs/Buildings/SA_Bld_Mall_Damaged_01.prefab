@@ -203,6 +203,8 @@ GameObject:
   - component: {fileID: 64918424812060176}
   - component: {fileID: 6685088956649909518}
   - component: {fileID: 8054625686502260280}
+  - component: {fileID: 7963240200960508924}
+  - component: {fileID: 2670329796129033066}
   m_Layer: 9
   m_Name: SA_Bld_Mall_Damaged_01
   m_TagString: Untagged
@@ -341,3 +343,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 28.920605, y: 7.063423, z: 12.486198}
   m_Center: {x: -13.351393, y: 3.531703, z: 29.055676}
+--- !u!114 &7963240200960508924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 12.255646, y: 3, z: 37.226967}
+  m_Center: {x: -34.20471, y: 1, z: 16.613483}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &2670329796129033066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 29.651325, y: 3, z: 13.073364}
+  m_Center: {x: -13.982668, y: 1, z: 28.71695}
+  m_Area: 0
+  m_AffectedAgents: ffffffff
