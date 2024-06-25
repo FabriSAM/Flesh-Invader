@@ -1,7 +1,6 @@
 using NotserializableEventManager;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static Codice.CM.Common.CmCallContext;
 
 public class UI_XPBar : MonoBehaviour {
 
