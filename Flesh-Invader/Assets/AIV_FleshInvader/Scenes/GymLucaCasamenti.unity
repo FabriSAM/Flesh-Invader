@@ -11228,7 +11228,6 @@ GameObject:
   m_Component:
   - component: {fileID: 609083742}
   - component: {fileID: 609083741}
-  - component: {fileID: 609083740}
   m_Layer: 0
   m_Name: PortraitCamera
   m_TagString: Untagged
@@ -11236,14 +11235,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &609083740
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609083739}
-  m_Enabled: 0
 --- !u!20 &609083741
 Camera:
   m_ObjectHideFlags: 0
@@ -25876,7 +25867,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1884853595918624863, guid: a2328fe0e8d04224193410b9b16f4dc8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

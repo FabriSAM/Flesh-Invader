@@ -70,3 +70,16 @@ Flesh-Invader/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 # Temporary auto-generated Android Assets
 Flesh-Invader/[Aa]ssets/[Ss]treamingAssets/aa.meta
 Flesh-Invader/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+#FMOD plugin
+Flesh-Invader/[Aa]ssets/Plugins/FMOD/**/*.dll
+Flesh-Invader/[Aa]ssets/Gizmos/FMOD/*
+Flesh-Invader/[Aa]ssets/Editor Default Resources/FMOD/*
+Flesh-Invader/[Aa]ssets/**/FMODStudioCache.asset
+Flesh-Invader/[Aa]ssets/**/FMODStudioCache.asset.meta
+Flesh-Invader/[Aa]ssets/Plugins/FMOD/Cache.meta
+Flesh-Invader/[Aa]ssets/Plugins/FMOD/Cache/Editor.meta
+Flesh-Invader/fmod.log
+Flesh-Invader/fmod_editor.log
+Flesh-Invader/[Aa]ssets/FMODAssets/*
+Flesh-Invader/[Aa]ssets/FMODStudioCache.meta
