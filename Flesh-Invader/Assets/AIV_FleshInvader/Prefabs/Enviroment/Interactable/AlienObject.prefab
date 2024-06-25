@@ -49,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 5026784414776744300}
   canvas: {fileID: 756294302572499277}
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 64
   info:
     Title: Barrel
     Icon: {fileID: 2800000, guid: 7846432bc5bc6ae4c8f233464b422a62, type: 3}

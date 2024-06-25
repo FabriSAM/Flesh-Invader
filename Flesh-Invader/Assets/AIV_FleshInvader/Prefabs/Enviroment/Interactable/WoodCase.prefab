@@ -49,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 7859504919402109278}
   canvas: {fileID: 4885395407788223309}
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 64
   info:
     Title: Alien Gun
     Icon: {fileID: 2800000, guid: a01dd291e6949be4fa18868621cb30b5, type: 3}
