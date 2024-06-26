@@ -27,8 +27,8 @@ public abstract class EnemyChar : MonoBehaviour
     [SerializeField]
     private bool isInTutorial = false;
 
-    #region ProtectedProperties
-    public EnemyInfo CharacterInfo { get { return characterCurrentInfo; } }
+    #region PublicProperties
+    public EnemyInfo CharacterInfo { get { return characterCurrentInfo; } set { characterCurrentInfo = value; } }
 
     public bool IsDead { get => isDead; }
     #endregion

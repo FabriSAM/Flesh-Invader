@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public struct EnemyPoolProbabilityDict
@@ -31,6 +32,27 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
     private NavMeshHit navMeshSpawnHit;
 
     private int activeEnemies;
+
+    private const string bossPoolKey = "Boss";
+    private const string roguePoolKey = "Rogue";
+
+    private static CharacterSpawner instance;
+    
+    public static CharacterSpawner GetInstance()
+    {
+        if(instance == null)
+        {
+            instance = FindObjectOfType<CharacterSpawner>();
+        }
+
+        return instance;
+    }
+
+    //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    Debug.Log("OnSceneLoaded: " + scene.name);
+    //    Debug.Log(mode);
+    //}
 
     public PoolData[] Datas
     {
@@ -103,6 +125,44 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
 
             obj.SetActive(true);
             activeEnemies++;
+        }
+    }
+
+    public void LoadPlayerCharacter(EnemyInfo enemyInfo)
+    {
+        GameObject playerChar;
+        PoolData pool;
+
+        // Player Spawning
+        switch (enemyInfo.CharStats.EnemyType)
+        {
+            case EnemyType.Boss:
+                pool = Array.Find(characterType, pool => { return pool.PoolKey == bossPoolKey; });              
+                playerChar = (Instantiate(pool.Prefab));
+                break;
+            case EnemyType.Thief:
+                pool = Array.Find(characterType, pool => { return pool.PoolKey == roguePoolKey; });
+                playerChar = (Instantiate(pool.Prefab));
+                break;
+            default:
+                playerChar = null;
+                break;
+        }
+
+        if (playerChar != null)
+        {
+            Controller playerController = playerChar.GetComponentInChildren<Controller>();
+            EnemyChar playerAsCharacter = playerChar.GetComponentInChildren<EnemyChar>();
+
+          
+
+            // Possession behavior
+            playerController.Possess();
+            GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
+
+
+            playerChar.gameObject.SetActive(true);
+
         }
     }
 

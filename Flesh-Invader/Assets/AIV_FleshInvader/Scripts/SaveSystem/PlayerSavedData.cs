@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public struct SerializableVector3
 {
     float x, y, z;
@@ -26,6 +26,8 @@ public class PlayerSavedData : GameplaySavedData
 {
     #region AttributeToSave
     private Statistics currentPlayerStats;
+    // TO ADD: Information about player level
+    private EnemyInfo playerCharInfo;
 
     // TO move into a LevelSavedData class?
     private List<int> unlockedCollectibleIDs;
@@ -37,6 +39,8 @@ public class PlayerSavedData : GameplaySavedData
     public Vector3 SavedLastCheckpoint {  get { return lastCheckpoint.returnVector(); } }
 
     public Statistics savedStatistics { get { return currentPlayerStats; } }
+
+    public EnemyInfo PlayerCharInfo { get {  return playerCharInfo; } }
 
     public bool IsCollectibleUnlocked(int collectibleID)
     {
@@ -59,13 +63,18 @@ public class PlayerSavedData : GameplaySavedData
         currentPlayerStats = stats;
     }
 
+    public void UpdatePlayerCharInfo(EnemyInfo playerInfo)
+    {
+        playerCharInfo = playerInfo;
+    }
+
     #endregion
 
     #region SaveableDataClass
 
     public override void OnCreation()
     {
-        currentPlayerStats = PlayerState.Get().InformationController.GetStats();
+        currentPlayerStats = new Statistics();
         unlockedCollectibleIDs = new List<int>();
         lastCheckpoint = new SerializableVector3(new Vector3());
     }
@@ -73,7 +82,7 @@ public class PlayerSavedData : GameplaySavedData
     public override void OnLoadedFromDisk()
     {
         // Player moves to spawn position
-        PlayerState.Get().CurrentPlayer.transform.position = lastCheckpoint.returnVector();
+        //PlayerState.Get().CurrentPlayer.transform.position = lastCheckpoint.returnVector();
 
         //PlayerState.Get().InformationController.stat = currentPlayerStats;
     }

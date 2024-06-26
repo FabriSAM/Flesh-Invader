@@ -61,6 +61,23 @@ public class StandAloneSaveSystem : ISaveSystem
         return File.Exists(SaveSystemConfiguration.GetGameDataPath(slotIndex));
     }
 
+    #region LoadSlots
+    public void LoadSlotData(int slotIndex)
+    {
+        string path = SaveSystemConfiguration.GetGameDataPath(slotIndex);
+        if (GameDataExists(slotIndex))
+        {
+            allDatas[slotIndex] = LoadISaveableData<GameSavedData>(path);
+        }
+        else
+        {
+            allDatas[slotIndex] = null;
+            Debug.Log("Data at index "+slotIndex + "has been found as null");
+        }
+        SelectGameData(slotIndex);
+        Debug.Log("Slot " + slotIndex + " loaded");
+    }
+
     public void LoadAllSlotData()
     {
         for (int i = 0; i < allDatas.Length; i++)
@@ -77,6 +94,8 @@ public class StandAloneSaveSystem : ISaveSystem
         }
         ActiveGameData = allDatas[currentSlotIndex];
     }
+
+    #endregion
 
     public void SaveActiveGameData()
     {
@@ -136,6 +155,7 @@ public class StandAloneSaveSystem : ISaveSystem
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(path, FileMode.OpenOrCreate);
+        file.Seek(0, SeekOrigin.Begin);
 
         dataToSave.OnPreSave();
         bf.Serialize(file, dataToSave.InstanceToSave);
@@ -147,7 +167,7 @@ public class StandAloneSaveSystem : ISaveSystem
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(path, FileMode.OpenOrCreate);
-
+        file.Seek(0, SeekOrigin.Begin);
         T data = (T)bf.Deserialize(file);
         file.Close();
         if (!data.CheckVersion()){

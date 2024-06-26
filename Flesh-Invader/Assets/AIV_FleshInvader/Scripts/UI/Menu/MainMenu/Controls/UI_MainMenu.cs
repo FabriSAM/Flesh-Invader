@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,8 @@ public class UI_MainMenu : MonoBehaviour
 {
     Button quitButton;
     Button newGameButton;
+    Button continueButton;
+
     VisualElement rootVisualElement;
 
     private void OnEnable() {
@@ -18,8 +21,54 @@ public class UI_MainMenu : MonoBehaviour
 
         newGameButton = rootVisualElement.Q<Button>("NewGameButton");
         newGameButton.clicked += OnNewGameButtonClicked;
+
+        continueButton = rootVisualElement.Q<Button>("ContinueButton");
+        continueButton.clicked += OnContinueGameButtonClicked;
+
+        if (!SaveSystem.GameDataExists(0))
+        {
+            continueButton.style.display = DisplayStyle.None;
+        }
     }
 
+    private void OnContinueGameButtonClicked()
+    {
+        StartCoroutine(LoadLevelCoroutine());
+
+    }
+
+    IEnumerator LoadLevelCoroutine()
+    {
+        var menuContainer = rootVisualElement.Q<VisualElement>("MenuContainer");
+        menuContainer.style.display = DisplayStyle.None;
+        var loadingContainer = rootVisualElement.Q<VisualElement>("LoadingContainer");
+        loadingContainer.style.display = DisplayStyle.Flex;
+        var loadingBar = rootVisualElement.Q<ProgressBar>("LoadingBar");
+
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+        InputManager.EnablePlayerMap(true);
+        InputManager.EnableUIMap(false);
+        //yield return new WaitForSeconds(1);
+
+        // Load datas from disk to code
+        SaveSystem.LoadSlotData(0);
+
+        while (!asyncOperation.isDone && loadingBar != null)
+        {
+            float progress = asyncOperation.progress;
+            loadingBar.value = progress;
+            loadingBar.title = $"{progress}%";
+            yield return new WaitForEndOfFrame();
+        }   // ASPETTA DAVVERO IL CARICAMENTO DELLA SCENA?
+
+        yield return new WaitForSeconds(5);
+        // Spawn character and load statistics
+        CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);
+
+        yield return null;
+    }
+
+    #region NewGame
     private void OnNewGameButtonClicked() {
         //async load with loading widget
         StartCoroutine(ChangeLevelCoroutine());
@@ -36,15 +85,18 @@ public class UI_MainMenu : MonoBehaviour
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
         //yield return new WaitForSeconds(1);
+
         while (!asyncOperation.isDone && loadingBar != null) {
             float progress = asyncOperation.progress;
             loadingBar.value = progress;
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
         }
+        SaveSystem.CreateGameData(0);
 
         yield return null;
     }
+    #endregion
 
     private void OnQuitBottonClicked() {
         Application.Quit();

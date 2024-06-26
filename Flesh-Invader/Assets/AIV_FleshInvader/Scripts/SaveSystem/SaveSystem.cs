@@ -53,6 +53,11 @@ public static class SaveSystem
     {
         platformBasedSaveSystem.CreateGameData(slotIndex);
     }
+    
+    public static void LoadSlotData(int slotIndex)
+    {
+        platformBasedSaveSystem.LoadSlotData(slotIndex);
+    }
 
     public static void LoadAllSlotData()
     {

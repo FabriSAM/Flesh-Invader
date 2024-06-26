@@ -15,6 +15,8 @@ public interface ISaveSystem
     void CreateSettingsData();
     void DeleteSettingsData();
     void CreateGameData(int slotIndex);
+
+    void LoadSlotData(int slotIndex);
     void LoadAllSlotData();
     void SaveActiveGameData();
 
