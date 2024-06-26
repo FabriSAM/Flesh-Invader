@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityEngine.XR;
 
 public class UI_MainMenu : MonoBehaviour
 {
@@ -61,9 +62,11 @@ public class UI_MainMenu : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }   // ASPETTA DAVVERO IL CARICAMENTO DELLA SCENA?
 
-        yield return new WaitForSeconds(5);
+        MenuInfo.ToLoad = true;
+        MenuInfo.EnemyToLoad = SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo;
+        StaticLoading.LoadSaveGame = true;
         // Spawn character and load statistics
-        CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);
+        // CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);
 
         yield return null;
     }
