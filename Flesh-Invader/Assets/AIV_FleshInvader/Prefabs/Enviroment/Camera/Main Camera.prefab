@@ -107,3 +107,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraSpeed: 4
   ownerCamera: {fileID: 7569269765942557835}
+  offset: {x: 0, y: 11, z: -15}
