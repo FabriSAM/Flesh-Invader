@@ -109,5 +109,7 @@ public class GameSavedData : ISaveableDataClass
     {
         get { return (PlayerSavedData)saveableDatas[0]; }
     }
+
+    //public LevelSavedData
     #endregion
 }

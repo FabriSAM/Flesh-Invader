@@ -4,7 +4,8 @@
     "references": [
         "AIV_FI_CombatSystem",
         "AIV_FI_Character",
-        "AIV_FI_Utilities"
+        "AIV_FI_Utilities",
+        "AIV_SaveSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

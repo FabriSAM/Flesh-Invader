@@ -12,21 +12,29 @@ public static class SaveSystemConfiguration
     private const string gameDataNameAffix = "GameData_";
     private const string gameDataNameSuffix = ".file";
 
-    private const int gameDataSlotNumber = 3;
+    private const int gameDataSlotNumber = 1;
 
     public static string RootsPath
     {
         get { return Application.persistentDataPath; }
     }
 
-    public static string GameDataFolderPath
-    {
-        get { return RootsPath + gameDataPath; }
-    }
-
+    #region SettingsData
     public static string SettingsFolderPath
     {
         get { return RootsPath + settingPath; }
+    }
+
+    public static string SettingsFilePath
+    {
+        get { return SettingsFolderPath + settingsFileName; }
+    }
+    #endregion
+
+    #region GameData
+    public static string GameDataFolderPath
+    {
+        get { return RootsPath + gameDataPath; }
     }
 
     public static int GameDataSlotNumber
@@ -38,4 +46,5 @@ public static class SaveSystemConfiguration
     {
         return GameDataFolderPath + gameDataNameAffix + slot.ToString() + gameDataNameSuffix;
     }
+    #endregion
 }

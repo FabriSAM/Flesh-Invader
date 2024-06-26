@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public abstract class GameplaySavedData : ISaveableDataClass
 {
 
@@ -29,7 +31,7 @@ public abstract class GameplaySavedData : ISaveableDataClass
 
     public void HandleVersionChanged()
     {
-        // Do things
+        // Do stuff
 
 
         savedFileVersion = CurrentFileVersion;
@@ -37,7 +39,7 @@ public abstract class GameplaySavedData : ISaveableDataClass
 
     public virtual void OnCreation()
     {
-        
+        //Do stuff
     }
 
     public void OnDataDeselected()
@@ -55,19 +57,19 @@ public abstract class GameplaySavedData : ISaveableDataClass
         // Before deletation
     }
 
-    public void OnLoadedFromDisk()
+    public virtual void OnLoadedFromDisk()
     {
-        throw new System.NotImplementedException();
+        // Do stuff
     }
 
     public void OnPostSave()
     {
-        throw new System.NotImplementedException();
+        // Do stuff
     }
 
     public void OnPreSave()
     {
-        throw new System.NotImplementedException();
+        // Do stuff
     }
     #endregion
 }

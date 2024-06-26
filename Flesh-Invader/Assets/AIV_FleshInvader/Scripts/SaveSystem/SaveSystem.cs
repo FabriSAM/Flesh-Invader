@@ -5,6 +5,11 @@ using UnityEngine;
 
 public static class SaveSystem 
 {
+    public static GameSavedData ActiveGameData
+    {
+        get { return platformBasedSaveSystem.ActiveGameData; }
+    }
+    
     static ISaveSystem platformBasedSaveSystem;
 
     static SaveSystem()
@@ -73,6 +78,7 @@ public static class SaveSystem
     {
         return platformBasedSaveSystem.GameDataExists(slotIndex);
     }
+
     #endregion
 
 

@@ -7,7 +7,7 @@ public class AlienObject : InteractableBase, ICollectable
 {
     #region SerializeFields
     [SerializeField]
-    private uint dialogueID;
+    private uint alienObjectID;    // Use this for saving
     #endregion
 
     #region Variables
@@ -35,10 +35,14 @@ public class AlienObject : InteractableBase, ICollectable
 
         return true;
     }
+
     protected override void OnOpen()
     {
-        GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
+        GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(alienObjectID, 0));
         UnscribeInteract();
+
+        SaveSystem.ActiveGameData.PlayerSavedData.UnlockCollectible((int)alienObjectID);
+        
         Collect();
     }
 
@@ -58,9 +62,19 @@ public class AlienObject : InteractableBase, ICollectable
     #region Mono
     void Awake()
     {
+        // To move into Start?
         missionController = PlayerState.Get().MissionController;
         AddMission();
     }
+
+    private void Start()
+    {
+        if (SaveSystem.ActiveGameData.PlayerSavedData.IsCollectibleUnlocked((int)alienObjectID))
+        {
+            Collect();
+        }
+    }
+
     #endregion
 
 }

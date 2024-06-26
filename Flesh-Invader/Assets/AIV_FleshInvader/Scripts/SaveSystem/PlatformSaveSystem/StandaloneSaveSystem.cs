@@ -1,71 +1,168 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class StandAloneSaveSystem : ISaveSystem
 {
-    public void CreateGameData(int slotIndex)
+
+    private SettingsData settingsData;
+    private GameSavedData[] allDatas;
+
+    public GameSavedData ActiveGameData
     {
-        throw new System.NotImplementedException();
+        get;
+        private set;
     }
 
-    public void CreateSettingsData()
+    private int currentSlotIndex;
+
+    public void Initialize()
     {
-        throw new System.NotImplementedException();
+        allDatas = new GameSavedData[SaveSystemConfiguration.GameDataSlotNumber];
+        if (!Directory.Exists(SaveSystemConfiguration.SettingsFolderPath))
+        {
+            Directory.CreateDirectory(SaveSystemConfiguration.SettingsFolderPath);
+        }
+        if (!Directory.Exists(SaveSystemConfiguration.GameDataFolderPath))
+        {
+            Directory.CreateDirectory(SaveSystemConfiguration.GameDataFolderPath);
+        }
+
+        // If settingsData file doesn't exists i create it
+        if (!SettingDataExists())
+        {
+            CreateSettingsData();
+        }
+        // If it exists i load it from file
+        else
+        {
+            settingsData = LoadISaveableData<SettingsData>(SaveSystemConfiguration.SettingsFilePath);
+        }
+    }
+   
+    #region GameData
+
+    public void CreateGameData(int slotIndex)
+    {
+        allDatas[slotIndex] = CreateISaveableData<GameSavedData>();
+        SaveISaveableData<GameSavedData>(SaveSystemConfiguration.GetGameDataPath(slotIndex), allDatas[slotIndex]);
+        ActiveGameData = allDatas[slotIndex];
     }
 
     public void DeleteGameData(int slotIndex)
     {
-        throw new System.NotImplementedException();
+        DeleteISaveableData<GameSavedData>(SaveSystemConfiguration.GetGameDataPath(slotIndex), allDatas[slotIndex]);
     }
 
-    public void DeleteSettingsData()
+    public bool GameDataExists(int slotIndex)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void GameDataExists(int slotIndex)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Initialize()
-    {
-        throw new System.NotImplementedException();
+        return File.Exists(SaveSystemConfiguration.GetGameDataPath(slotIndex));
     }
 
     public void LoadAllSlotData()
     {
-        throw new System.NotImplementedException();
+        for (int i = 0; i < allDatas.Length; i++)
+        {
+            string path = SaveSystemConfiguration.GetGameDataPath(i);
+            if (GameDataExists(i))
+            {
+                allDatas[i] = LoadISaveableData<GameSavedData>(path);
+            }
+            else
+            {
+                allDatas[i] = null;
+            }
+        }
+        ActiveGameData = allDatas[currentSlotIndex];
     }
 
     public void SaveActiveGameData()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void SaveSettingsData()
-    {
-        throw new System.NotImplementedException();
+        Debug.Log("Save happened. Active Game Data: \n Last Position - "+ ActiveGameData.PlayerSavedData.SavedLastCheckpoint);
+        SaveISaveableData<GameSavedData>(SaveSystemConfiguration.GetGameDataPath(currentSlotIndex), ActiveGameData);
     }
 
     public void SelectGameData(int slotIndex)
     {
-        throw new System.NotImplementedException();
+        if(ActiveGameData != null)
+        {
+            ActiveGameData.OnDataDeselected();
+        }
+        if(slotIndex == -1)
+        {
+            ActiveGameData = null;
+            currentSlotIndex = -1;
+            return;
+        }
+        ActiveGameData = allDatas[slotIndex];
+        ActiveGameData.OnDataDeselected();
+        currentSlotIndex = slotIndex;
+    }
+    #endregion 
+
+    #region SettingsData
+    public void CreateSettingsData()
+    {
+        settingsData = CreateISaveableData<SettingsData>();
+        SaveSettingsData();
     }
 
-    public void SettingDataExists()
+    public void SaveSettingsData()
     {
-        throw new System.NotImplementedException();
+        SaveISaveableData<SettingsData>(SaveSystemConfiguration.SettingsFilePath, settingsData);
     }
 
-    bool ISaveSystem.GameDataExists(int slotIndex)
+    public bool SettingDataExists()
     {
-        throw new System.NotImplementedException();
+        return File.Exists(SaveSystemConfiguration.SettingsFilePath);
+    }
+    public void DeleteSettingsData()
+    {
+        DeleteISaveableData<SettingsData>(SaveSystemConfiguration.SettingsFilePath, settingsData);
+    }
+    #endregion
+
+    #region WrapperSaveable
+    private static T CreateISaveableData<T>() where T : ISaveableDataClass, new ()
+    {
+        T data = new T();
+        data.OnCreation();
+        return data;
     }
 
-    bool ISaveSystem.SettingDataExists()
+    private void SaveISaveableData<T> (string path, ISaveableDataClass dataToSave) where T : ISaveableDataClass, new()
     {
-        throw new System.NotImplementedException();
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Open(path, FileMode.OpenOrCreate);
+
+        dataToSave.OnPreSave();
+        bf.Serialize(file, dataToSave.InstanceToSave);
+        dataToSave.OnPostSave();
+        file.Close();
     }
+
+    private T LoadISaveableData<T> (string path) where T : ISaveableDataClass
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Open(path, FileMode.OpenOrCreate);
+
+        T data = (T)bf.Deserialize(file);
+        file.Close();
+        if (!data.CheckVersion()){
+            data.HandleVersionChanged();
+        }
+        data.OnLoadedFromDisk();
+        return data;
+    }
+
+    private static void DeleteISaveableData<T>(string path, ISaveableDataClass data) where T: ISaveableDataClass
+    {
+        data.OnDelete();
+        File.Delete(path);
+    }
+
+    #endregion
+
 }
