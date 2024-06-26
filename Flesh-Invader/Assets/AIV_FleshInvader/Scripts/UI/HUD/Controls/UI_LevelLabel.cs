@@ -24,6 +24,6 @@ public class UI_LevelLabel : MonoBehaviour
     private void PlayerXPUpdated(EventArgs message)
     {
         EventArgsFactory.PlayerXPUpdatedParser(message, out LevelStruct levelStruct);
-        level.text = $"Level: {levelStruct.CurrentLevel}";
+        level.text = $"{levelStruct.CurrentLevel}";
     }
 }

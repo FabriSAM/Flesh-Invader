@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Pooler : MonoBehaviour
 {
-
+    #region StaticMembers
     private static Pooler instance;
     public static Pooler Instance {
         get {
@@ -15,22 +15,20 @@ public class Pooler : MonoBehaviour
             return instance;
         }
     }
+    #endregion
 
+    #region PrivateMembers
     private Dictionary<string, GameObject[]> pool = new Dictionary<string, GameObject[]>();
-
     private List<string> poolToDestroy = new List<string>();
+    #endregion
 
+    #region Mono
     public void Awake() {
-        if (instance != null && instance != this) {
-            Destroy(gameObject);
-            return;
-        }
-        //DontDestroyOnLoad(gameObject);
         instance = this;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+    #endregion
 
+    #region Legacy
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode) {
         foreach(string key in poolToDestroy) {
             if (!pool.ContainsKey(key)) continue;
@@ -48,6 +46,9 @@ public class Pooler : MonoBehaviour
             poolToDestroy.Add(item.Key);
         }
     }
+    #endregion
+
+    #region PublicMethods
 
     public void AddToPool (PoolData data) {
         if (poolToDestroy.Contains(data.PoolKey)) {
@@ -74,6 +75,9 @@ public class Pooler : MonoBehaviour
         return GetPooledObject(data);
     }
 
+    #endregion
+
+    #region PrivateMethods
     private void InternalAddToPool (PoolData data) {
         GameObject[] pooledObject = new GameObject[data.PoolNumber];
         for (int i = 0; i < pooledObject.Length; i++) {
@@ -101,9 +105,8 @@ public class Pooler : MonoBehaviour
 
     private GameObject InternalInstantiate (GameObject prefab) {
         GameObject temp = Instantiate(prefab);
-        //DontDestroyOnLoad(temp);
         temp.SetActive(false);
         return temp;
     }
-
+    #endregion
 }

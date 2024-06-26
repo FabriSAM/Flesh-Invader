@@ -29,6 +29,7 @@ public class AlienObject : InteractableBase, ICollectable
     #region OverrideBaseClass
     protected override bool CanOpen(Collider other)
     {
+        if (((1 << other.gameObject.layer) & interactableMask.value) == 0) return false;
         if (!other.TryGetComponent(out controller)) return false;
         //if (!other.TryGetComponent(out character)) return;
         if (!controller.IsPossessed) return false;

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 64650047177874164}
   - component: {fileID: 64334517316360300}
   - component: {fileID: 7075205790481129300}
+  - component: {fileID: 7454420988931219729}
   m_Layer: 0
   m_Name: SA_Prop_BrokenTank_01
   m_TagString: Untagged
@@ -197,3 +198,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.723319, y: 5.841549, z: 9.152185}
   m_Center: {x: 0.8987884, y: 2.9207745, z: 0.20071031}
+--- !u!114 &7454420988931219729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 5.773127, y: 3, z: 9.15389}
+  m_Center: {x: 0.886564, y: 1, z: 0.17445993}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

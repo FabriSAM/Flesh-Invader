@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 64888873339011042}
   - component: {fileID: 5421059992725068376}
   - component: {fileID: 8264700928194501865}
+  - component: {fileID: 2876695812471364374}
   m_Layer: 0
   m_Name: SA_Prop_Tree_05
   m_TagString: Untagged
@@ -173,3 +174,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.2478714, y: 4.424859, z: 6.010494}
   m_Center: {x: -0.31531906, y: 7.4631925, z: 0.22728539}
+--- !u!114 &2876695812471364374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 2.3634033, y: 3, z: 3.2458801}
+  m_Center: {x: 0.07084656, y: 1, z: 1.0650787}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

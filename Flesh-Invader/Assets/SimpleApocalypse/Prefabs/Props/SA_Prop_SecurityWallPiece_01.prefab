@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2391380}
   - component: {fileID: 64838984499409704}
   - component: {fileID: 889535859286116199}
+  - component: {fileID: 3199159108600970546}
   m_Layer: 9
   m_Name: SA_Prop_SecurityWallPiece_01
   m_TagString: Untagged
@@ -128,3 +129,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3750572, y: 5.189465, z: 1.5329593}
   m_Center: {x: -1.1875286, y: 2.5913026, z: -0.7664797}
+--- !u!114 &3199159108600970546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 2.377871, y: 3.1079807, z: 1.5241768}
+  m_Center: {x: -1.185029, y: 1.0539904, z: -0.7323638}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
