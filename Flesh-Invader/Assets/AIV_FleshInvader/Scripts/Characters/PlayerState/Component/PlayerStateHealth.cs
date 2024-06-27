@@ -107,6 +107,7 @@ public class PlayerStateHealth : MonoBehaviour
 
     public void InitMe(PlayerState playerState)
     {
+        //if(StaticLoading.LoadSaveGame)
         HealthReset();
         HealthDamageTimerReset();
         playerState.LevelController.OnLevelChange += OnLevelChange;
