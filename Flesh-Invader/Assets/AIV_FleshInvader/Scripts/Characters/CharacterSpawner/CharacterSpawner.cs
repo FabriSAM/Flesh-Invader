@@ -129,7 +129,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
     }
 
     // I didn't use the entire class PlayerSavedData beacause i would have to create a circular dependency between assemblies
-    public void LoadPlayerCharacter(float playerHealth, Vector3 lastPosition, Statistics playerStats, LevelStruct playerLevel, EnemyInfo enemyInfo)
+    public void LoadPlayerCharacter(float playerMaxHealth, float playerHealth, Vector3 lastPosition, Statistics playerStats, LevelStruct playerLevel, EnemyInfo enemyInfo)
     {
         GameObject playerChar;
         PoolData pool;
@@ -139,11 +139,11 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         {
             case EnemyType.Boss:
                 pool = Array.Find(characterType, pool => { return pool.PoolKey == bossPoolKey; });              
-                playerChar = (Instantiate(pool.Prefab));
+                playerChar = (Instantiate(pool.Prefab, lastPosition, Quaternion.identity));
                 break;
             case EnemyType.Thief:
                 pool = Array.Find(characterType, pool => { return pool.PoolKey == roguePoolKey; });
-                playerChar = (Instantiate(pool.Prefab));
+                playerChar = (Instantiate(pool.Prefab, lastPosition, Quaternion.identity));
                 break;
             default:
                 playerChar = null;
@@ -152,32 +152,49 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
 
         if (playerChar != null)
         {
+            // Move to Checkpoint
+            playerChar.GetComponentInChildren<NavMeshAgent>().enabled = false;
+
             Controller playerController = playerChar.GetComponentInChildren<Controller>();
             EnemyChar playerAsCharacter = playerChar.GetComponentInChildren<EnemyChar>();
 
-            // Move to Checkpoint
-            playerChar.transform.position = lastPosition;
-            // Set Character stats
-            playerAsCharacter.CharacterInfo = enemyInfo;
-            // Set Player Level
-            PlayerState.Get().LevelController.SetLevel(playerLevel);
-            // Set Player Stats
-            PlayerState.Get().InformationController.SetStats(playerStats);
-            // Set Player Life
-            PlayerState.Get().HealthController.HealthSet(playerHealth);
+            PlayerInitialPossessionOnLoad(playerChar, playerAsCharacter, playerController);
 
-            // Possession behavior
-            playerChar.gameObject.SetActive(true);
-            PlayerState.Get().CurrentPlayer.gameObject.SetActive(false);
-            PlayerState.Get().CurrentPlayer.GetComponentInChildren<Controller>().UnPossess();
-            playerController.Possess();
-
-
-
+            PlayerInitialSetUpOnLoad(playerMaxHealth, playerHealth, lastPosition, playerStats, playerLevel, enemyInfo, playerChar, playerAsCharacter);
 
             GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
 
         }
+    }
+
+
+    private static void PlayerInitialPossessionOnLoad(GameObject playerChar, EnemyChar playerAsChar, Controller playerController)
+    {
+
+        PlayerState.Get().CurrentPlayer.GetComponentInChildren<Controller>().UnPossess();
+        PlayerState.Get().CurrentPlayer.gameObject.SetActive(false);
+        // Possession behavior
+        playerChar.gameObject.SetActive(true);
+        
+
+        playerAsChar.stateMachine.enabled = false;
+        playerController.IsPossessed = true;
+    }
+    private static void PlayerInitialSetUpOnLoad(float playerMaxHealth, float playerHealth, Vector3 lastPosition, Statistics playerStats, LevelStruct playerLevel, EnemyInfo enemyInfo, GameObject playerChar, EnemyChar playerAsCharacter)
+    {
+        // Set Character stats
+        playerAsCharacter.CharacterInfo = enemyInfo;
+        // Set Player Level
+        PlayerState.Get().LevelController.SetLevel(playerLevel);
+        // Set Player Stats
+        PlayerState.Get().InformationController.SetStats(playerStats);
+        // Set Player MaxLife
+        PlayerState.Get().HealthController.MaxHealthSet(playerMaxHealth);
+        // Set Player Life
+        PlayerState.Get().HealthController.HealthSet(playerHealth);
+
+        // Why It did not work?
+        //playerChar.transform.position = lastPosition;
     }
 
     private void CountEnemyDeath(EventArgs _)

@@ -50,7 +50,7 @@ public class Controller : MonoBehaviour, IPossessable
     }
     public bool IsPossessed
     {
-        get { return isPossessed; }
+        get { return isPossessed; } set { isPossessed = value; }
     }
     public PlayerStateHealth PlayerStateHealth
     {

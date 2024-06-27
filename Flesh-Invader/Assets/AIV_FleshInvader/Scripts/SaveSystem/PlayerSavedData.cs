@@ -28,6 +28,7 @@ public class PlayerSavedData : GameplaySavedData
     private Statistics currentPlayerStats;
 
     private EnemyInfo playerCharInfo;
+    private float playerMaxHealth;
     private float playerHealth;
     private LevelStruct levelStruct;
 
@@ -47,6 +48,7 @@ public class PlayerSavedData : GameplaySavedData
 
     public LevelStruct LevelStruct { get => levelStruct; set => levelStruct = value; }
     public float PlayerHealth { get => playerHealth; set => playerHealth = value; }
+    public float PlayerMaxHealth { get => playerMaxHealth; set => playerMaxHealth = value; }
 
     public bool IsCollectibleUnlocked(int collectibleID)
     {
@@ -82,6 +84,11 @@ public class PlayerSavedData : GameplaySavedData
     public void UpdatePlayerHealth(float healthToSave)
     {
         playerHealth = healthToSave;
+    }
+
+    public void UpdatePlayerMaxHealth(float maxHealthToSave)
+    {
+        playerMaxHealth = maxHealthToSave;
     }
     #endregion
 
