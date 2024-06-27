@@ -50,7 +50,6 @@ public class UI_MainMenu : MonoBehaviour
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
-        //yield return new WaitForSeconds(1);
 
         // Load datas from disk to code
         SaveSystem.LoadSlotData(0);
@@ -63,11 +62,7 @@ public class UI_MainMenu : MonoBehaviour
             yield return new WaitForEndOfFrame();
         } 
 
-        //MenuInfo.ToLoad = true;
-        //MenuInfo.EnemyToLoad = SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo;
         StaticLoading.LoadSaveGame = true;
-        // Spawn character and load statistics
-        // CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);
 
         yield return null;
     }

@@ -35,6 +35,7 @@ public class Possession : AbilityBase, IPoolRequester
 
     private void ShootPossession()
     {
+        Debug.Log("Shooting possession bullet");
         IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
         if (bulletComponent == null) return;
         bulletComponent.Shoot(aim, bulletSpeed, characterController);
