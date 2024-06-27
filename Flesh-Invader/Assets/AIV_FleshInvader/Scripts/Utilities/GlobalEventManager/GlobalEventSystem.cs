@@ -16,7 +16,8 @@ using UnityEngine;
         EnemyDeath,
         PlayerWin,
         PauseMenuEvent,
-        UICollectableClose
+        UICollectableClose,
+        PlayerDeathAnimationStart
     }
 
     public class EventArgs {
