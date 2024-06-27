@@ -23,6 +23,11 @@ public class PlayerStateInformation : MonoBehaviour
         return stats;
     }
 
+    public void SetStats(Statistics newStats)
+    {
+        stats = newStats;
+    }
+
     public void BulletFired()
     {
         stats.BulletFired++;

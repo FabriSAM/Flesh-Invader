@@ -47,7 +47,6 @@ public class EnemyStatisticsTemplate : ScriptableObject
 
     #region Stutter
     public float StutterTime { get { return CharStatesStats.stutterTime; } }
-    public Material TestStutterMaterial { get { return CharStatesStats.testStutterMaterial; } }
     #endregion
 
     #endregion
