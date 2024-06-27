@@ -448,6 +448,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 5380751241265888436, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8600952662611930606, guid: a1e975cc834391e4bbdaedbf317b3849, type: 3}
       propertyPath: m_Layer
       value: 2

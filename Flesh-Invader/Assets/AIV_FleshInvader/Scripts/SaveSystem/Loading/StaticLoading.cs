@@ -19,7 +19,7 @@ public static class StaticLoading
         if (LoadSaveGame)
         {
             
-            CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);
+            CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.SavedLastCheckpoint, SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo );
             
         }
     }

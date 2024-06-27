@@ -60,10 +60,10 @@ public class UI_MainMenu : MonoBehaviour
             loadingBar.value = progress;
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
-        }   // ASPETTA DAVVERO IL CARICAMENTO DELLA SCENA?
+        } 
 
-        MenuInfo.ToLoad = true;
-        MenuInfo.EnemyToLoad = SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo;
+        //MenuInfo.ToLoad = true;
+        //MenuInfo.EnemyToLoad = SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo;
         StaticLoading.LoadSaveGame = true;
         // Spawn character and load statistics
         // CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);

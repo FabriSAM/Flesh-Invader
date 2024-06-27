@@ -42,6 +42,7 @@ public class PlayerSavedData : GameplaySavedData
 
     public EnemyInfo PlayerCharInfo { get {  return playerCharInfo; } }
 
+
     public bool IsCollectibleUnlocked(int collectibleID)
     {
         return unlockedCollectibleIDs != null && unlockedCollectibleIDs.Contains(collectibleID);

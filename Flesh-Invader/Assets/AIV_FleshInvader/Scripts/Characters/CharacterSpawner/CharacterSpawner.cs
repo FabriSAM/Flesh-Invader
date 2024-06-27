@@ -128,7 +128,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         }
     }
 
-    public void LoadPlayerCharacter(EnemyInfo enemyInfo)
+    public void LoadPlayerCharacter(Vector3 lastPosition, EnemyInfo enemyInfo)
     {
         GameObject playerChar;
         PoolData pool;
@@ -154,14 +154,16 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
             Controller playerController = playerChar.GetComponentInChildren<Controller>();
             EnemyChar playerAsCharacter = playerChar.GetComponentInChildren<EnemyChar>();
 
+            playerController.transform.position = lastPosition;
           
 
             // Possession behavior
+            playerChar.gameObject.SetActive(true);
+            PlayerState.Get().CurrentPlayer.gameObject.SetActive(false);
+            PlayerState.Get().CurrentPlayer.GetComponentInChildren<Controller>().UnPossess();
             playerController.Possess();
             GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
 
-
-            playerChar.gameObject.SetActive(true);
 
         }
     }
