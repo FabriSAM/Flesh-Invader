@@ -10,6 +10,8 @@ public abstract class InteractableBase : MonoBehaviour
     protected Collider trigger;
     [SerializeField]
     protected GameObject canvas;
+    [SerializeField]
+    protected LayerMask interactableMask;
 
     [SerializeField]
     protected CollectibleInfo info;
@@ -24,6 +26,11 @@ public abstract class InteractableBase : MonoBehaviour
     private void OnEnable()
     {
         alreadyUsed = false;
+        GlobalEventSystem.AddListener(EventName.PossessionExecuted, OnPossessionExecuted);
+    }
+    private void OnDisable()
+    {
+        GlobalEventSystem.RemoveListener(EventName.PossessionExecuted, OnPossessionExecuted);
     }
     #endregion
 
@@ -53,6 +60,7 @@ public abstract class InteractableBase : MonoBehaviour
     }
     protected virtual bool CanOpen(Collider other)
     {
+        if (((1 << other.gameObject.layer) & interactableMask.value) == 0) return false;
         if (alreadyUsed) return false;
         Controller tempController = other.GetComponent<Controller>();
 
@@ -62,6 +70,14 @@ public abstract class InteractableBase : MonoBehaviour
         if (!controller.CharacterInfo.CharStats.CanLockpick) return false;
 
         return true;
+    }
+    #endregion
+
+    #region Callbacks
+    protected void OnPossessionExecuted(EventArgs _)
+    {
+        if (controller == null) return;
+        UnscribeInteract();
     }
     #endregion
 }

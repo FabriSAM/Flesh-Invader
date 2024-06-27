@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2350464}
   - component: {fileID: 64188203521126434}
   - component: {fileID: 5991988559279695711}
+  - component: {fileID: 1833744227854156390}
   m_Layer: 0
   m_Name: SA_Prop_CarRolled_03
   m_TagString: Untagged
@@ -128,3 +129,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.762043, y: 3.2554104, z: 6.4670124}
   m_Center: {x: 0.00001163822, y: 1.628462, z: 0.0000038368426}
+--- !u!114 &1833744227854156390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 4, y: 4.001844, z: 6.5159407}
+  m_Center: {x: 0, y: 1.500922, z: -0.027968884}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2323304}
   - component: {fileID: 64373840416016928}
   - component: {fileID: 822187143150039043}
+  - component: {fileID: 2991173871475091793}
   m_Layer: 0
   m_Name: SA_Prop_Ambulance_Brokendown_01
   m_TagString: Untagged
@@ -128,3 +129,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.4368892, y: 3.619957, z: 7.0094023}
   m_Center: {x: 0, y: 1.8099785, z: 0}
+--- !u!114 &2991173871475091793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 3.2336614, y: 3, z: 6.9230003}
+  m_Center: {x: 0.047650933, y: 1, z: -0.01639843}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
