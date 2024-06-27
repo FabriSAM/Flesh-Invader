@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,9 +19,10 @@ public static class StaticLoading
 
         if (LoadSaveGame)
         {
-            
+            GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory());
             // To refactor 
             CharacterSpawner.GetInstance().LoadPlayerCharacter(
+                SaveSystem.ActiveGameData.PlayerSavedData.PlayerMaxHealth,
                 SaveSystem.ActiveGameData.PlayerSavedData.PlayerHealth,
                 SaveSystem.ActiveGameData.PlayerSavedData.SavedLastCheckpoint, 
                 SaveSystem.ActiveGameData.PlayerSavedData.savedStatistics, 

@@ -31,6 +31,8 @@ public abstract class EnemyChar : MonoBehaviour
     public EnemyInfo CharacterInfo { get { return characterCurrentInfo; } set { characterCurrentInfo = value; } }
 
     public bool IsDead { get => isDead; }
+
+    public StateMachine stateMachine { get { return FSM; } }
     #endregion
 
     #region AnimatorStrings

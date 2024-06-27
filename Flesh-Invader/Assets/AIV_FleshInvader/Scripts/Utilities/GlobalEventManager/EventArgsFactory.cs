@@ -1,4 +1,6 @@
 
+using UnityEditor.VersionControl;
+
 namespace NotserializableEventManager
 {
     public static class EventArgsFactory
@@ -249,9 +251,23 @@ namespace NotserializableEventManager
             return message;
         }
 
-        public static void PlayerDeathAnimationStartFactory(EventArgs message)
+        public static void PlayerDeathAnimationStartParser(EventArgs message)
         {
         }
+        #endregion
+
+        #region 
+        public static EventArgs LoadGameEndedFactory()
+        {
+            EventArgs message = new EventArgs();
+            return message;
+        }
+
+        public static void LoadGameEndedParser(EventArgs message)
+        {
+
+        }
+
         #endregion
     }
 

@@ -20,8 +20,10 @@ public class Checkpoint : MonoBehaviour
         SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerCharInfo(playerInfo);
         #endregion
 
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerHealth(PlayerState.Get().HealthController.getCurrentHealth());
-
+        #region Save: PlayerHealth
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerHealth(PlayerState.Get().HealthController.GetCurrentHealth());
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerMaxHealth(PlayerState.Get().HealthController.GetMaxHealth());
+        #endregion
 
         SaveSystem.SaveActiveGameData();
         gameObject.SetActive(false);

@@ -32,9 +32,20 @@ public class PlayerStateHealth : MonoBehaviour
     private float maxHP;
     private float maxTimer;
     private float constantDamage;
+    private static bool gameLoaded;
 
     public bool DeadStatus {  get { return deadStatus; } }
     #endregion
+
+    private void OnEnable()
+    {
+        GlobalEventSystem.AddListener(EventName.LoadGameEnded, SetGameLoaded);
+    }
+
+    public static void SetGameLoaded(EventArgs message)
+    {
+        gameLoaded = true;
+    }
 
     #region Mono
     void Update()
@@ -98,9 +109,19 @@ public class PlayerStateHealth : MonoBehaviour
         SendMessageHealthUpdate();
     }
 
-    public float getCurrentHealth()
+    public void MaxHealthSet(float maxHealth)
+    {
+        maxHP = maxHealth;
+    }
+
+    public float GetCurrentHealth()
     {
         return currentHP;
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHP;
     }
 
     public void HealthDamageTimerReset()
@@ -112,11 +133,18 @@ public class PlayerStateHealth : MonoBehaviour
 
     public void InitMe(PlayerState playerState)
     {
-        //if(StaticLoading.LoadSaveGame)
-        HealthReset();
-        HealthDamageTimerReset();
-        playerState.LevelController.OnLevelChange += OnLevelChange;
-        SendMessageHealthUpdate();
+        if (gameLoaded) 
+        {
+            HealthDamageTimerReset();
+            playerState.LevelController.OnLevelChange += OnLevelChange;
+        }
+        else
+        {
+            HealthReset();
+            HealthDamageTimerReset();
+            playerState.LevelController.OnLevelChange += OnLevelChange;
+            SendMessageHealthUpdate();
+        }
     }
     #endregion
 
