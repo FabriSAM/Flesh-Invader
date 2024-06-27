@@ -128,7 +128,8 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
         }
     }
 
-    public void LoadPlayerCharacter(Vector3 lastPosition, EnemyInfo enemyInfo)
+    // I didn't use the entire class PlayerSavedData beacause i would have to create a circular dependency between assemblies
+    public void LoadPlayerCharacter(float playerHealth, Vector3 lastPosition, Statistics playerStats, LevelStruct playerLevel, EnemyInfo enemyInfo)
     {
         GameObject playerChar;
         PoolData pool;
@@ -154,16 +155,27 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
             Controller playerController = playerChar.GetComponentInChildren<Controller>();
             EnemyChar playerAsCharacter = playerChar.GetComponentInChildren<EnemyChar>();
 
-            playerController.transform.position = lastPosition;
-          
+            // Move to Checkpoint
+            playerChar.transform.position = lastPosition;
+            // Set Character stats
+            playerAsCharacter.CharacterInfo = enemyInfo;
+            // Set Player Level
+            PlayerState.Get().LevelController.SetLevel(playerLevel);
+            // Set Player Stats
+            PlayerState.Get().InformationController.SetStats(playerStats);
+            // Set Player Life
+            PlayerState.Get().HealthController.HealthSet(playerHealth);
 
             // Possession behavior
             playerChar.gameObject.SetActive(true);
             PlayerState.Get().CurrentPlayer.gameObject.SetActive(false);
             PlayerState.Get().CurrentPlayer.GetComponentInChildren<Controller>().UnPossess();
             playerController.Possess();
-            GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
 
+
+
+
+            GlobalEventSystem.CastEvent(EventName.PossessionExecuted, EventArgsFactory.PossessionExecutedFactory(enemyInfo));
 
         }
     }

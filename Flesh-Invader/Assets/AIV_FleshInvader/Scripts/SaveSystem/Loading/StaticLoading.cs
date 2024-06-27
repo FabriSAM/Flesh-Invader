@@ -19,7 +19,14 @@ public static class StaticLoading
         if (LoadSaveGame)
         {
             
-            CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.SavedLastCheckpoint, SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo );
+            // To refactor 
+            CharacterSpawner.GetInstance().LoadPlayerCharacter(
+                SaveSystem.ActiveGameData.PlayerSavedData.PlayerHealth,
+                SaveSystem.ActiveGameData.PlayerSavedData.SavedLastCheckpoint, 
+                SaveSystem.ActiveGameData.PlayerSavedData.savedStatistics, 
+                SaveSystem.ActiveGameData.PlayerSavedData.LevelStruct,
+                SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo 
+                );;
             
         }
     }

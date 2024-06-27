@@ -26,8 +26,11 @@ public class PlayerSavedData : GameplaySavedData
 {
     #region AttributeToSave
     private Statistics currentPlayerStats;
-    // TO ADD: Information about player level
+
     private EnemyInfo playerCharInfo;
+    private float playerHealth;
+    private LevelStruct levelStruct;
+
 
     // TO move into a LevelSavedData class?
     private List<int> unlockedCollectibleIDs;
@@ -42,6 +45,8 @@ public class PlayerSavedData : GameplaySavedData
 
     public EnemyInfo PlayerCharInfo { get {  return playerCharInfo; } }
 
+    public LevelStruct LevelStruct { get => levelStruct; set => levelStruct = value; }
+    public float PlayerHealth { get => playerHealth; set => playerHealth = value; }
 
     public bool IsCollectibleUnlocked(int collectibleID)
     {
@@ -69,6 +74,15 @@ public class PlayerSavedData : GameplaySavedData
         playerCharInfo = playerInfo;
     }
 
+    public void UpdatePlayerLevel(LevelStruct levelToSave)
+    {
+        levelStruct = levelToSave;
+    }
+
+    public void UpdatePlayerHealth(float healthToSave)
+    {
+        playerHealth = healthToSave;
+    }
     #endregion
 
     #region SaveableDataClass
@@ -78,14 +92,7 @@ public class PlayerSavedData : GameplaySavedData
         currentPlayerStats = new Statistics();
         unlockedCollectibleIDs = new List<int>();
         lastCheckpoint = new SerializableVector3(new Vector3());
-    }
-
-    public override void OnLoadedFromDisk()
-    {
-        // Player moves to spawn position
-        //PlayerState.Get().CurrentPlayer.transform.position = lastCheckpoint.returnVector();
-
-        //PlayerState.Get().InformationController.stat = currentPlayerStats;
+        levelStruct = new LevelStruct();
     }
     #endregion
 }

@@ -87,6 +87,17 @@ public class PlayerStateHealth : MonoBehaviour
         currentHP = maxHP;
     }
 
+    public void HealthSet(float health)
+    {
+        currentHP = health;
+        SendMessageHealthUpdate();
+    }
+
+    public float getCurrentHealth()
+    {
+        return currentHP;
+    }
+
     public void HealthDamageTimerReset()
     {
         maxTimer = defaultMaxTimer;
