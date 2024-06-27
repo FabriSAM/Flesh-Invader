@@ -2,7 +2,6 @@ using NotserializableEventManager;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -67,10 +66,15 @@ public class UI_PauseMenu : MonoBehaviour
     public void Start() {
         Debug.Log("UI_PauseMenu Start" + isPlayerDead);
         buttonContinue.clicked += ClosePauseMenu;
+        buttonContinue.RegisterCallback<MouseOverEvent>(onHoverSound);
         buttonMainMenu.clicked += OnMainMenuClick;
+        buttonMainMenu.RegisterCallback<MouseOverEvent>(onHoverSound);
         buttonQuit.clicked += OnQuitClick;
+        buttonQuit.RegisterCallback<MouseOverEvent>(onHoverSound);
         buttonConfirmQuit.clicked += OnConfirmQuitClick;
+        buttonConfirmQuit.RegisterCallback<MouseOverEvent>(onHoverSound);
         buttonCancelQuit.clicked += OnCancelQuitClick;
+        buttonCancelQuit.RegisterCallback<MouseOverEvent>(onHoverSound);
     }
 
     private void OnEnable() {
@@ -134,12 +138,15 @@ public class UI_PauseMenu : MonoBehaviour
         Debug.Log("CURRENT INDEX ENEMY" + statistics.CurrentIndexEnemy);
         SetPortraitCameraTransform(statistics.CurrentIndexEnemy);
     }
+    
     private void SetPortraitCameraTransform(int enemyIndex)
     {
         Debug.Log(portraitCamera.transform);
         portraitCamera.transform.position = modelPortraitLocation[enemyIndex].position;
     }
+    
     private void ClosePauseMenu() {
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         root.style.display = DisplayStyle.None;
         sureQuit.style.visibility = Visibility.Hidden;
         HUDroot.style.display = DisplayStyle.Flex;
@@ -150,6 +157,7 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     private void OnMainMenuClick() {
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
         Time.timeScale = 1;
@@ -158,15 +166,21 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     private void OnQuitClick() {
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         sureQuit.style.visibility = Visibility.Visible;
     }
 
     private void OnCancelQuitClick() {
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         sureQuit.style.visibility = Visibility.Hidden;
     }
 
     private void OnConfirmQuitClick() {
         Application.Quit();
+    }
+
+    private void onHoverSound(MouseOverEvent ev) {
+        AudioManager.Get().PlayOneShot("ButtonHover", "UI");
     }
     #endregion
 
