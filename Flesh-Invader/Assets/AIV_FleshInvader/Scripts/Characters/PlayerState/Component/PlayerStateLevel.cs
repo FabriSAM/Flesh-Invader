@@ -63,7 +63,7 @@ public class PlayerStateLevel : MonoBehaviour
     public void SetLevel(LevelStruct newLevel)
     {
         level = newLevel;
-        OnLevelChange?.Invoke(level.CurrentLevel);
+        //OnLevelChange?.Invoke(level.CurrentLevel);
         GlobalEventSystem.CastEvent(EventName.PlayerXPUpdated,
             EventArgsFactory.PlayerXPUpdatedFactory(level));
     }

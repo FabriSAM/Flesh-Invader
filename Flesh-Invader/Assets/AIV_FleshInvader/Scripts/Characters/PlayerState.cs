@@ -19,7 +19,7 @@ public class PlayerState : MonoBehaviour
     [SerializeField]
     float possessionCD;
     #endregion
-
+    
     #region PrivateMembers
     private GameObject currentPlayer;
     #endregion
