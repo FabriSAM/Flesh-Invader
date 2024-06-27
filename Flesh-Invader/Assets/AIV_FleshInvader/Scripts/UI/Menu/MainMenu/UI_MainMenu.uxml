@@ -8,6 +8,7 @@
                     <ui:VisualElement name="ButtonsContainers" style="flex-grow: 1; flex-shrink: 0; justify-content: center; align-self: center; align-items: stretch; width: 50%; height: 10%; opacity: 1; flex-direction: column; visibility: visible; display: flex; -unity-font: url(&apos;project://database/Assets/AIV_FleshInvader/Fonts/SpaceCrusaders-x3DP0.ttf?fileID=12800000&amp;guid=8843f95fd244acc4dbfbd20ddf9151b8&amp;type=3#SpaceCrusaders-x3DP0&apos;); -unity-font-definition: initial;">
                         <ui:Button text="CONTINUE" name="ContinueButton" class="styleButton" style="height: auto; width: 100%;" />
                         <ui:Button text="NEW GAME" name="NewGameButton" class="styleButton" style="height: auto; width: 100%;" />
+                        <ui:Button text="TUTORIAL" name="TutorialButton" class="styleButton" style="height: auto; width: 100%;" />
                         <ui:Button text="QUIT" name="QuitButton" class="styleButton" style="top: auto; width: 100%; height: auto;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
