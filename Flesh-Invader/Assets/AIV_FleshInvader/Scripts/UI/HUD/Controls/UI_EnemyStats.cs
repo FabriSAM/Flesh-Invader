@@ -37,7 +37,7 @@ public class UI_EnemyStats : MonoBehaviour
         _class.text = enemyInfo.CharNarrativeStats.enemyTypeDescription.ToString();
         baseAttack.text = enemyInfo.CharNarrativeStats.baseAttackDescription.ToString();
         passiveSkill.text = enemyInfo.CharNarrativeStats.passiveSkillDescription.ToString();
-        //icon.style.backgroundImage = enemyInfo.CharNarrativeStats.icon;
-        //enemyStatsContainer.style.backgroundColor = enemyInfo.CharNarrativeStats.color;
+        icon.style.backgroundImage = SerializationHelper.Get().GetTextureByName(enemyInfo.CharNarrativeStats.iconTextureName);
+        enemyStatsContainer.style.backgroundColor = SerializationHelper.Get().GetColorByName(enemyInfo.CharNarrativeStats.colorName);
     }
 }

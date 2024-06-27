@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public static class StaticLoading
 {
+    
     public static bool LoadSaveGame {get; set;}
     static StaticLoading()
     {
@@ -20,6 +21,7 @@ public static class StaticLoading
         if (LoadSaveGame)
         {
             GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory());
+            
             // To refactor 
             CharacterSpawner.GetInstance().LoadPlayerCharacter(
                 SaveSystem.ActiveGameData.PlayerSavedData.PlayerMaxHealth,
