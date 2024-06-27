@@ -239,7 +239,19 @@ namespace NotserializableEventManager
         {
         }
 
-        
+
+        #endregion
+
+        #region PlayerDeathAnimationStart
+        public static EventArgs PlayerDeathAnimationStartFactory()
+        {
+            EventArgs message = new EventArgs();
+            return message;
+        }
+
+        public static void PlayerDeathAnimationStartFactory(EventArgs message)
+        {
+        }
         #endregion
     }
 

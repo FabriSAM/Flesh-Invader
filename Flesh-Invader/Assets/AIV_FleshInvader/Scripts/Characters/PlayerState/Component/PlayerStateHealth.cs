@@ -59,7 +59,7 @@ public class PlayerStateHealth : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            PlayerDeath();
+            PlayerDeathAnimation();
         }
     }
 
@@ -74,9 +74,14 @@ public class PlayerStateHealth : MonoBehaviour
         HealthAdd(maxHP * possessionHpMultiplier);
     }
 
-    public void PlayerDeath()
+    public void PlayerDeathAnimation()
     {
         deadStatus = true;
+        SendMessagePlayerDeathAnimationStart();
+    }
+
+    public void PlayerDeath()
+    {
         SendMessagePlayerDeath();
     }
 
@@ -138,6 +143,11 @@ public class PlayerStateHealth : MonoBehaviour
             EventArgsFactory.PlayerHealthUpdatedFactory(maxHP, currentHP));
     }
 
+    private void SendMessagePlayerDeathAnimationStart()
+    {
+        GlobalEventSystem.CastEvent(EventName.PlayerDeathAnimationStart,
+            EventArgsFactory.PlayerDeathAnimationStartFactory());
+    }
     private void SendMessagePlayerDeath()
     {
         GlobalEventSystem.CastEvent(EventName.PlayerDeath,
