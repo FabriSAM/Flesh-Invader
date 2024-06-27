@@ -131,7 +131,6 @@ public class Controller : MonoBehaviour, IPossessable
             PlayerState.Get().CurrentPlayer = gameObject;
         }
 
-        OnCharacterDeathEnd += OnDeathAnimationEnd;
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
         combatManager.OnHealthModuleDeath += InternalOnDeath;
 
@@ -165,7 +164,7 @@ public class Controller : MonoBehaviour, IPossessable
 
     private void OnDisable()
     {
-        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeathAnimationStart, OnPlayerStateDeathAnimationStart);
     }
     #endregion
 
@@ -213,6 +212,8 @@ public class Controller : MonoBehaviour, IPossessable
         PossessionInvoke();
         //Setup overlay
         Overlay.AddOverlay(overlayMaterial);
+        // Bind correct event to Death Animation callback
+        RegisterDeathAnimationCallback(OnPlayerStateDeathAnimationEnd);
     }
     private void PossessionSetupParams()
     {
@@ -230,7 +231,7 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void PossessionInvoke()
     {
-        GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDeath);
+        GlobalEventSystem.AddListener(EventName.PlayerDeathAnimationStart, OnPlayerStateDeathAnimationStart);
         combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
         OnCharacterPossessed?.Invoke();
     }
@@ -254,6 +255,8 @@ public class Controller : MonoBehaviour, IPossessable
         UnpossessionInvoke();
         //Setup overlay
         Overlay.RemoveOverlay(overlayMaterial);
+        // Bind correct event to Death Animation callback
+        RegisterDeathAnimationCallback(OnDeathAnimationEnd);
     }
     private void UnpossessionSetupParams()
     {
@@ -270,13 +273,18 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void UnpossessionInvoke()
     {
-        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeathAnimationStart, OnPlayerStateDeathAnimationStart);
         combatManager.OnPossessionChanged?.Invoke("PlayerDamager");
         OnCharacterUnpossessed?.Invoke();
     }
     #endregion
 
     #region Death
+    private void RegisterDeathAnimationCallback(Action callback)
+    {
+        OnCharacterDeathEnd = (Action)Delegate.RemoveAll(OnCharacterDeathEnd, OnCharacterDeathEnd);
+        OnCharacterDeathEnd += callback;
+    }
     private void InternalOnDeath()
     {
         IsDead = true;
@@ -287,12 +295,17 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void OnDeathAnimationEnd()
     {
-        gameObject.SetActive(false);
         GlobalEventSystem.CastEvent(EventName.EnemyDeath, EventArgsFactory.EnemyDeathFactory());
+        gameObject.SetActive(false);
     }
-    private void OnPlayerStateDeath(EventArgs _)
+    private void OnPlayerStateDeathAnimationEnd()
+    {
+        PlayerStateHealth.PlayerDeath();
+    }
+    private void OnPlayerStateDeathAnimationStart(EventArgs _)
     {
         UnpossessionUnregisterInputs();
+        characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         characterPhysicsCollider.enabled = false;
         visual.SetAnimatorParameter(animatorDeadParameter, true);
     }
