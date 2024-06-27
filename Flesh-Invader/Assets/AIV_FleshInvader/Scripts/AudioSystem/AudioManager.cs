@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour {
     #endregion
 
     #region Internal
-    private void PlayOneShot(string eventName = null, string bankName = null) {
+    public void PlayOneShot(string eventName = null, string bankName = null) {
         if(string.IsNullOrEmpty(eventName)) return;
         string eventPath = "event:";
         if (!string.IsNullOrEmpty(bankName)) {

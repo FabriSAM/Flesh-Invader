@@ -1,6 +1,5 @@
 using NotserializableEventManager;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -40,17 +39,25 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void Start() {
         retry.clickable.clicked += delegate {
+            AudioManager.Get().PlayOneShot("ButtonClick", "UI");
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             InputManager.EnablePlayerMap(true);
             InputManager.EnableUIMap(false);
             SceneManager.LoadScene(1,LoadSceneMode.Single);
         };
+        retry.RegisterCallback<MouseOverEvent>(onHoverSound);
         mainMenu.clickable.clicked += delegate {
+            AudioManager.Get().PlayOneShot("ButtonClick", "UI");
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             SceneManager.LoadScene(0, LoadSceneMode.Single);
         };
+        mainMenu.RegisterCallback<MouseOverEvent>(onHoverSound);
+    }
+
+    private void onHoverSound(MouseOverEvent ev) {
+        AudioManager.Get().PlayOneShot("ButtonHover", "UI");
     }
 
     private void OnEnable() {

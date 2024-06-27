@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using UnityEngine.XR;
 
 public class UI_MainMenu : MonoBehaviour
 {
@@ -17,14 +15,17 @@ public class UI_MainMenu : MonoBehaviour
         UIDocument uiDocument = GetComponent<UIDocument>();
         rootVisualElement = uiDocument.rootVisualElement;
 
+        continueButton = rootVisualElement.Q<Button>("ContinueButton");
+        continueButton.clicked += OnContinueGameButtonClicked;
+        continueButton.RegisterCallback<MouseOverEvent>(onHoverSound);
+
         quitButton = rootVisualElement.Q<Button>("QuitButton");
         quitButton.clicked += OnQuitBottonClicked;
+        quitButton.RegisterCallback<MouseOverEvent>(onHoverSound);
 
         newGameButton = rootVisualElement.Q<Button>("NewGameButton");
         newGameButton.clicked += OnNewGameButtonClicked;
-
-        continueButton = rootVisualElement.Q<Button>("ContinueButton");
-        continueButton.clicked += OnContinueGameButtonClicked;
+        newGameButton.RegisterCallback<MouseOverEvent>(onHoverSound);
 
         if (!SaveSystem.GameDataExists(0))
         {
@@ -32,10 +33,14 @@ public class UI_MainMenu : MonoBehaviour
         }
     }
 
+    private void onHoverSound(MouseOverEvent ev ) {
+        AudioManager.Get().PlayOneShot("ButtonHover", "UI");
+    }
+
     private void OnContinueGameButtonClicked()
     {
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         StartCoroutine(LoadLevelCoroutine());
-
     }
 
     IEnumerator LoadLevelCoroutine()
@@ -45,15 +50,12 @@ public class UI_MainMenu : MonoBehaviour
         var loadingContainer = rootVisualElement.Q<VisualElement>("LoadingContainer");
         loadingContainer.style.display = DisplayStyle.Flex;
         var loadingBar = rootVisualElement.Q<ProgressBar>("LoadingBar");
-
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
         //yield return new WaitForSeconds(1);
-
         // Load datas from disk to code
         SaveSystem.LoadSlotData(0);
-
         while (!asyncOperation.isDone && loadingBar != null)
         {
             float progress = asyncOperation.progress;
@@ -61,19 +63,17 @@ public class UI_MainMenu : MonoBehaviour
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
         } 
-
         //MenuInfo.ToLoad = true;
         //MenuInfo.EnemyToLoad = SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo;
         StaticLoading.LoadSaveGame = true;
         // Spawn character and load statistics
         // CharacterSpawner.GetInstance().LoadPlayerCharacter(SaveSystem.ActiveGameData.PlayerSavedData.PlayerCharInfo);
-
         yield return null;
     }
 
     #region NewGame
     private void OnNewGameButtonClicked() {
-        //async load with loading widget
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         StartCoroutine(ChangeLevelCoroutine());
     }
 
@@ -105,14 +105,3 @@ public class UI_MainMenu : MonoBehaviour
         Application.Quit();
     }
 }
-
-//ToDo
-/*
-    continue
-    new game
-    settings {
-        volume
-        video
-    }
-    quit
- */
