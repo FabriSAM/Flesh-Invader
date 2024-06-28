@@ -272,6 +272,10 @@ public abstract class EnemyChar : MonoBehaviour
 
         CalculateDamage();
 
+    }
+
+    public void CalculateUnpossessability()
+    {
         // Unpossessable EnemyChar behavior
         ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
         unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;

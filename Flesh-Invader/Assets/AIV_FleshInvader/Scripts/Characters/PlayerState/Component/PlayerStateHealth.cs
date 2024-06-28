@@ -44,7 +44,9 @@ public class PlayerStateHealth : MonoBehaviour
 
     public static void SetGameLoaded(EventArgs message)
     {
-        gameLoaded = true;
+        bool toLoad;
+        EventArgsFactory.LoadGameEndedParser(message, out toLoad);
+        gameLoaded = toLoad;
     }
 
     #region Mono

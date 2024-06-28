@@ -8,10 +8,14 @@ public class Chest : InteractableBase, ICollectable
     #region SerializeFields
     [SerializeField]
     private uint dialogueID;
+    [SerializeField]
+    public uint collectibleID;
     #endregion
+    public uint CollectibleID => collectibleID;
 
     #region Variables
     PlayerStateMission missionController;
+
     #endregion
 
     #region Callback
@@ -29,9 +33,13 @@ public class Chest : InteractableBase, ICollectable
     #region OverrideBaseClass
     protected override void OnOpen()
     {
+
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(dialogueID, 0));
         UnscribeInteract();
         Collect();
+
+        SaveSystem.ActiveGameData.PlayerSavedData.UnlockCollectible((int)collectibleID);
+        SaveSystem.SaveGameStats(PlayerState.Get().CurrentPlayer.transform.position);
     }
 
     public void Collect()
@@ -52,6 +60,14 @@ public class Chest : InteractableBase, ICollectable
     {
         missionController = PlayerState.Get().MissionController;
         AddMission();
+    }
+
+    private void Start()
+    {
+        if (SaveSystem.ActiveGameData.PlayerSavedData.IsCollectibleUnlocked((int)collectibleID))
+        {
+            Collect();
+        }
     }
     #endregion
 }

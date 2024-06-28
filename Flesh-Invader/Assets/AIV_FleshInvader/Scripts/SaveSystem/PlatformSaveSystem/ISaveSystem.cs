@@ -19,6 +19,7 @@ public interface ISaveSystem
     void LoadSlotData(int slotIndex);
     void LoadAllSlotData();
     void SaveActiveGameData();
+    void SaveGameParams(Vector3 spawnPosition);
 
     void DeleteGameData(int slotIndex);
     void SelectGameData(int slotIndex);

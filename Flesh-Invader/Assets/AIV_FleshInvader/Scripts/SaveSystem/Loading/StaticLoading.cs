@@ -8,9 +8,21 @@ public static class StaticLoading
 {
     
     public static bool LoadSaveGame {get; set;}
-    static StaticLoading()
+    //static StaticLoading()
+    //{
+    //    SceneManager.sceneLoaded += OnSceneLoaded;
+    //}
+
+    public static void ManageSceneLoading(bool LoadingActivation)
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if(LoadingActivation) 
+        { 
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            LoadSaveGame = true;
+            return;
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        LoadSaveGame = false;
     }
 
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -20,7 +32,7 @@ public static class StaticLoading
 
         if (LoadSaveGame)
         {
-            GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory());
+            GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory(true));
             
             // To refactor 
             CharacterSpawner.GetInstance().LoadPlayerCharacter(
@@ -33,5 +45,7 @@ public static class StaticLoading
                 );;
             
         }
+
+        ManageSceneLoading(false);
     }
 }

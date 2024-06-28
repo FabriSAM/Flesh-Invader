@@ -46,6 +46,7 @@ public class UI_MainMenu : MonoBehaviour
         AudioManager.Get().PlayOneShot("ButtonHover", "UI");
     }
 
+    #region LoadGame
     private void OnContinueGameButtonClicked()
     {
         AudioManager.Get().PlayOneShot("ButtonClick", "UI");
@@ -65,26 +66,28 @@ public class UI_MainMenu : MonoBehaviour
 
         // Load datas from disk to code
         SaveSystem.LoadSlotData(0);
+
+        StaticLoading.ManageSceneLoading(true);
+
         while (!asyncOperation.isDone && loadingBar != null)
         {
             float progress = asyncOperation.progress;
             loadingBar.value = progress;
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
-        } 
-
-        StaticLoading.LoadSaveGame = true;
+        }
 
         yield return null;
     }
+    #endregion
 
     #region NewGame
     private void OnNewGameButtonClicked() {
         AudioManager.Get().PlayOneShot("ButtonClick", "UI");
-        StartCoroutine(ChangeLevelCoroutine(1));
+        StartCoroutine(StartLevelCoroutine(1));
     }
 
-    IEnumerator ChangeLevelCoroutine(int sceneToLoad) {
+    IEnumerator StartLevelCoroutine(int sceneToLoad) {
         var menuContainer = rootVisualElement.Q<VisualElement>("MenuContainer");
         menuContainer.style.display = DisplayStyle.None;
         var loadingContainer = rootVisualElement.Q<VisualElement>("LoadingContainer");
@@ -96,15 +99,22 @@ public class UI_MainMenu : MonoBehaviour
         InputManager.EnableUIMap(false);
         //yield return new WaitForSeconds(1);
 
+        if (sceneToLoad == 1)
+        {
+            if (SaveSystem.GameDataExists(0))
+                SaveSystem.DeleteGameData(0);
+        
+            SaveSystem.CreateGameData(0);
+            StaticLoading.ManageSceneLoading(false);
+        }
+        GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory(false));
+
+
         while (!asyncOperation.isDone && loadingBar != null) {
             float progress = asyncOperation.progress;
             loadingBar.value = progress;
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
-        }
-        if(sceneToLoad == 1)
-        {
-            SaveSystem.CreateGameData(0);
         }
 
         yield return null;
@@ -115,7 +125,7 @@ public class UI_MainMenu : MonoBehaviour
     private void OnTutorialButtonClicked()
     {
         AudioManager.Get().PlayOneShot("ButtonClick", "UI");
-        StartCoroutine(ChangeLevelCoroutine(2));
+        StartCoroutine(StartLevelCoroutine(2));
     }
 
     #endregion

@@ -53,6 +53,7 @@ public class StandAloneSaveSystem : ISaveSystem
 
     public void DeleteGameData(int slotIndex)
     {
+        LoadSlotData(slotIndex);
         DeleteISaveableData<GameSavedData>(SaveSystemConfiguration.GetGameDataPath(slotIndex), allDatas[slotIndex]);
     }
 
@@ -183,6 +184,30 @@ public class StandAloneSaveSystem : ISaveSystem
         File.Delete(path);
     }
 
+    public void SaveGameParams(Vector3 spawnPosition)
+    {
+        #region Save: PlayerGeneralParameters
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdateLastCheckpointPosition(spawnPosition);
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerStats(PlayerState.Get().InformationController.GetStats());
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerLevel(PlayerState.Get().LevelController.GetLevelStruct());
+        #endregion
+
+        #region Save: EnemyCharInfo
+        GameObject player = PlayerState.Get().CurrentPlayer;
+        EnemyChar playerChar = player.GetComponentInChildren<EnemyChar>();
+        EnemyInfo playerInfo = playerChar.CharacterInfo;
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerCharInfo(playerInfo);
+        #endregion
+
+        #region Save: PlayerHealth
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerHealth(PlayerState.Get().HealthController.GetCurrentHealth());
+        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerMaxHealth(PlayerState.Get().HealthController.GetMaxHealth());
+        #endregion
+
+        SaveSystem.SaveActiveGameData();
+    }
+
     #endregion
+
 
 }

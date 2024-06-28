@@ -122,6 +122,7 @@ public class CharacterSpawner : MonoBehaviour, IPoolRequester
             ) ;
 
             obj.transform.position = navMeshSpawnHit.position;
+            characterToSpawn.CalculateUnpossessability();
 
             obj.SetActive(true);
             activeEnemies++;

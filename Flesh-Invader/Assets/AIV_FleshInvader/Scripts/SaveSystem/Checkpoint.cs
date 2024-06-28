@@ -9,31 +9,20 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        #region Save: PlayerGeneralParameters
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdateLastCheckpointPosition(transform.position + spawnPositionOffset);
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerStats(PlayerState.Get().InformationController.GetStats());
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerLevel(PlayerState.Get().LevelController.GetLevelStruct());
-        #endregion
-
-        #region Save: EnemyCharInfo
-        GameObject player = PlayerState.Get().CurrentPlayer;
-        EnemyChar playerChar = player.GetComponentInChildren<EnemyChar>();
-        EnemyInfo playerInfo = playerChar.CharacterInfo;
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerCharInfo(playerInfo);
-        #endregion
-
-        #region Save: PlayerHealth
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerHealth(PlayerState.Get().HealthController.GetCurrentHealth());
-        SaveSystem.ActiveGameData.PlayerSavedData.UpdatePlayerMaxHealth(PlayerState.Get().HealthController.GetMaxHealth());
-        #endregion
-
-        SaveSystem.SaveActiveGameData();
+        SaveSystem.SaveGameStats(transform.position + spawnPositionOffset);
         gameObject.SetActive(false);
     }
-
+    private void OnTriggerStay(Collider other)
+    {
+        SaveSystem.SaveGameStats(transform.position + spawnPositionOffset);
+        gameObject.SetActive(false);
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position + spawnPositionOffset, offsetSphereRadius);
     }
+
+ 
+
 }

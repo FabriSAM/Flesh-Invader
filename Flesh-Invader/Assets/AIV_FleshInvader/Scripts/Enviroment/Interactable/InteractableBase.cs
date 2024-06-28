@@ -44,6 +44,7 @@ public abstract class InteractableBase : MonoBehaviour
         controller.OnInteractPerformed -= OnOpen;
     }
     protected abstract void OnOpen();
+
     protected void InternalOnTriggerEnter(Collider other, bool status)
     {
         if(!CanOpen(other)) return;
