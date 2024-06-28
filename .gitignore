@@ -72,7 +72,7 @@ Flesh-Invader/[Aa]ssets/[Ss]treamingAssets/aa.meta
 Flesh-Invader/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 #FMOD plugin
-Flesh-Invader/[Aa]ssets/Plugins/FMOD/**/*.dll
+#Flesh-Invader/[Aa]ssets/Plugins/FMOD/**/*.dll
 Flesh-Invader/[Aa]ssets/Gizmos/FMOD/*
 Flesh-Invader/[Aa]ssets/Editor Default Resources/FMOD/*
 Flesh-Invader/[Aa]ssets/**/FMODStudioCache.asset
