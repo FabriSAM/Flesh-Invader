@@ -10,6 +10,7 @@ public class UI_MainMenu : MonoBehaviour
     Button quitButton;
     Button newGameButton;
     Button continueButton;
+    Button tutorialButton;
 
     VisualElement rootVisualElement;
 
@@ -29,11 +30,17 @@ public class UI_MainMenu : MonoBehaviour
         newGameButton.clicked += OnNewGameButtonClicked;
         newGameButton.RegisterCallback<MouseOverEvent>(onHoverSound);
 
+        tutorialButton = rootVisualElement.Q<Button>("TutorialButton");
+        tutorialButton.clicked += OnTutorialButtonClicked;
+        tutorialButton.RegisterCallback<MouseOverEvent>(onHoverSound);
+
         if (!SaveSystem.GameDataExists(0))
         {
             continueButton.style.display = DisplayStyle.None;
         }
     }
+
+
 
     private void onHoverSound(MouseOverEvent ev ) {
         AudioManager.Get().PlayOneShot("ButtonHover", "UI");
@@ -42,17 +49,17 @@ public class UI_MainMenu : MonoBehaviour
     private void OnContinueGameButtonClicked()
     {
         AudioManager.Get().PlayOneShot("ButtonClick", "UI");
-        StartCoroutine(LoadLevelCoroutine());
+        StartCoroutine(LoadLevelCoroutine(1));
     }
 
-    IEnumerator LoadLevelCoroutine()
+    IEnumerator LoadLevelCoroutine(int sceneToLoad)
     {
         var menuContainer = rootVisualElement.Q<VisualElement>("MenuContainer");
         menuContainer.style.display = DisplayStyle.None;
         var loadingContainer = rootVisualElement.Q<VisualElement>("LoadingContainer");
         loadingContainer.style.display = DisplayStyle.Flex;
         var loadingBar = rootVisualElement.Q<ProgressBar>("LoadingBar");
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToLoad);
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
 
@@ -74,17 +81,17 @@ public class UI_MainMenu : MonoBehaviour
     #region NewGame
     private void OnNewGameButtonClicked() {
         AudioManager.Get().PlayOneShot("ButtonClick", "UI");
-        StartCoroutine(ChangeLevelCoroutine());
+        StartCoroutine(ChangeLevelCoroutine(1));
     }
 
-    IEnumerator ChangeLevelCoroutine() {
+    IEnumerator ChangeLevelCoroutine(int sceneToLoad) {
         var menuContainer = rootVisualElement.Q<VisualElement>("MenuContainer");
         menuContainer.style.display = DisplayStyle.None;
         var loadingContainer = rootVisualElement.Q<VisualElement>("LoadingContainer");
         loadingContainer.style.display = DisplayStyle.Flex;
         var loadingBar = rootVisualElement.Q<ProgressBar>("LoadingBar");
 
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToLoad);
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
         //yield return new WaitForSeconds(1);
@@ -95,12 +102,23 @@ public class UI_MainMenu : MonoBehaviour
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
         }
-        SaveSystem.CreateGameData(0);
+        if(sceneToLoad == 1)
+        {
+            SaveSystem.CreateGameData(0);
+        }
 
         yield return null;
     }
     #endregion
 
+    #region Tutorial
+    private void OnTutorialButtonClicked()
+    {
+        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+        StartCoroutine(ChangeLevelCoroutine(2));
+    }
+
+    #endregion
     private void OnQuitBottonClicked() {
         Application.Quit();
     }

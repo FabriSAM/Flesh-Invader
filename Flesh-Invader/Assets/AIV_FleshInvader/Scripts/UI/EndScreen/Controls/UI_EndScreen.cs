@@ -43,8 +43,8 @@ public class UI_EndScreen : MonoBehaviour {
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             InputManager.EnablePlayerMap(true);
-            InputManager.EnableUIMap(false);
-            SceneManager.LoadScene(1,LoadSceneMode.Single);
+            InputManager.EnableUIMap(false);            
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         };
         retry.RegisterCallback<MouseOverEvent>(onHoverSound);
         mainMenu.clickable.clicked += delegate {
