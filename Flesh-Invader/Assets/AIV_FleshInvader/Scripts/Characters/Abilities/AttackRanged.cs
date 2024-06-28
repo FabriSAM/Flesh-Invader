@@ -12,6 +12,11 @@ public class AttackRanged : AbilityBase, IPoolRequester
     [SerializeField]
     private float fireRateo;
 
+    #region FMOD
+    private const string gunshotEventName = "Gunshot";
+    private const string gunshotBankName = "Enemies";
+    #endregion
+
     private float currentTimeCache;
     private const string rangedTriggerAnimatorParameter = "AttackTrigger";
     public PoolData[] Datas
@@ -48,6 +53,7 @@ public class AttackRanged : AbilityBase, IPoolRequester
                 currentTimeCache = Time.time;
                 IBullet bulletComponent = Pooler.Instance.GetPooledObject(bulletsType[0]).GetComponent<IBullet>();
                 if (bulletComponent == null) return;
+                AudioManager.Get().PlayOneShot(gunshotEventName, gunshotBankName);
                 bulletComponent.Shoot(transform, bulletSpeed, characterController);
                 characterController.Visual.SetAnimatorParameter(rangedTriggerAnimatorParameter);
             }

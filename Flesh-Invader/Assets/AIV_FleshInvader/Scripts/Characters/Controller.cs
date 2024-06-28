@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour, IPossessable
 {
+
+    #region FMOD
+    private const string enemyDeathEventName = "Death";
+    private const string enemyDeathBankName = "Enemies";
+    #endregion
+
     #region Const
     private const string animatorDeadParameter = "Dead";
     private const float defaultPossesDamage = float.MaxValue;
@@ -288,6 +294,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void InternalOnDeath()
     {
         IsDead = true;
+        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemyDeathBankName);
         SetVelocity(Vector3.zero);
         characterPhysicsCollider.enabled = false;
         CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -305,6 +312,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void OnPlayerStateDeathAnimationStart(EventArgs _)
     {
         UnpossessionUnregisterInputs();
+        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemyDeathBankName);
         characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         characterPhysicsCollider.enabled = false;
         visual.SetAnimatorParameter(animatorDeadParameter, true);
