@@ -83,3 +83,6 @@ Flesh-Invader/fmod.log
 Flesh-Invader/fmod_editor.log
 Flesh-Invader/[Aa]ssets/FMODAssets/*
 Flesh-Invader/[Aa]ssets/FMODStudioCache.meta
+Flesh-Invader/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/Info.plist
+Flesh-Invader/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/Info.plist
+Flesh-Invader/Assets/Plugins/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/Info.plist
