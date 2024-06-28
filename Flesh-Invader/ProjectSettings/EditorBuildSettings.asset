@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/AIV_FleshInvader/Scenes/Vertical/MainMenu.unity
     guid: 2dd33d4d3a474da4a89c28584c25fdf2
   - enabled: 1
-    path: Assets/AIV_FleshInvader/Scenes/Vertical/Mapping/TestMap.unity
+    path: Assets/AIV_FleshInvader/Scenes/Vertical/Mapping/Game.unity
     guid: 6bd9d73e86a4966428cd876e6605bf75
   - enabled: 1
     path: Assets/AIV_FleshInvader/Scenes/Vertical/Mapping/Tutorial.unity

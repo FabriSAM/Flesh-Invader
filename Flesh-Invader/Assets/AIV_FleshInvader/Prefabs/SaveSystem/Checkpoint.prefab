@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8176420364829841870}
   - component: {fileID: 3292744485358283615}
   - component: {fileID: 6627870495776338433}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e05209a944d534488b3a649def1300a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPositionOffset: {x: 0, y: 0, z: 0}
 --- !u!65 &6627870495776338433
 BoxCollider:
   m_ObjectHideFlags: 0

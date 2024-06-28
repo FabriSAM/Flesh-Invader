@@ -1,6 +1,4 @@
 
-using UnityEditor.VersionControl;
-
 namespace NotserializableEventManager
 {
     public static class EventArgsFactory

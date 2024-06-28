@@ -102,7 +102,10 @@ public class UI_MainMenu : MonoBehaviour
             loadingBar.title = $"{progress}%";
             yield return new WaitForEndOfFrame();
         }
-        SaveSystem.CreateGameData(0);
+        if(sceneToLoad == 1)
+        {
+            SaveSystem.CreateGameData(0);
+        }
 
         yield return null;
     }
@@ -114,6 +117,7 @@ public class UI_MainMenu : MonoBehaviour
         AudioManager.Get().PlayOneShot("ButtonClick", "UI");
         StartCoroutine(ChangeLevelCoroutine(2));
     }
+
     #endregion
     private void OnQuitBottonClicked() {
         Application.Quit();
