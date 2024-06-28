@@ -8,10 +8,13 @@ public class AlienObject : InteractableBase, ICollectable
     #region SerializeFields
     [SerializeField]
     private uint alienObjectID;    // Use this for saving
+    [SerializeField] 
+    public uint CollectibleID => alienObjectID;
     #endregion
 
     #region Variables
     PlayerStateMission missionController;
+
     #endregion
 
     #region Callback
@@ -39,11 +42,11 @@ public class AlienObject : InteractableBase, ICollectable
 
     protected override void OnOpen()
     {
+        SaveSystem.ActiveGameData.PlayerSavedData.UnlockCollectible((int)alienObjectID);
+        SaveSystem.SaveGameStats(PlayerState.Get().CurrentPlayer.transform.position);
+
         GlobalEventSystem.CastEvent(EventName.StartDialogue, EventArgsFactory.StartDialogueFactory(alienObjectID, 0));
         UnscribeInteract();
-
-        SaveSystem.ActiveGameData.PlayerSavedData.UnlockCollectible((int)alienObjectID);
-        
         Collect();
     }
 

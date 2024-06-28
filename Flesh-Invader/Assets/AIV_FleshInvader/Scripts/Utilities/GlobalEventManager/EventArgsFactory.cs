@@ -255,15 +255,17 @@ namespace NotserializableEventManager
         #endregion
 
         #region 
-        public static EventArgs LoadGameEndedFactory()
+        public static EventArgs LoadGameEndedFactory(bool loaded)
         {
             EventArgs message = new EventArgs();
+            message.variables = new object[1];
+            message.variables[0] = loaded;
             return message;
         }
 
-        public static void LoadGameEndedParser(EventArgs message)
+        public static void LoadGameEndedParser(EventArgs message, out bool loaded)
         {
-
+            loaded = (bool)message.variables[0];
         }
 
         #endregion

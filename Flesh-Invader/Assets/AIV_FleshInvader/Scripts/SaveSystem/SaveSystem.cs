@@ -85,5 +85,8 @@ public static class SaveSystem
 
     #endregion
 
-
+    public static void SaveGameStats(Vector3 spawnPosition)
+    {
+        platformBasedSaveSystem.SaveGameParams(spawnPosition);
+    }
 }
