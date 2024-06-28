@@ -17,10 +17,11 @@ public class FixedCamera : MonoBehaviour
     private float cameraSpeed;
     [SerializeField]
     private Camera ownerCamera;
+    [SerializeField]
+    Vector3 offset;
     #endregion
 
     #region Private Members
-    private Vector3 offset;
     private Vector3 newPos;
     private Vector3 currentPos;
     private Coroutine cameraShakeCoroutine;
@@ -35,7 +36,6 @@ public class FixedCamera : MonoBehaviour
     }
     void Start()
     {
-        offset = gameObject.transform.position - PlayerState.Get().CurrentPlayer.transform.position;
         newPos = gameObject.transform.position;
         currentPos = gameObject.transform.position;
     }

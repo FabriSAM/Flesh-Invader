@@ -26,6 +26,5 @@ public struct EnemyStateStats
 
     [Header("Stutter")]
     [SerializeField] public float stutterTime;
-    [SerializeField] public Material testStutterMaterial;
 
 }

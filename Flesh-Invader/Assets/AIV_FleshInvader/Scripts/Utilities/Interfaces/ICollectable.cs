@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface ICollectable
 {
+    uint CollectibleID { get; }
     void AddMission();
     void Collect();
 }

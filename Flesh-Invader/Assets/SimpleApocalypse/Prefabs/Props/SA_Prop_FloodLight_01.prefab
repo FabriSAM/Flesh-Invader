@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 3357558}
   - component: {fileID: 2379178}
   - component: {fileID: 64945587949787626}
+  - component: {fileID: 9111923611943968008}
   m_Layer: 0
   m_Name: SA_Prop_FloodLight_01
   m_TagString: Untagged
@@ -270,11 +271,32 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43166425142695542, guid: 715c4e9703e4ae84a96b086d560c2210, type: 2}
+--- !u!65 &9111923611943968008
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164828}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.655081, y: 7.2472105, z: 6.33503}
+  m_Center: {x: 0, y: 3.6236053, z: 1.3390043}
 --- !u!1 &1541403385355172784
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,7 +50,7 @@ public class Controller : MonoBehaviour, IPossessable
     }
     public bool IsPossessed
     {
-        get { return isPossessed; }
+        get { return isPossessed; } set { isPossessed = value; }
     }
     public PlayerStateHealth PlayerStateHealth
     {
@@ -60,9 +60,9 @@ public class Controller : MonoBehaviour, IPossessable
     {
         get { return visual; }
     }
-    public CombatManager CombatManager 
-    { 
-        get { return combatManager; } 
+    public CombatManager CombatManager
+    {
+        get { return combatManager; }
     }
     public SetOverlay Overlay { get { return overlay; } }
 
@@ -77,18 +77,17 @@ public class Controller : MonoBehaviour, IPossessable
     {
         return characterRigidbody.velocity;
     }
-
     public void SetVelocity(Vector3 velocity)
     {
+        if (characterRigidbody.isKinematic) return;
         characterRigidbody.velocity = new Vector3(velocity.x, characterRigidbody.velocity.y, velocity.z);
     }
-
     public void SetImpulse(Vector3 impulse)
     {
+        if (characterRigidbody.isKinematic) return;
         SetVelocity(Vector3.zero);
         characterRigidbody.AddForce(impulse, ForceMode.Impulse);
     }
-
     public void SetRotation(Vector3 targetPoint, float rotSpeed)
     {
         Debug.DrawLine(transform.position, transform.position + transform.forward * 200, Color.green);
@@ -97,22 +96,27 @@ public class Controller : MonoBehaviour, IPossessable
         lookRot.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, lookRot.eulerAngles.y, transform.rotation.eulerAngles.z);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotSpeed);
     }
-
     public void SetPosition(Vector3 newPos)
     {
         characterRigidbody.position = newPos;
     }
-    #endregion
-
-    #region Object Interactions
-    public Action OnInteractPerformed;
+    private void SetRigidbodyParams(bool newIsKinematic, RigidbodyInterpolation newInterpolation)
+    {
+        CharacterRigidbody.isKinematic = newIsKinematic;
+        CharacterRigidbody.interpolation = newInterpolation;
+    }
     #endregion
 
     #region Actions
+    // Attack
     public Action attack;
+    // Possession
     public Action OnCharacterPossessed;
     public Action OnCharacterUnpossessed;
+    // Death
     public Action OnCharacterDeathEnd;
+    // Object Interaction
+    public Action OnInteractPerformed;
     #endregion
 
     #region Mono
@@ -122,12 +126,11 @@ public class Controller : MonoBehaviour, IPossessable
         playerStateHealth = PlayerState.Get().HealthController;
         playerStateLevel = PlayerState.Get().LevelController;
         playerStateInformation = PlayerState.Get().InformationController;
-        if (isPossessed) 
-        { 
-            PlayerState.Get().CurrentPlayer = gameObject; 
+        if (isPossessed)
+        {
+            PlayerState.Get().CurrentPlayer = gameObject;
         }
 
-        OnCharacterDeathEnd += InternalOnDeathEnd;
         combatManager.OnPerceivedDamage += InternalOnPerceivedDamage;
         combatManager.OnHealthModuleDeath += InternalOnDeath;
 
@@ -161,80 +164,11 @@ public class Controller : MonoBehaviour, IPossessable
 
     private void OnDisable()
     {
-        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeathAnimationStart, OnPlayerStateDeathAnimationStart);
     }
     #endregion
 
-    #region Internal
-    public void InternalOnPosses()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Player");
-        isPossessed = true;
-        PlayerState.Get().CurrentPlayer = gameObject;
-        GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDeath);
-        foreach (var ability in abilities)
-        {
-            ability.RegisterInput();
-        }
-        
-        combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
-        OnCharacterPossessed?.Invoke();
-        Debug.Log("Possessed");
-        Overlay.AddOverlay(overlayMaterial);
-    }
-    public void InternalOnUnposses()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Enemy");
-        isPossessed = false;
-        GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDeath);
-        foreach (var ability in abilities)
-        {
-            ability.UnRegisterInput();
-        }
-
-        combatManager.OnPossessionChanged?.Invoke("PlayerDamager");
-        OnCharacterUnpossessed?.Invoke();
-        Overlay.RemoveOverlay(overlayMaterial);
-    }
-
-    private void InternalOnPerceivedDamage(DamageContainer damage)
-    {
-        if (IsPossessed)
-        {
-            if (playerStateHealth == null) { return; }
-            if (playerStateHealth.DeadStatus) { return; }
-            playerStateHealth.HealthReduce(damage.Damage); 
-        }
-        else
-        {
-            combatManager.OnControllerDamageTaken?.Invoke(damage);
-        }
-    }
-    private void InternalOnDeath()
-    {
-        IsDead = true;
-        SetVelocity(Vector3.zero);
-        characterPhysicsCollider.enabled = false;
-        CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-        playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
-    }
-    private void InternalOnDeathEnd()
-    {
-        gameObject.SetActive(false);
-        GlobalEventSystem.CastEvent(EventName.EnemyDeath, EventArgsFactory.EnemyDeathFactory());
-    }
-    private void OnPlayerStateDeath(EventArgs _)
-    {
-        foreach (var ability in abilities)
-        {
-            ability.UnRegisterInput();
-        }
-        characterPhysicsCollider.enabled = false;
-        visual.SetAnimatorParameter(animatorDeadParameter, true);
-    }
-    #endregion
-
-    #region Public Methods
+    #region Damage
     public void RequestDamage(DamageContainer damage = null)
     {
         if (damage == null)
@@ -244,20 +178,136 @@ public class Controller : MonoBehaviour, IPossessable
         }
         combatManager.TakeDamage(damage);
     }
+    private void InternalOnPerceivedDamage(DamageContainer damage)
+    {
+        if (IsPossessed)
+        {
+            if (playerStateHealth == null) { return; }
+            if (playerStateHealth.DeadStatus) { return; }
+            playerStateHealth.HealthReduce(damage.Damage);
+        }
+        else
+        {
+            combatManager.OnControllerDamageTaken?.Invoke(damage);
+        }
+    }
     #endregion
 
-    #region Interface Methods
+    #region Possession
+    // INTERFACE METHODS
     public void Possess()
     {
         playerStateInformation.PossessionSuccess();
         playerStateHealth.SetHealthForPossession();
         InternalOnPosses();
     }
+    // INTERNAL METHODS
+    private void InternalOnPosses()
+    {
+        //Setup parameters for possessd player
+        PossessionSetupParams();
+        //Setup inputs
+        PossessionRegisterInputs();
+        //Invoke all methods
+        PossessionInvoke();
+        //Setup overlay
+        Overlay.AddOverlay(overlayMaterial);
+        // Bind correct event to Death Animation callback
+        RegisterDeathAnimationCallback(OnPlayerStateDeathAnimationEnd);
+    }
+    private void PossessionSetupParams()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        isPossessed = true;
+        PlayerState.Get().CurrentPlayer = gameObject;
+        SetRigidbodyParams(false, RigidbodyInterpolation.Interpolate);
+    }
+    private void PossessionRegisterInputs()
+    {
+        foreach (var ability in abilities)
+        {
+            ability.RegisterInput();
+        }
+    }
+    private void PossessionInvoke()
+    {
+        GlobalEventSystem.AddListener(EventName.PlayerDeathAnimationStart, OnPlayerStateDeathAnimationStart);
+        combatManager.OnPossessionChanged?.Invoke("EnemyDamager");
+        OnCharacterPossessed?.Invoke();
+    }
+    #endregion
+
+    #region Unpossession
+    // INTERFACE METHODS
     public void UnPossess()
     {
         InternalOnUnposses();
         RequestDamage();
     }
+    // INTERNAL METHODS
+    private void InternalOnUnposses()
+    {         
+        //Setup parameters for possessd player
+        UnpossessionSetupParams();
+        //Setup inputs
+        UnpossessionUnregisterInputs();
+        //Invoke all methods
+        UnpossessionInvoke();
+        //Setup overlay
+        Overlay.RemoveOverlay(overlayMaterial);
+        // Bind correct event to Death Animation callback
+        RegisterDeathAnimationCallback(OnDeathAnimationEnd);
+    }
+    private void UnpossessionSetupParams()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        isPossessed = false;
+        SetRigidbodyParams(true, RigidbodyInterpolation.None);
+    }
+    private void UnpossessionUnregisterInputs()
+    {
+        foreach (var ability in abilities)
+        {
+            ability.UnRegisterInput();
+        }
+    }
+    private void UnpossessionInvoke()
+    {
+        GlobalEventSystem.RemoveListener(EventName.PlayerDeathAnimationStart, OnPlayerStateDeathAnimationStart);
+        combatManager.OnPossessionChanged?.Invoke("PlayerDamager");
+        OnCharacterUnpossessed?.Invoke();
+    }
     #endregion
-  
+
+    #region Death
+    private void RegisterDeathAnimationCallback(Action callback)
+    {
+        OnCharacterDeathEnd = (Action)Delegate.RemoveAll(OnCharacterDeathEnd, OnCharacterDeathEnd);
+        OnCharacterDeathEnd += callback;
+    }
+    private void InternalOnDeath()
+    {
+        IsDead = true;
+        SetVelocity(Vector3.zero);
+        characterPhysicsCollider.enabled = false;
+        CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        playerStateLevel.SetXP(CharacterInfo.CharStats.Xp);
+    }
+    private void OnDeathAnimationEnd()
+    {
+        GlobalEventSystem.CastEvent(EventName.EnemyDeath, EventArgsFactory.EnemyDeathFactory());
+        gameObject.SetActive(false);
+    }
+    private void OnPlayerStateDeathAnimationEnd()
+    {
+        PlayerStateHealth.PlayerDeath();
+    }
+    private void OnPlayerStateDeathAnimationStart(EventArgs _)
+    {
+        UnpossessionUnregisterInputs();
+        characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        characterPhysicsCollider.enabled = false;
+        visual.SetAnimatorParameter(animatorDeadParameter, true);
+    }
+    #endregion
 }

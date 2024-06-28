@@ -260,6 +260,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 4016330398744442372}
   canvas: {fileID: 4846296554117151745}
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 64
   info:
     Title: 
     Icon: {fileID: 0}

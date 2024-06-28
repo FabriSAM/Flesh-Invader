@@ -84,7 +84,7 @@ public class TEST_HUD : MonoBehaviour
             enemyStatistics.Damage = 25;
             enemyStatistics.BaseSpeed = 10;
             EnemyNarrative enemyNarrative = new EnemyNarrative();
-            enemyNarrative.icon = bossIcon;
+            //enemyNarrative.icon = bossIcon;
             enemyNarrative.enemyTypeDescription = "Mafia Boss";
             enemyNarrative.baseAttackDescription = "Baciamo le mani";
             enemyNarrative.passiveSkillDescription = "Mafiosità";
@@ -95,11 +95,11 @@ public class TEST_HUD : MonoBehaviour
         };
         possessThief.clickable.clicked += delegate {
             EnemyStatistics enemyStatistics = new EnemyStatistics();
-            enemyStatistics.EnemyType = EnemyType.Thief;
+            enemyStatistics.EnemyType = EnemyType.Thief; 
             enemyStatistics.Damage = 34;
             enemyStatistics.BaseSpeed = 7;
             EnemyNarrative enemyNarrative = new EnemyNarrative();
-            enemyNarrative.icon = thiefIcon;
+            //enemyNarrative.icon = thiefIcon;
             enemyNarrative.enemyTypeDescription = "Thief";
             enemyNarrative.baseAttackDescription = "I steel u";
             enemyNarrative.passiveSkillDescription = "Cleptomaniac";

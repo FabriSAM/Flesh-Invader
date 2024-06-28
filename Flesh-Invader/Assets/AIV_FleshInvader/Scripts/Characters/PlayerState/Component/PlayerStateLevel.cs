@@ -23,7 +23,7 @@ public class PlayerStateLevel : MonoBehaviour
     public void SetXP(float xpToAdd)
     {
         xpToAdd *= xpMultiplier;
-        if(level.CurrentXP + xpToAdd >= level.NextLevelXp)
+        if (level.CurrentXP + xpToAdd >= level.NextLevelXp)
         {
             level.CurrentXP = level.CurrentXP + xpToAdd - level.NextLevelXp;
             level.CurrentLevel++;
@@ -34,8 +34,7 @@ public class PlayerStateLevel : MonoBehaviour
             level.CurrentXP += xpToAdd;
         }
 
-        GlobalEventSystem.CastEvent(EventName.PlayerXPUpdated,
-            EventArgsFactory.PlayerXPUpdatedFactory(level));
+        SendMessage();
     }
 
     public int GetCurrentLevel()
@@ -58,6 +57,27 @@ public class PlayerStateLevel : MonoBehaviour
     {
         level.CurrentLevel = 1;
         level.NextLevelXp = baseLevelXP;
+        SendMessage();
+    }
+
+    public void SetLevel(LevelStruct newLevel)
+    {
+        level = newLevel;
+        //OnLevelChange?.Invoke(level.CurrentLevel);
+        SendMessage();
+    }
+
+    public LevelStruct GetLevelStruct()
+    {
+        return level;
+    }
+    #endregion
+
+    #region PrivateMethods
+    private void SendMessage()
+    {
+        GlobalEventSystem.CastEvent(EventName.PlayerXPUpdated,
+                                    EventArgsFactory.PlayerXPUpdatedFactory(level));
     }
     #endregion
 }

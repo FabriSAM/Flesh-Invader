@@ -23,10 +23,16 @@ public abstract class EnemyChar : MonoBehaviour
 
     private string hashClonedMaterial;
 
-    #region ProtectedProperties
-    public EnemyInfo CharacterInfo {get { return characterCurrentInfo; }}
+    [Header("TutorialScene")]
+    [SerializeField]
+    private bool isInTutorial = false;
+
+    #region PublicProperties
+    public EnemyInfo CharacterInfo { get { return characterCurrentInfo; } set { characterCurrentInfo = value; } }
 
     public bool IsDead { get => isDead; }
+
+    public StateMachine stateMachine { get { return FSM; } }
     #endregion
 
     #region AnimatorStrings
@@ -54,141 +60,147 @@ public abstract class EnemyChar : MonoBehaviour
 
     #region FSM
     #region Transition
-        protected Transition StartChase(State prev, State next)
-        {
-            Transition transition = new Transition();
-            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(), 
-                characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
-            transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
-            return transition;
-        }
+    protected Transition StartChase(State prev, State next)
+    {
+        Transition transition = new Transition();
+        CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
+            characterCurrentInfo.CharStatesStats.distanceToFollowPlayer, COMPARISON.LESSEQUAL);
+        transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+        return transition;
+    }
 
-        protected Transition StopChase(State prev, State next)
-        {
-            Transition transition = new Transition();
-            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(), 
-                characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
-            transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
-            return transition;
-        }
+    protected Transition StopChase(State prev, State next)
+    {
+        Transition transition = new Transition();
+        CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
+            characterCurrentInfo.CharStatesStats.distanceToStopFollowPlayer, COMPARISON.GREATEREQUAL);
+        transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+        return transition;
+    }
 
-        protected Transition StopStutter(State prev, State next)
-        {
-            Transition transition = new Transition();
-            WaitTimeCondition timeCondition = new WaitTimeCondition(characterCurrentInfo.CharStatesStats.stutterTime);
-            //SetAnimatorParameterAction setStutterAnimation = new SetAnimatorParameterAction(GetComponentInParent<Animator>(),
-            //    new AnimatorParameterStats("GeneralIntParameter", AnimatorParameterType.INTEGER, 5));
-            transition.SetUpMe(prev, next, new Condition[] { timeCondition });
-            return transition;
-        }
+    protected Transition StopStutter(State prev, State next)
+    {
+        Transition transition = new Transition();
+        WaitTimeCondition timeCondition = new WaitTimeCondition(characterCurrentInfo.CharStatesStats.stutterTime);
+        //SetAnimatorParameterAction setStutterAnimation = new SetAnimatorParameterAction(GetComponentInParent<Animator>(),
+        //    new AnimatorParameterStats("GeneralIntParameter", AnimatorParameterType.INTEGER, 5));
+        transition.SetUpMe(prev, next, new Condition[] { timeCondition });
+        return transition;
+    }
 
-        protected Transition ChaseToAttack(State prev, State next)
-        {
-            Transition transition = new Transition();
-            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
-                characterCurrentInfo.CharStatesStats.distanceToStartAttack, COMPARISON.LESSEQUAL);
-
-
-            transition.SetUpMe(prev, next, new Condition[] {distanceCondition });
-            return transition;
-        }
-
-        protected Transition AttackBackToChase(State prev, State next)
-        {
-            Transition transition = new Transition();
-
-            CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
-                characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
+    protected Transition ChaseToAttack(State prev, State next)
+    {
+        Transition transition = new Transition();
+        CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
+            characterCurrentInfo.CharStatesStats.distanceToStartAttack, COMPARISON.LESSEQUAL);
 
 
-            transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
-            return transition;
-        }
+        transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+        return transition;
+    }
+
+    protected Transition AttackBackToChase(State prev, State next)
+    {
+        Transition transition = new Transition();
+
+        CheckDistanceFromPlayerCondition distanceCondition = new CheckDistanceFromPlayerCondition(GetComponentInParent<Transform>(),
+            characterCurrentInfo.CharStatesStats.distanceToStopAttack, COMPARISON.GREATEREQUAL);
+
+
+        transition.SetUpMe(prev, next, new Condition[] { distanceCondition });
+        return transition;
+    }
 
     #endregion
 
     #region States
     protected virtual State SetUpPatrol()
+    {
+        State patrol = new State();
+
+        Vector3[] PatrolPositions = new Vector3[characterCurrentInfo.CharStatesStats.patrolPointNumber];
+
+        GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position,
+            characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius, characterCurrentInfo.CharStatesStats.patrolPointNumber, PatrolPositions);
+        PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed, calculusFrequency);
+        AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
+        SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
+
+        patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning });
+
+        return patrol;
+    }
+
+    protected virtual State SetUpChase()
+    {
+        State chase = new State();
+
+        ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack - 0.1f, calculusFrequency);
+        AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
+        SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
+        chase.SetUpMe(new StateAction[] { chaseTarget, setRunning });
+        return chase;
+    }
+
+    protected virtual State SetUpStutter()
+    {
+        State stutter = new State();
+        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
+        AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, false);
+        SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
+
+        stutter.SetUpMe(new StateAction[] { setRunning, stopCharacter });
+        return stutter;
+    }
+
+    protected virtual State SetUpAttack()
+    {
+        State attack = new State();
+        MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed * 0.5f, characterCurrentInfo.CharStatesStats.distanceToStartAttack - 0.1f, calculusFrequency);
+
+        AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
+        SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking,
+            true, characterCurrentInfo.CharStats.AttackCountdown);
+        RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
+        AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
+
+
+
+        attack.SetUpMe(new StateAction[] { MantainSetDistance, setAttackingAnim, rotateToTarget, attackTarget });
+        return attack;
+    }
+
+    protected State SetUpDying()
+    {
+        State dying = new State();
+
+        AnimatorParameterStats isDying = new AnimatorParameterStats(animDeathString, AnimatorParameterType.BOOL, true);
+        SetAnimatorParameterAction setDeathAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isDying, false);
+        ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
+
+        dying.SetUpMe(new StateAction[] { stopCharacter, setDeathAnim });
+        return dying;
+    }
+
+    private State SetUpBackgroundMoving()
+    {
+        State backgroundMoving = new State();
+        AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
+        AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
+        SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, 0.25f, true);
+        SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, 0.25f, true);
+
+        if (!isInTutorial)
         {
-            State patrol = new State();
-   
-            Vector3[] PatrolPositions = new Vector3[characterCurrentInfo.CharStatesStats.patrolPointNumber];
-
-            GeneratePatrolPointAction generatePatrolPoints = new GeneratePatrolPointAction(GetComponentInParent<Transform>().position,
-                characterCurrentInfo.CharStatesStats.patrolPointsGenerationRadius, characterCurrentInfo.CharStatesStats.patrolPointNumber, PatrolPositions);
-            PatrolAction patrolAction = new PatrolAction(agent, PatrolPositions, characterCurrentInfo.CharStatesStats.patrolAcceptableRadius, characterCurrentInfo.CharStats.BaseSpeed, calculusFrequency);
-            AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
-            SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
-
-            patrol.SetUpMe(new StateAction[] { generatePatrolPoints, patrolAction, setRunning });
-
-            return patrol;
-        }
-
-        protected virtual State SetUpChase()
-        {
-            State chase = new State();
-
-            ChasePlayerAction chaseTarget = new ChasePlayerAction(agent, characterCurrentInfo.CharStats.ChaseSpeed, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f, calculusFrequency);
-            AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, true);
-            SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
-            chase.SetUpMe(new StateAction[] { chaseTarget, setRunning });
-            return chase;
-        }
-
-        protected virtual State SetUpStutter()
-        {
-            State stutter = new State();
-            ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
-            AnimatorParameterStats isMoving = new AnimatorParameterStats(animIsMovingParamaterString, AnimatorParameterType.BOOL, false);
-            SetAnimatorParameterAction setRunning = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isMoving, false);
-
-            stutter.SetUpMe(new StateAction[] { setRunning, stopCharacter });
-            return stutter;
-        }
-
-        protected virtual State SetUpAttack()
-        {
-            State attack = new State();
-            MantainSetDistanceFromPlayerAction MantainSetDistance = new MantainSetDistanceFromPlayerAction(agent, characterCurrentInfo.CharStats.BaseSpeed*0.5f, characterCurrentInfo.CharStatesStats.distanceToStartAttack-0.1f, calculusFrequency);
-
-            AnimatorParameterStats isAttacking = new AnimatorParameterStats(animAttackString, AnimatorParameterType.TRIGGER, true);
-            SetAnimatorParameterAction setAttackingAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isAttacking, 
-                true, characterCurrentInfo.CharStats.AttackCountdown);
-            RotateToPlayerAction rotateToTarget = new RotateToPlayerAction(agent);
-            AIAttackAction attackTarget = new AIAttackAction(controller, characterCurrentInfo.CharStats.AttackCountdown, false);
-
-
-
-            attack.SetUpMe(new StateAction[] {MantainSetDistance, setAttackingAnim, rotateToTarget, attackTarget });
-            return attack;
-        }
-
-        protected State SetUpDying()
-        {
-            State dying = new State();
-
-            AnimatorParameterStats isDying = new AnimatorParameterStats(animDeathString, AnimatorParameterType.BOOL, true);
-            SetAnimatorParameterAction setDeathAnim = new SetAnimatorParameterAction(controller.Visual.CharacterAnimator, isDying, false);
-            ChangeSpeedAction stopCharacter = new ChangeSpeedAction(agent, 0, false);
-
-            dying.SetUpMe(new StateAction[] { stopCharacter, setDeathAnim });
-            return dying;
-        }
-
-        private State SetUpBackgroundMoving()
-        {
-            State backgroundMoving = new State();
-            AnimatorParameterStats moveAxisX = new AnimatorParameterStats(animXAxisValue, AnimatorParameterType.FLOAT, true);
-            AnimatorParameterStats moveAxisZ = new AnimatorParameterStats(animZAxisValue, AnimatorParameterType.FLOAT, true);
-            SetSpeedInAnimatorAction animSpeedX = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.X, moveAxisX, 0.25f, true);
-            SetSpeedInAnimatorAction animSpeedZ = new SetSpeedInAnimatorAction(controller.Visual.CharacterAnimator, agent, VectorAxis.Z, moveAxisZ, 0.25f, true);
-
-            LookDistanceForDespawnAction lookForDespawn = new LookDistanceForDespawnAction(controller.gameObject, characterCurrentInfo.CharStatesStats.distanceToFollowPlayer* 1.5f, calculusFrequency);
-
+            LookDistanceForDespawnAction lookForDespawn = new LookDistanceForDespawnAction(controller.gameObject, characterCurrentInfo.CharStatesStats.distanceToFollowPlayer * 1.5f, calculusFrequency);
             backgroundMoving.SetUpMe(new StateAction[] { animSpeedX, animSpeedZ, lookForDespawn });
-            return backgroundMoving;
         }
+        else
+        {
+            backgroundMoving.SetUpMe(new StateAction[] { animSpeedX, animSpeedZ });
+        }
+        return backgroundMoving;
+    }
 
     #endregion
 
@@ -260,6 +272,10 @@ public abstract class EnemyChar : MonoBehaviour
 
         CalculateDamage();
 
+    }
+
+    public void CalculateUnpossessability()
+    {
         // Unpossessable EnemyChar behavior
         ObjectByProbability<bool> unpossessableProb = new ObjectByProbability<bool>();
         unpossessableProb.Max = characterStartingInfo.CharStats.UnpossessableProbability;
@@ -274,8 +290,8 @@ public abstract class EnemyChar : MonoBehaviour
         }
         else
         {
-            controller.Overlay.RemoveOverlay(unpossesableMaterial);            
-        }        
+            controller.Overlay.RemoveOverlay(unpossesableMaterial);
+        }
     }
 
     protected void CalculateDamage()
@@ -295,9 +311,8 @@ public abstract class EnemyChar : MonoBehaviour
 
         PlayerState.Get().InformationController.SetCurrentIndexEnemy((int)characterCurrentInfo.CharStats.EnemyType);
         GlobalEventSystem.CastEvent(
-            EventName.PossessionExecuted, 
-            EventArgsFactory.PossessionExecutedFactory(characterCurrentInfo)
-            );
+            EventName.PossessionExecuted,
+            EventArgsFactory.PossessionExecutedFactory(characterCurrentInfo));
     }
 
     public virtual void InternalUnPossess()

@@ -19,7 +19,7 @@ public class PlayerState : MonoBehaviour
     [SerializeField]
     float possessionCD;
     #endregion
-
+    
     #region PrivateMembers
     private GameObject currentPlayer;
     #endregion
@@ -58,15 +58,9 @@ public class PlayerState : MonoBehaviour
     #region MonoCallbacks
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
         instance = this;
         levelController.InitMe();        
         genericController.InitMe(possessionCD);
-        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

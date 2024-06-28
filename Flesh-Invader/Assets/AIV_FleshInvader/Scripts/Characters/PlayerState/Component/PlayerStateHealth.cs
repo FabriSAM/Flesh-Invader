@@ -32,9 +32,22 @@ public class PlayerStateHealth : MonoBehaviour
     private float maxHP;
     private float maxTimer;
     private float constantDamage;
+    private static bool gameLoaded;
 
     public bool DeadStatus {  get { return deadStatus; } }
     #endregion
+
+    private void OnEnable()
+    {
+        GlobalEventSystem.AddListener(EventName.LoadGameEnded, SetGameLoaded);
+    }
+
+    public static void SetGameLoaded(EventArgs message)
+    {
+        bool toLoad;
+        EventArgsFactory.LoadGameEndedParser(message, out toLoad);
+        gameLoaded = toLoad;
+    }
 
     #region Mono
     void Update()
@@ -59,7 +72,7 @@ public class PlayerStateHealth : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            PlayerDeath();
+            PlayerDeathAnimation();
         }
     }
 
@@ -74,9 +87,14 @@ public class PlayerStateHealth : MonoBehaviour
         HealthAdd(maxHP * possessionHpMultiplier);
     }
 
-    public void PlayerDeath()
+    public void PlayerDeathAnimation()
     {
         deadStatus = true;
+        SendMessagePlayerDeathAnimationStart();
+    }
+
+    public void PlayerDeath()
+    {
         SendMessagePlayerDeath();
     }
 
@@ -85,6 +103,27 @@ public class PlayerStateHealth : MonoBehaviour
         deadStatus = false;
         maxHP = defaultMaxHp;
         currentHP = maxHP;
+    }
+
+    public void HealthSet(float health)
+    {
+        currentHP = health;
+        SendMessageHealthUpdate();
+    }
+
+    public void MaxHealthSet(float maxHealth)
+    {
+        maxHP = maxHealth;
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currentHP;
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHP;
     }
 
     public void HealthDamageTimerReset()
@@ -96,10 +135,18 @@ public class PlayerStateHealth : MonoBehaviour
 
     public void InitMe(PlayerState playerState)
     {
-        HealthReset();
-        HealthDamageTimerReset();
-        playerState.LevelController.OnLevelChange += OnLevelChange;
-        SendMessageHealthUpdate();
+        if (gameLoaded) 
+        {
+            HealthDamageTimerReset();
+            playerState.LevelController.OnLevelChange += OnLevelChange;
+        }
+        else
+        {
+            HealthReset();
+            HealthDamageTimerReset();
+            playerState.LevelController.OnLevelChange += OnLevelChange;
+            SendMessageHealthUpdate();
+        }
     }
     #endregion
 
@@ -110,6 +157,8 @@ public class PlayerStateHealth : MonoBehaviour
         maxHP = defaultMaxHp * value;
         maxTimer = defaultMaxTimer * value;
         constantDamage = defaultConstantDamage;
+
+        SendMessageHealthUpdate();
     }
 
     private void SendCameraShakeEvent()
@@ -124,6 +173,11 @@ public class PlayerStateHealth : MonoBehaviour
             EventArgsFactory.PlayerHealthUpdatedFactory(maxHP, currentHP));
     }
 
+    private void SendMessagePlayerDeathAnimationStart()
+    {
+        GlobalEventSystem.CastEvent(EventName.PlayerDeathAnimationStart,
+            EventArgsFactory.PlayerDeathAnimationStartFactory());
+    }
     private void SendMessagePlayerDeath()
     {
         GlobalEventSystem.CastEvent(EventName.PlayerDeath,
