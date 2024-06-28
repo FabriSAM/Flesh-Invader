@@ -2,6 +2,7 @@ using NotserializableEventManager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Chest : InteractableBase, ICollectable
 {
@@ -64,6 +65,7 @@ public class Chest : InteractableBase, ICollectable
 
     private void Start()
     {
+        if(SceneManager.GetActiveScene().buildIndex == 2) return;
         if (SaveSystem.ActiveGameData.PlayerSavedData.IsCollectibleUnlocked((int)collectibleID))
         {
             Collect();
