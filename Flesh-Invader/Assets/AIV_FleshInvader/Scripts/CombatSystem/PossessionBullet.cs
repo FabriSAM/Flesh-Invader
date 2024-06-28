@@ -27,6 +27,11 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private float speed;
     #endregion
 
+    #region FMOD
+    private const string possessEventName = "Possess";
+    private const string possessEventBank = "Player";
+    #endregion
+
     #region Mono
     private void OnEnable()
     {   
@@ -43,6 +48,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
         {
             owner.UnPossess();
             possessableChar.Possess();
+            AudioManager.Get().PlayOneShot(possessEventName, possessEventBank);
         }
         Destroy();
     }
