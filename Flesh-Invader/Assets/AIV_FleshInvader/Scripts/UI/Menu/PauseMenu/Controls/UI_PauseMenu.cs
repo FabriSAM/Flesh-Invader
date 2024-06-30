@@ -37,6 +37,12 @@ public class UI_PauseMenu : MonoBehaviour
     private bool isPlayerDead;
     #endregion
 
+    #region FMOD
+    private const string buttonClickEventName = "ButtonClick";
+    private const string buttonHoverEventName = "ButtonHover";
+    private const string buttonSoundBankName = "UI";
+    #endregion
+
     #region Mono
     public void Awake() {
         Debug.Log("UI_PauseMenu Awake" + isPlayerDead);

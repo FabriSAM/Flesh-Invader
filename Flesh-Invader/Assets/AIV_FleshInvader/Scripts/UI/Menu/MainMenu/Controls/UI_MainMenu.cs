@@ -1,5 +1,4 @@
 using NotserializableEventManager;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,13 +6,21 @@ using UnityEngine.UIElements;
 
 public class UI_MainMenu : MonoBehaviour
 {
+    #region InternalVariables
+    VisualElement rootVisualElement;
     Button quitButton;
     Button newGameButton;
     Button continueButton;
     Button tutorialButton;
+    #endregion
 
-    VisualElement rootVisualElement;
+    #region FMOD
+    private const string buttonClickEventName = "ButtonClick";
+    private const string buttonHoverEventName = "ButtonHover";
+    private const string buttonSoundBankName = "UI";
+    #endregion
 
+    #region Mono
     private void OnEnable() {
         UIDocument uiDocument = GetComponent<UIDocument>();
         rootVisualElement = uiDocument.rootVisualElement;
@@ -39,17 +46,18 @@ public class UI_MainMenu : MonoBehaviour
             continueButton.style.display = DisplayStyle.None;
         }
     }
+    #endregion
 
-
-
+    #region FMOD
     private void onHoverSound(MouseOverEvent ev ) {
-        AudioManager.Get().PlayOneShot("ButtonHover", "UI");
+        AudioManager.Get().PlayOneShot(buttonHoverEventName, buttonSoundBankName);
     }
+    #endregion
 
     #region LoadGame
     private void OnContinueGameButtonClicked()
     {
-        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+        AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
         StartCoroutine(LoadLevelCoroutine(1));
     }
 
@@ -77,13 +85,15 @@ public class UI_MainMenu : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        AudioManager.Get().ChangeBackgroundMusic(BackgroundMusic.Gameplay);
+
         yield return null;
     }
     #endregion
 
     #region NewGame
     private void OnNewGameButtonClicked() {
-        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+        AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
         StartCoroutine(StartLevelCoroutine(1));
     }
 
@@ -117,6 +127,8 @@ public class UI_MainMenu : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        AudioManager.Get().ChangeBackgroundMusic(BackgroundMusic.Gameplay);
+
         yield return null;
     }
     #endregion
@@ -124,12 +136,14 @@ public class UI_MainMenu : MonoBehaviour
     #region Tutorial
     private void OnTutorialButtonClicked()
     {
-        AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+        AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
         StartCoroutine(StartLevelCoroutine(2));
     }
-
     #endregion
+
+    #region Quit
     private void OnQuitBottonClicked() {
         Application.Quit();
     }
+    #endregion
 }

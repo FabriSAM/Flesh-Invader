@@ -6,9 +6,9 @@ using UnityEngine.UIElements;
 
 public class UI_EndScreen : MonoBehaviour {
 
+    #region InternalVariables
     [SerializeField]
     private Texture2D[] backgrounds;
-
 
     private VisualElement root;
     private VisualElement statistics;
@@ -21,7 +21,15 @@ public class UI_EndScreen : MonoBehaviour {
     private Label bulletsFired;
     private Button retry;
     private Button mainMenu;
+    #endregion
 
+    #region FMOD
+    private const string buttonClickEventName = "ButtonClick";
+    private const string buttonHoverEventName = "ButtonHover";
+    private const string buttonSoundBankName = "UI";
+    #endregion
+
+    #region Mono
     private void Awake() {
         root = GetComponent<UIDocument>().rootVisualElement.Q("root");
         root.style.display = DisplayStyle.None;
@@ -39,7 +47,7 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void Start() {
         retry.clickable.clicked += delegate {
-            AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+            AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             InputManager.EnablePlayerMap(true);
@@ -48,16 +56,12 @@ public class UI_EndScreen : MonoBehaviour {
         };
         retry.RegisterCallback<MouseOverEvent>(onHoverSound);
         mainMenu.clickable.clicked += delegate {
-            AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+            AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             SceneManager.LoadScene(0, LoadSceneMode.Single);
         };
         mainMenu.RegisterCallback<MouseOverEvent>(onHoverSound);
-    }
-
-    private void onHoverSound(MouseOverEvent ev) {
-        AudioManager.Get().PlayOneShot("ButtonHover", "UI");
     }
 
     private void OnEnable() {
@@ -68,6 +72,12 @@ public class UI_EndScreen : MonoBehaviour {
     private void OnDisable() {
         GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerDeath);
         GlobalEventSystem.RemoveListener(EventName.PlayerWin, OnPlayerWin);
+    }
+    #endregion
+
+    #region Internal
+    private void onHoverSound(MouseOverEvent ev) {
+        AudioManager.Get().PlayOneShot(buttonHoverEventName, buttonSoundBankName);
     }
 
     private void OnPlayerDeath(EventArgs message) {
@@ -116,7 +126,9 @@ public class UI_EndScreen : MonoBehaviour {
         root.style.display = DisplayStyle.Flex;
         StartCoroutine("ChangeBorderColor");
     }
+    #endregion
 
+    #region Coroutine
     private IEnumerator ChangeBorderColor() {
         bool green = true;
         while (true) {
@@ -128,4 +140,5 @@ public class UI_EndScreen : MonoBehaviour {
             statistics.style.borderLeftColor = green ? Color.green : Color.red;
         }
     }
+    #endregion
 }
