@@ -182,6 +182,7 @@ public class PlayerStateHealth : MonoBehaviour
     {
         GlobalEventSystem.CastEvent(EventName.PlayerDeath,
             EventArgsFactory.PlayerDeathFactory(PlayerState.Get().InformationController.GetStats()));
+        AudioManager.Get().ChangeBackgroundMusic(BackgroundMusic.EndScreen);
     }
     #endregion
 }

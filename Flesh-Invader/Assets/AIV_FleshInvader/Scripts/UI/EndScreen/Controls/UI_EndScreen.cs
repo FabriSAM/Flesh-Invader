@@ -48,6 +48,7 @@ public class UI_EndScreen : MonoBehaviour {
     private void Start() {
         retry.clickable.clicked += delegate {
             AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
+            AudioManager.Get().ChangeBackgroundMusic(BackgroundMusic.Gameplay);
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             InputManager.EnablePlayerMap(true);

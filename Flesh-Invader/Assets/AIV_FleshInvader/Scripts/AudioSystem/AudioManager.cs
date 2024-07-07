@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour {
     }
     #endregion
 
-    #region Internal
+    #region BackgroundMusic
     public void InitializeBackgroundMusic() {
         backgroundMusic = FMODUnity.RuntimeManager.CreateInstance(backgroundMusicEventPath);
     }
@@ -45,12 +45,25 @@ public class AudioManager : MonoBehaviour {
 
     public void StopBackgroundMusic(FMOD.Studio.STOP_MODE stopMode) {
         backgroundMusic.stop(stopMode);
-    }
-
-    public void ReleaseBackgroundMusic() {
         backgroundMusic.release();
     }
 
+    public void PauseBackgroundMusic(FMOD.Studio.STOP_MODE stopMode) {
+        backgroundMusic.setPaused(true);
+    }
+
+    public void PlayBackgroundMusic(FMOD.Studio.STOP_MODE stopMode) {
+        backgroundMusic.setPaused(false);
+    }
+
+    public void ChangeBackgroundMusic(BackgroundMusic area) {
+        if (area == BackgroundMusic.None) return;
+        backgroundMusic.setParameterByName(backgroundMusicAreaParameterName, (int)area);
+    }
+
+    #endregion
+
+    #region OneShotSound
     public void PlayOneShot(string eventName = null, string bankName = null) {
         if(string.IsNullOrEmpty(eventName)) return;
         string eventPath = "event:";
@@ -61,9 +74,11 @@ public class AudioManager : MonoBehaviour {
         FMODUnity.RuntimeManager.PlayOneShot(eventPath, Vector3.zero);
     }
 
-    public void ChangeBackgroundMusic(BackgroundMusic area) {
-        if (area == BackgroundMusic.None) return;
-        backgroundMusic.setParameterByName(backgroundMusicAreaParameterName, (int)area);
+    #endregion
+
+    #region Utility
+    public void StopAllSounds() {
+        FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
     #endregion
 }
