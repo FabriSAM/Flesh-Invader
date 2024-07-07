@@ -7,7 +7,9 @@ public class Controller : MonoBehaviour, IPossessable
 
     #region FMOD
     private const string enemyDeathEventName = "Death";
+    private const string playerHurtEventName = "Hurt";
     private const string enemyDeathBankName = "Enemies";
+    private const string playerBankName = "Player";
     #endregion
 
     #region Const
@@ -191,6 +193,7 @@ public class Controller : MonoBehaviour, IPossessable
             if (playerStateHealth == null) { return; }
             if (playerStateHealth.DeadStatus) { return; }
             playerStateHealth.HealthReduce(damage.Damage);
+            AudioManager.Get().PlayOneShot(playerHurtEventName, playerBankName);
         }
         else
         {
