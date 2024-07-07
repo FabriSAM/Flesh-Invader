@@ -7,8 +7,10 @@ public class Controller : MonoBehaviour, IPossessable
 
     #region FMOD
     private const string enemyDeathEventName = "Death";
+    private const string enemyHurtEventName = "Hurt";
     private const string playerHurtEventName = "Hurt";
-    private const string enemyDeathBankName = "Enemies";
+
+    private const string enemiesBankName = "Enemies";
     private const string playerBankName = "Player";
     #endregion
 
@@ -197,6 +199,7 @@ public class Controller : MonoBehaviour, IPossessable
         }
         else
         {
+            AudioManager.Get().PlayOneShot(enemyHurtEventName, enemiesBankName);
             combatManager.OnControllerDamageTaken?.Invoke(damage);
         }
     }
@@ -297,7 +300,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void InternalOnDeath()
     {
         IsDead = true;
-        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemyDeathBankName);
+        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemiesBankName);
         SetVelocity(Vector3.zero);
         characterPhysicsCollider.enabled = false;
         CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -315,7 +318,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void OnPlayerStateDeathAnimationStart(EventArgs _)
     {
         UnpossessionUnregisterInputs();
-        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemyDeathBankName);
+        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemiesBankName);
         characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         characterPhysicsCollider.enabled = false;
         visual.SetAnimatorParameter(animatorDeadParameter, true);
