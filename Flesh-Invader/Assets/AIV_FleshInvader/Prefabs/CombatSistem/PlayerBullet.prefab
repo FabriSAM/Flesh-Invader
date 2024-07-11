@@ -238,6 +238,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trail
       objectReference: {fileID: 0}
+    - target: {fileID: 3839050220150335554, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3839050220150335554, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.09620416
+      objectReference: {fileID: 0}
+    - target: {fileID: 3839050220150335554, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.76663494
+      objectReference: {fileID: 0}
+    - target: {fileID: 3839050220150335554, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5760163239433808604, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
