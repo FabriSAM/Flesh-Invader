@@ -5340,6 +5340,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
+      propertyPath: maxEnemiesInScene
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631457129276611463, guid: 2d64f830d283fad438c6a6e9737ee132, type: 3}
       propertyPath: spawnProbability.poolProbability.Array.data[0].result
       value: Rogue
       objectReference: {fileID: 0}
@@ -7914,7 +7918,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materials:
-  - {fileID: 2100000, guid: 965e421d30d6a2a419dfd5b3597456b8, type: 2}
   - {fileID: 2100000, guid: 8aad0e1fc25fb56498e038baf890441f, type: 2}
 --- !u!1001 &442411581
 PrefabInstance:
@@ -15587,7 +15590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 472646, guid: a77b00a20c258dd4e88421950c328961, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -123.28638
+      value: -126.62
       objectReference: {fileID: 0}
     - target: {fileID: 472646, guid: a77b00a20c258dd4e88421950c328961, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15595,7 +15598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 472646, guid: a77b00a20c258dd4e88421950c328961, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.804638
+      value: -28.82
       objectReference: {fileID: 0}
     - target: {fileID: 472646, guid: a77b00a20c258dd4e88421950c328961, type: 3}
       propertyPath: m_LocalRotation.w
@@ -24132,7 +24135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c428101f4ae3e124c905a70d548e6181, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -121.26152
+      value: -119.4
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c428101f4ae3e124c905a70d548e6181, type: 3}
       propertyPath: m_LocalPosition.y
@@ -24140,7 +24143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c428101f4ae3e124c905a70d548e6181, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -38.094486
+      value: -38.75
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c428101f4ae3e124c905a70d548e6181, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26718,7 +26721,7 @@ GameObject:
   - component: {fileID: 1325015132}
   - component: {fileID: 1325015134}
   - component: {fileID: 1325015133}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: NavMesh Modifier Volume (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

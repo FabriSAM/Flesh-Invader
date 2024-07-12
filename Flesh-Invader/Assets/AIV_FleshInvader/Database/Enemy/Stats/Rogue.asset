@@ -15,10 +15,12 @@ MonoBehaviour:
   charInfo:
     CharStats:
       EnemyType: 1
-      Health: 8
-      Damage: 10
-      MinDamageMultiplier: 0.85
-      MaxDamageMultiplier: 1.25
+      Health: 15
+      MinHealthMultiplier: 0.9
+      MaxHealthMultiplier: 1.1
+      Damage: 8
+      MinDamageMultiplier: 0.8
+      MaxDamageMultiplier: 1.2
       BaseSpeed: 10
       ChaseSpeed: 15
       Xp: 10

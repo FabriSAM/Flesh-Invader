@@ -35,6 +35,7 @@ public class UI_PauseMenu : MonoBehaviour
     private VisualElement portrait;
     //others
     private bool isPlayerDead;
+    private bool isPauseMenuOpen;
     #endregion
 
     #region FMOD
@@ -107,6 +108,7 @@ public class UI_PauseMenu : MonoBehaviour
         InitializeUI(statistics);
         root.style.display = DisplayStyle.Flex;
         StartCoroutine("ChangeBorderColor");
+        isPauseMenuOpen = true;
     }
 
     private void OnPlayerDeath(EventArgs message) {
@@ -114,6 +116,7 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     private void OnPauseMenuClose(InputAction.CallbackContext context) {
+        if (!isPauseMenuOpen) return;
         ClosePauseMenu();
     }
 
@@ -160,6 +163,7 @@ public class UI_PauseMenu : MonoBehaviour
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
         Time.timeScale = 1;
+        isPauseMenuOpen = false;
     }
 
     private void OnMainMenuClick() {

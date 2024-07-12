@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerStateHealth : MonoBehaviour
 {
     #region Const
-    private const float possessionHpMultiplier = 0.5f;
+    private const float possessionHpMultiplier = 1.0f;
     #endregion
 
     #region SerializedField
@@ -34,7 +34,7 @@ public class PlayerStateHealth : MonoBehaviour
     private float constantDamage;
     private static bool gameLoaded;
 
-    public bool DeadStatus {  get { return deadStatus; } }
+    public bool DeadStatus { get { return deadStatus; } }
     #endregion
 
     private void OnEnable()
@@ -135,7 +135,7 @@ public class PlayerStateHealth : MonoBehaviour
 
     public void InitMe(PlayerState playerState)
     {
-        if (gameLoaded) 
+        if (gameLoaded)
         {
             HealthDamageTimerReset();
             playerState.LevelController.OnLevelChange += OnLevelChange;
@@ -153,10 +153,21 @@ public class PlayerStateHealth : MonoBehaviour
     #region PrivateMethods
     private void OnLevelChange(int value)
     {
-        // Balance new stats when level up
+        // MaxHP
         maxHP = defaultMaxHp * value;
-        maxTimer = defaultMaxTimer * value;
-        constantDamage = defaultConstantDamage;
+
+        // Timer Frequency
+        if (value % 3 == 0)
+        {
+            maxTimer = defaultMaxTimer * (value / 3);
+        }
+        else if (value == 1)
+        {
+            maxTimer = defaultMaxTimer;
+        }
+
+        // Damage OverTime
+        constantDamage = Mathf.Pow(value, 0.5f) * defaultConstantDamage * value;
 
         SendMessageHealthUpdate();
     }

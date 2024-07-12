@@ -10,6 +10,10 @@ public struct EnemyStatistics
     [SerializeField]
     public float Health;
     [SerializeField]
+    public float MinHealthMultiplier;
+    [SerializeField]
+    public float MaxHealthMultiplier;
+    [SerializeField]
     public float Damage;
     [SerializeField]
     public float MinDamageMultiplier;

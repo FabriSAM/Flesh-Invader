@@ -10,7 +10,8 @@ public class PlayerStateMission : MonoBehaviour
     public Collectible Collectible { get { return collectible; } }
 
     public void InitMe()
-    {
+    {        
+        collectible.collectiblesFound.CurrentObject = 0;
         CallGlobalEvent();
         GlobalEventSystem.AddListener(EventName.UICollectableClose, CallWinMenu);
     }

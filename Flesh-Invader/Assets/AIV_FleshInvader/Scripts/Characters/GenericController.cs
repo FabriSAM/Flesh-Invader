@@ -49,6 +49,7 @@ public class GenericController : MonoBehaviour
     }
 
     private void EnablePauseMenu(InputAction.CallbackContext context) {
+        if (Time.timeScale == 0) return;
         PlayerState.Get().InformationController.OpenPauseMenu();
     }
     #endregion
