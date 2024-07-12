@@ -6,7 +6,7 @@ public class PlayerStateInformation : MonoBehaviour
     Statistics stats = new Statistics();
     // Start is called before the first frame update
 
-    private int totalPossessionBullet = 0;
+    //private int totalPossessionBullet = 0;
 
 
     #region PublicMethods
@@ -19,7 +19,7 @@ public class PlayerStateInformation : MonoBehaviour
     {
         stats.GameTime = Time.timeSinceLevelLoad;
         stats.CollectiblesFound = PlayerState.Get().MissionController.Collectible.collectiblesFound;
-        stats.PossessionFailed = totalPossessionBullet - stats.PossessionSuccess;
+        stats.PossessionFailed = stats.TotalPossessionBullet - stats.PossessionSuccess;
         return stats;
     }
 
@@ -38,7 +38,7 @@ public class PlayerStateInformation : MonoBehaviour
     }
     public void PossessionShoot()
     {
-        totalPossessionBullet++;
+        stats.TotalPossessionBullet++;
     }
     public void SetCurrentIndexEnemy(int enemyIndex)
     {

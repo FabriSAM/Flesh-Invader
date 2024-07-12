@@ -14,6 +14,7 @@ public struct Statistics
     public CollectiblesFound CollectiblesFound { get; set; }
     public int PossessionSuccess { get; set; }
     public int PossessionFailed { get; set; }
+    public int TotalPossessionBullet {  get; set; }
     public int BulletFired { get; set; }
     public int CurrentIndexEnemy { get; set; }
 
