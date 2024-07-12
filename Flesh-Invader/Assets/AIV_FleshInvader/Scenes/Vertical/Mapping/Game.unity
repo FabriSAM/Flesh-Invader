@@ -3290,6 +3290,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 2285539832084404391, guid: 5661608d03470bc43a4813409e481851, type: 3}
+      propertyPath: collectibleID
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3014453788832655738, guid: 5661608d03470bc43a4813409e481851, type: 3}
       propertyPath: m_Layer
       value: 10
