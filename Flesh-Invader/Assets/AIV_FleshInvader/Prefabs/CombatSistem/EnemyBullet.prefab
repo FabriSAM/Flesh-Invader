@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3042579758161720879}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.403034, y: -0.97431785, z: -8.058108}
+  m_LocalPosition: {x: -4.96, y: -0.97431785, z: -8.058108}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -97,6 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 4992373158119588301}
   lifeTime: 5
+  trail: {fileID: 3933614394677940406}
+  trailRenderer: {fileID: 6789862915322977561}
 --- !u!1 &3612753243536247416
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,5 +288,15 @@ PrefabInstance:
 --- !u!4 &2633847667488825223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5760163239433808604, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
+  m_PrefabInstance: {fileID: 7745482780265330011}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3933614394677940406 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6767356622587749869, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
+  m_PrefabInstance: {fileID: 7745482780265330011}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &6789862915322977561 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 3839050220150335554, guid: acf3e8853d32f9b459ed3cebcf2f7c93, type: 3}
   m_PrefabInstance: {fileID: 7745482780265330011}
   m_PrefabAsset: {fileID: 0}
