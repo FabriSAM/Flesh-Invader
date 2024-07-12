@@ -19,6 +19,7 @@ public class Movement : AbilityBase
     private const float lowerStepRayCast = 1.0f;
     private const float higherStepRayCast = 1.5f;
     private const float groundedRayCast = 0.06f;
+    private const string walkTrailVFXName = "WalkTrail";
     #endregion
 
     #region SerializedField
@@ -63,6 +64,7 @@ public class Movement : AbilityBase
     private void Move()
     {
         Vector2 inputDirection = InputManager.Player_Move;
+        
         directionMovement = (Vector3.right * inputDirection.x + Vector3.forward * inputDirection.y).normalized;
         characterController.SetVelocity(directionMovement * speed);
         Vector3 localInputDirection = transform.InverseTransformDirection(directionMovement).normalized;

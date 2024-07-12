@@ -79,6 +79,8 @@ public class Controller : MonoBehaviour, IPossessable
     }
     public SetOverlay Overlay { get { return overlay; } }
 
+    public CharacterVFXMng VFXMng { get { return characterVFXMng; } }
+
     public EnemyInfo CharacterInfo { get; set; }
 
     public bool UnPossessable { get; set; }

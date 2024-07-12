@@ -4930,7 +4930,7 @@ MonoBehaviour:
   defaultFov: 60
   maxFov: 100
   fovSpeed: 20
-  trail: {fileID: 0}
+  trail: {fileID: 3484562348893167555}
   trailRenderer: {fileID: 4405858673849518227}
 --- !u!1 &3612753243536247416
 GameObject:

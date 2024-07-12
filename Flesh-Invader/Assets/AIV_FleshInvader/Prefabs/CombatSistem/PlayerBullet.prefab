@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 4992373158119588301}
   lifeTime: 5
-  trail: {fileID: 0}
+  trail: {fileID: 2601541730964828047}
   trailRenderer: {fileID: 2305374100717894461}
 --- !u!1 &3612753243536247416
 GameObject:

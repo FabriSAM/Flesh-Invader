@@ -9735,7 +9735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualEffects:
-  - VFXName: Trail
+  - VFXName: WalkTrail
     VFXparticleSystem: {fileID: 9110751940465537869}
   - VFXName: Spawn
     VFXparticleSystem: {fileID: 4540831527456355984}
