@@ -271,7 +271,7 @@ public abstract class EnemyChar : MonoBehaviour
         controller.CharacterInfo = characterCurrentInfo;
 
         CalculateDamage();
-
+        CalculateHealth();
     }
 
     public void CalculateUnpossessability()
@@ -297,7 +297,19 @@ public abstract class EnemyChar : MonoBehaviour
     protected void CalculateDamage()
     {
         int playerLevel = PlayerState.Get().LevelController.GetCurrentLevel();
-        characterCurrentInfo.CharStats.Damage *= UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * playerLevel;
+
+        // Damage Balancing
+        characterCurrentInfo.CharStats.Damage = UnityEngine.Random.Range(CharacterInfo.CharStats.MinDamageMultiplier, CharacterInfo.CharStats.MaxDamageMultiplier) * 
+                                                (characterCurrentInfo.CharStats.Damage * (playerLevel + playerLevel * 0.5f));
+    }
+
+    protected void CalculateHealth()
+    {
+        int playerLevel = PlayerState.Get().LevelController.GetCurrentLevel();
+
+        // Health Balancing
+        characterCurrentInfo.CharStats.Health = UnityEngine.Random.Range(CharacterInfo.CharStats.MinHealthMultiplier, CharacterInfo.CharStats.MaxHealthMultiplier) *
+                                                (characterCurrentInfo.CharStats.Health * playerLevel);
     }
     #endregion
 
