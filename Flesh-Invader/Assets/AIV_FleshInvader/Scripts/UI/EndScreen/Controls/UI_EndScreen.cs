@@ -52,7 +52,18 @@ public class UI_EndScreen : MonoBehaviour {
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             InputManager.EnablePlayerMap(true);
-            InputManager.EnableUIMap(false);            
+
+            if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                if (SaveSystem.GameDataExists(0))
+                    SaveSystem.DeleteGameData(0);
+
+                SaveSystem.CreateGameData(0);
+                StaticLoading.ManageSceneLoading(false);
+                
+                GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory(false));
+            }
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         };
         retry.RegisterCallback<MouseOverEvent>(onHoverSound);
@@ -100,7 +111,7 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void SwitchInputMap() {
         InputManager.EnablePlayerMap(false);
-        InputManager.EnableUIMap(true);
+        InputManager.EnableUIMap(false);
     }
 
     private void SetSpecificEndScreenInfo(string titleLabel, Color titleColor, int backgroundID) {

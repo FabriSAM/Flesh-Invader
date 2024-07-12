@@ -1,3 +1,4 @@
+using NotserializableEventManager;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
@@ -19,7 +20,7 @@ public class TutorialEnd : MonoBehaviour
             ActorDeath.Add(actor);
         }
         if (ActorsInScene.Count - ActorDeath.Count == 1)
-        {
+        {            
             SceneManager.LoadScene(0);
         }
     }

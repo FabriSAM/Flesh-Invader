@@ -215,8 +215,8 @@ public abstract class EnemyChar : MonoBehaviour
     private void OnEnable()
     {
         FSM = GetComponentInChildren<StateMachine>();
-        agent = GetComponentInParent<NavMeshAgent>();
-
+        agent = (NavMeshAgent)GetComponentInParent(typeof(NavMeshAgent), true);
+        agent.enabled = true;
         CharacterStatsConfiguration();
 
         InitFSM();
@@ -318,7 +318,7 @@ public abstract class EnemyChar : MonoBehaviour
     public virtual void InternalUnPossess()
     {
         FSM.enabled = true;
-        agent.enabled = true;
+        //agent.enabled = true;
     }
     #endregion
 }
