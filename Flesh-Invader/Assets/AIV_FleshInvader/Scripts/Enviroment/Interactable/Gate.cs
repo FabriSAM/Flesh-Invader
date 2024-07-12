@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gate : InteractableBase
+public class Gate : InteractableBase, ICollectable
 {
     #region SerializedField
     [SerializeField]
     protected GameObject gate;
+    [SerializeField]
+    public uint collectibleID;
     #endregion
 
     #region Variables
     private Coroutine open;
+
+    public uint CollectibleID => collectibleID;
     #endregion
 
     #region Callback
@@ -30,6 +34,7 @@ public class Gate : InteractableBase
     {
         open = StartCoroutine(OpenDoor());
         alreadyUsed = true;
+        SaveSystem.ActiveGameData.PlayerSavedData.UnlockCollectible((int)collectibleID);
     }
     #endregion
 
@@ -53,6 +58,23 @@ public class Gate : InteractableBase
         }
         CompleteOpen();
     }
+
+    public void AddMission()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Collect()
+    {
+        throw new System.NotImplementedException();
+    }
     #endregion
 
+    private void Start()
+    {
+        if (SaveSystem.ActiveGameData.PlayerSavedData.IsCollectibleUnlocked((int)collectibleID))
+        {
+            OnOpen();
+        }
+    }
 }
