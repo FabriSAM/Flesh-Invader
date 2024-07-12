@@ -17,7 +17,7 @@ public class PlayerStateInformation : MonoBehaviour
 
     public Statistics GetStats()
     {
-        stats.GameTime = Time.timeSinceLevelLoad;
+        stats.GameTime = stats.GameTime + Time.timeSinceLevelLoad;
         stats.CollectiblesFound = PlayerState.Get().MissionController.Collectible.collectiblesFound;
         stats.PossessionFailed = stats.TotalPossessionBullet - stats.PossessionSuccess;
         return stats;
