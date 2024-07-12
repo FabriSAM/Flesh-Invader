@@ -63,7 +63,6 @@ public class PlayerStateLevel : MonoBehaviour
     public void SetLevel(LevelStruct newLevel)
     {
         level = newLevel;
-        //OnLevelChange?.Invoke(level.CurrentLevel);
         SendMessage();
     }
 
