@@ -17,6 +17,7 @@ public class Controller : MonoBehaviour, IPossessable
     #region Const
     private const string animatorDeadParameter = "Dead";
     private const float defaultPossesDamage = float.MaxValue;
+    private const string possessionVFXName = "Possession";
     #endregion
 
     #region References
@@ -36,6 +37,8 @@ public class Controller : MonoBehaviour, IPossessable
     private SetOverlay overlay;
     [SerializeField]
     private Material overlayMaterial;
+    [SerializeField]
+    private CharacterVFXMng characterVFXMng;
     #endregion //References
 
     #region PrivateAttributes
@@ -212,6 +215,7 @@ public class Controller : MonoBehaviour, IPossessable
         playerStateInformation.PossessionSuccess();
         playerStateHealth.SetHealthForPossession();
         InternalOnPosses();
+        characterVFXMng.ActivateEffect(possessionVFXName);
     }
     // INTERNAL METHODS
     private void InternalOnPosses()

@@ -19,6 +19,11 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private float maxFov;
     [SerializeField]
     private float fovSpeed;
+    [SerializeField]
+    private ParticleSystem trail;
+    [SerializeField]
+    private TrailRenderer trailRenderer;
+
     #endregion
 
     #region PrivateMembers
@@ -36,9 +41,12 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private void OnEnable()
     {   
         GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDead);
+        trailRenderer.Clear();
+        trail.Play();
     }
     private void OnDisable()
     {
+        trailRenderer.Clear();
         GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDead);
     }
     private void OnTriggerEnter(Collider other)
@@ -81,6 +89,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
         {
             StopCoroutine(lifeCoroutine);
         }
+        trail.Stop();
         gameObject.SetActive(false);
     }
     #endregion
