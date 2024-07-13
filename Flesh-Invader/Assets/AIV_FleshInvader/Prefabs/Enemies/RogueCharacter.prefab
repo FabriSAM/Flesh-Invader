@@ -987,6 +987,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX
       objectReference: {fileID: 0}
+    - target: {fileID: 6786076148772310485, guid: 517ff28cb93c56041805a966a340cf1e, type: 3}
+      propertyPath: visualEffects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786076148772310485, guid: 517ff28cb93c56041805a966a340cf1e, type: 3}
+      propertyPath: visualEffects.Array.data[3].VFXName
+      value: Save
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786076148772310485, guid: 517ff28cb93c56041805a966a340cf1e, type: 3}
+      propertyPath: visualEffects.Array.data[3].VFXparticleSystem
+      value: 
+      objectReference: {fileID: 3177030604025997868}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1003,6 +1015,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750184bb2067b324e96c31268f169147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &3177030604025997868 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9164258629750520668, guid: 517ff28cb93c56041805a966a340cf1e, type: 3}
+  m_PrefabInstance: {fileID: 5997361125473505648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5580818862173133262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2182527303441238206, guid: 517ff28cb93c56041805a966a340cf1e, type: 3}
