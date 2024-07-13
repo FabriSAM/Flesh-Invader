@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Gate : InteractableBase, ICollectable
 {
@@ -34,6 +35,9 @@ public class Gate : InteractableBase, ICollectable
     {
         open = StartCoroutine(OpenDoor());
         alreadyUsed = true;
+
+        // 2 is the TutorialMap Index
+        if (SceneManager.GetActiveScene().buildIndex == 2) return;
         SaveSystem.ActiveGameData.PlayerSavedData.UnlockCollectible((int)collectibleID);
     }
     #endregion
@@ -72,6 +76,8 @@ public class Gate : InteractableBase, ICollectable
 
     private void Start()
     {
+        // 2 is the TutorialMap Index
+        if (SceneManager.GetActiveScene().buildIndex == 2) return;
         if (SaveSystem.ActiveGameData.PlayerSavedData.IsCollectibleUnlocked((int)collectibleID))
         {
             OnOpen();
