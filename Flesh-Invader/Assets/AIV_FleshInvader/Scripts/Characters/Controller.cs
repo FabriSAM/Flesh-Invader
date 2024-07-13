@@ -324,6 +324,7 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void OnPlayerStateDeathAnimationStart(EventArgs _)
     {
+        IsDead = true;
         InputManager.EnablePlayerMap(false);
         UnpossessionUnregisterInputs();
         AudioManager.Get().PlayOneShot(enemyDeathEventName, enemiesBankName);
