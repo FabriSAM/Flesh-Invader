@@ -46,7 +46,6 @@ public class UI_PauseMenu : MonoBehaviour
 
     #region Mono
     public void Awake() {
-        Debug.Log("UI_PauseMenu Awake" + isPlayerDead);
         //root
         root = GetComponent<UIDocument>().rootVisualElement;
         root.style.display = DisplayStyle.None;
@@ -71,7 +70,6 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     public void Start() {
-        Debug.Log("UI_PauseMenu Start" + isPlayerDead);
         buttonContinue.clicked += ClosePauseMenu;
         buttonContinue.RegisterCallback<MouseOverEvent>(onHoverSound);
         buttonMainMenu.clicked += OnMainMenuClick;
@@ -144,13 +142,11 @@ public class UI_PauseMenu : MonoBehaviour
         possessionSuccess.text = statistics.PossessionSuccess.ToString();
         possessionFailed.text = statistics.PossessionFailed.ToString();
         bulletsFired.text = statistics.BulletFired.ToString();
-        Debug.Log("CURRENT INDEX ENEMY" + statistics.CurrentIndexEnemy);
         SetPortraitCameraTransform(statistics.CurrentIndexEnemy);
     }
     
     private void SetPortraitCameraTransform(int enemyIndex)
     {
-        Debug.Log(portraitCamera.transform);
         portraitCamera.transform.position = modelPortraitLocation[enemyIndex].position;
     }
     

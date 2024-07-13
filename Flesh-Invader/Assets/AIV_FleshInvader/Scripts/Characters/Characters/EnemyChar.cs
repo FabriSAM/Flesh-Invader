@@ -283,10 +283,7 @@ public abstract class EnemyChar : MonoBehaviour
         controller.UnPossessable = unpossessableProb.IsInRange(UnityEngine.Random.Range(0f, 1f));
         if (controller.UnPossessable && !controller.IsPossessed)
         {
-            Debug.Log("Spawn unposessable enemyChar");
-
             controller.Overlay.AddOverlay(unpossesableMaterial);
-
         }
         else
         {

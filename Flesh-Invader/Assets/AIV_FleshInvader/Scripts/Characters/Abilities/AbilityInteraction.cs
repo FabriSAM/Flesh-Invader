@@ -33,7 +33,6 @@ public class AbilityInteraction : AbilityBase
     #region Callback
     private void Interaction()
     {
-        Debug.Log("Interaction");
         StartInteract();
     }
 

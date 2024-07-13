@@ -89,7 +89,6 @@ public class CombatManager : MonoBehaviour, IDamageable, IDamager
     }
     private void OnInternalDamageTaken(DamageContainer damage)
     {
-        Debug.Log($"Current HP: {healthModule.CurrentHP} - MaxHP : {healthModule.MaxHP}");
         healthModule.TakeDamage(damage);
     }
     private void OnHealthModuleDeathNotify()

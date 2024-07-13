@@ -157,7 +157,6 @@ public class IAController : MonoBehaviour
                 Physics.SphereCast(targetPoint.TargetPosition, targetPoint.occupationRad, Vector3.zero, out hit, LayerMask.NameToLayer("Enemy"));
                 if (hit.collider != null)
                 {
-                    Debug.Log("Occupied target Point");
                     validTargets.Remove(targetPoint);
                 }
             }

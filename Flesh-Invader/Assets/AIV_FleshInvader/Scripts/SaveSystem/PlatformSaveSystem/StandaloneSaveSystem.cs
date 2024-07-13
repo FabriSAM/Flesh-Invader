@@ -73,10 +73,8 @@ public class StandAloneSaveSystem : ISaveSystem
         else
         {
             allDatas[slotIndex] = null;
-            Debug.Log("Data at index "+slotIndex + "has been found as null");
         }
         SelectGameData(slotIndex);
-        Debug.Log("Slot " + slotIndex + " loaded");
     }
 
     public void LoadAllSlotData()

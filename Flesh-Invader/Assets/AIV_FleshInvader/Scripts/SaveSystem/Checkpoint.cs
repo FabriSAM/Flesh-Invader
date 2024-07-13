@@ -7,7 +7,7 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] Vector3 spawnPositionOffset;
     private float offsetSphereRadius = 3;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider otsdher)
     {
         SaveSystem.SaveGameStats(transform.position + spawnPositionOffset);
         gameObject.SetActive(false);
