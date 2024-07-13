@@ -60,7 +60,7 @@ public class UI_EndScreen : MonoBehaviour {
 
                 SaveSystem.CreateGameData(0);
                 StaticLoading.ManageSceneLoading(false);
-                
+
                 GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory(false));
             }
 
@@ -99,6 +99,7 @@ public class UI_EndScreen : MonoBehaviour {
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission failed!", Color.red, 0);
         ShowEndScreen();
+        ResetSaveIfExists();
     }
 
     private void OnPlayerWin(EventArgs message) {
@@ -107,6 +108,7 @@ public class UI_EndScreen : MonoBehaviour {
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission success!", Color.green, 1);
         ShowEndScreen();
+        ResetSaveIfExists();
     }
 
     private void SwitchInputMap() {
@@ -137,6 +139,15 @@ public class UI_EndScreen : MonoBehaviour {
     private void ShowEndScreen() {
         root.style.display = DisplayStyle.Flex;
         StartCoroutine("ChangeBorderColor");
+    }
+
+    private void ResetSaveIfExists()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            if (SaveSystem.GameDataExists(0))
+                SaveSystem.DeleteGameData(0);
+        }
     }
     #endregion
 
