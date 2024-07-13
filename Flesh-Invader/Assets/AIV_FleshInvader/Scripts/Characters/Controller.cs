@@ -319,10 +319,12 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void OnPlayerStateDeathAnimationEnd()
     {
+        InputManager.EnablePlayerMap(true);
         PlayerStateHealth.PlayerDeath();
     }
     private void OnPlayerStateDeathAnimationStart(EventArgs _)
     {
+        InputManager.EnablePlayerMap(false);
         UnpossessionUnregisterInputs();
         AudioManager.Get().PlayOneShot(enemyDeathEventName, enemiesBankName);
         characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
