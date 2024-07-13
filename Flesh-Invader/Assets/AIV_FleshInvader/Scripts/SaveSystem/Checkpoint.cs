@@ -10,6 +10,7 @@ public class Checkpoint : MonoBehaviour
     private void OnTriggerEnter(Collider otsdher)
     {
         SaveSystem.SaveGameStats(transform.position + spawnPositionOffset);
+        otsdher.gameObject.GetComponent<Controller>().VFXMng.ActivateEffect("Save");
         gameObject.SetActive(false);
     }
     private void OnTriggerStay(Collider other)
