@@ -52,7 +52,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private void OnTriggerEnter(Collider other)
     {
         IPossessable possessableChar = other.gameObject.GetComponentInChildren<IPossessable>();
-        if (possessableChar != null && !possessableChar.UnPossessable && !possessableChar.IsDead)
+        if (possessableChar != null && !possessableChar.UnPossessable && !possessableChar.IsDead && !owner.IsDead)
         {
             owner.UnPossess();
             possessableChar.Possess();
