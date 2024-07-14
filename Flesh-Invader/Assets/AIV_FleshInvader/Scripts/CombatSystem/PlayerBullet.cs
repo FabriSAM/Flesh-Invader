@@ -8,6 +8,10 @@ public class PlayerBullet: MonoBehaviour, IBullet
     private Rigidbody rb;
     [SerializeField]
     private float lifeTime;
+    [SerializeField]
+    private ParticleSystem trail;
+    [SerializeField]
+    private TrailRenderer trailRenderer;
 
     private Coroutine lifeCoroutine;
     private IPossessable owner;
@@ -22,6 +26,8 @@ public class PlayerBullet: MonoBehaviour, IBullet
         transform.position = spawnTransform.position;
         Vector3 velocity = spawnTransform.forward * speed;
         rb.velocity = velocity;
+        trailRenderer.Clear();
+        trail.Play();
         gameObject.SetActive(true);
     }
 
@@ -33,6 +39,8 @@ public class PlayerBullet: MonoBehaviour, IBullet
 
     private void Destroy()
     {
+        trail.Stop();
+        trailRenderer.Clear();
         gameObject.SetActive(false);
     }
 

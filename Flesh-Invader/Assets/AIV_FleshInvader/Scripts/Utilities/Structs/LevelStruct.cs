@@ -11,7 +11,7 @@ public struct LevelStruct
     [SerializeField]
     private int currentLevel;
 
-    public float CurrentXP { get { return currentXP; } set { currentXP = value; Debug.Log("CurrentXP: " + currentXP); } }
-    public float NextLevelXp {  get { return nextLevelXp; } set { nextLevelXp = value; Debug.Log("CurrentXP: " + currentXP); } }
-    public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; Debug.Log("CurrentXP: " + currentXP); } }
+    public float CurrentXP { get { return currentXP; } set { currentXP = value; } }
+    public float NextLevelXp {  get { return nextLevelXp; } set { nextLevelXp = value; } }
+    public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
 }

@@ -35,11 +35,17 @@ public class UI_PauseMenu : MonoBehaviour
     private VisualElement portrait;
     //others
     private bool isPlayerDead;
+    private bool isPauseMenuOpen;
+    #endregion
+
+    #region FMOD
+    private const string buttonClickEventName = "ButtonClick";
+    private const string buttonHoverEventName = "ButtonHover";
+    private const string buttonSoundBankName = "UI";
     #endregion
 
     #region Mono
     public void Awake() {
-        Debug.Log("UI_PauseMenu Awake" + isPlayerDead);
         //root
         root = GetComponent<UIDocument>().rootVisualElement;
         root.style.display = DisplayStyle.None;
@@ -64,7 +70,6 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     public void Start() {
-        Debug.Log("UI_PauseMenu Start" + isPlayerDead);
         buttonContinue.clicked += ClosePauseMenu;
         buttonContinue.RegisterCallback<MouseOverEvent>(onHoverSound);
         buttonMainMenu.clicked += OnMainMenuClick;
@@ -101,6 +106,7 @@ public class UI_PauseMenu : MonoBehaviour
         InitializeUI(statistics);
         root.style.display = DisplayStyle.Flex;
         StartCoroutine("ChangeBorderColor");
+        isPauseMenuOpen = true;
     }
 
     private void OnPlayerDeath(EventArgs message) {
@@ -108,6 +114,7 @@ public class UI_PauseMenu : MonoBehaviour
     }
 
     private void OnPauseMenuClose(InputAction.CallbackContext context) {
+        if (!isPauseMenuOpen) return;
         ClosePauseMenu();
     }
 
@@ -135,13 +142,11 @@ public class UI_PauseMenu : MonoBehaviour
         possessionSuccess.text = statistics.PossessionSuccess.ToString();
         possessionFailed.text = statistics.PossessionFailed.ToString();
         bulletsFired.text = statistics.BulletFired.ToString();
-        Debug.Log("CURRENT INDEX ENEMY" + statistics.CurrentIndexEnemy);
         SetPortraitCameraTransform(statistics.CurrentIndexEnemy);
     }
     
     private void SetPortraitCameraTransform(int enemyIndex)
     {
-        Debug.Log(portraitCamera.transform);
         portraitCamera.transform.position = modelPortraitLocation[enemyIndex].position;
     }
     
@@ -154,6 +159,7 @@ public class UI_PauseMenu : MonoBehaviour
         InputManager.EnablePlayerMap(true);
         InputManager.EnableUIMap(false);
         Time.timeScale = 1;
+        isPauseMenuOpen = false;
     }
 
     private void OnMainMenuClick() {

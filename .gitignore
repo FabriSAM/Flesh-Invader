@@ -72,7 +72,7 @@ Flesh-Invader/[Aa]ssets/[Ss]treamingAssets/aa.meta
 Flesh-Invader/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 #FMOD plugin
-Flesh-Invader/[Aa]ssets/Plugins/FMOD/**/*.dll
+#Flesh-Invader/[Aa]ssets/Plugins/FMOD/**/*.dll
 Flesh-Invader/[Aa]ssets/Gizmos/FMOD/*
 Flesh-Invader/[Aa]ssets/Editor Default Resources/FMOD/*
 Flesh-Invader/[Aa]ssets/**/FMODStudioCache.asset
@@ -83,3 +83,6 @@ Flesh-Invader/fmod.log
 Flesh-Invader/fmod_editor.log
 Flesh-Invader/[Aa]ssets/FMODAssets/*
 Flesh-Invader/[Aa]ssets/FMODStudioCache.meta
+Flesh-Invader/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/Info.plist
+Flesh-Invader/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/Info.plist
+Flesh-Invader/Assets/Plugins/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/Info.plist

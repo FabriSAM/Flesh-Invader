@@ -19,6 +19,11 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private float maxFov;
     [SerializeField]
     private float fovSpeed;
+    [SerializeField]
+    private ParticleSystem trail;
+    [SerializeField]
+    private TrailRenderer trailRenderer;
+
     #endregion
 
     #region PrivateMembers
@@ -27,22 +32,31 @@ public class PossessionBullet : MonoBehaviour, IBullet
     private float speed;
     #endregion
 
+    #region FMOD
+    private const string possessEventName = "Possess";
+    private const string possessEventBank = "Player";
+    #endregion
+
     #region Mono
     private void OnEnable()
     {   
         GlobalEventSystem.AddListener(EventName.PlayerDeath, OnPlayerStateDead);
+        trailRenderer.Clear();
+        trail.Play();
     }
     private void OnDisable()
     {
+        trailRenderer.Clear();
         GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerStateDead);
     }
     private void OnTriggerEnter(Collider other)
     {
         IPossessable possessableChar = other.gameObject.GetComponentInChildren<IPossessable>();
-        if (possessableChar != null && !possessableChar.UnPossessable && !possessableChar.IsDead)
+        if (possessableChar != null && !possessableChar.UnPossessable && !possessableChar.IsDead && !owner.IsDead)
         {
             owner.UnPossess();
             possessableChar.Possess();
+            AudioManager.Get().PlayOneShot(possessEventName, possessEventBank);
         }
         Destroy();
     }
@@ -75,6 +89,7 @@ public class PossessionBullet : MonoBehaviour, IBullet
         {
             StopCoroutine(lifeCoroutine);
         }
+        trail.Stop();
         gameObject.SetActive(false);
     }
     #endregion

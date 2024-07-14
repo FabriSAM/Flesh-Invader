@@ -8,6 +8,10 @@ public class EnemyBullet : MonoBehaviour, IBullet
     private Rigidbody rb;
     [SerializeField]
     private float lifeTime;
+    [SerializeField]
+    private ParticleSystem trail;
+    [SerializeField]
+    private TrailRenderer trailRenderer;
 
     private Coroutine lifeCoroutine;
     private IPossessable owner;
@@ -15,6 +19,8 @@ public class EnemyBullet : MonoBehaviour, IBullet
     private void OnEnable()
     {
         lifeCoroutine = StartCoroutine(LifeCoroutine());
+        trailRenderer.Clear();
+        trail.Play();
     }
     public void Shoot(Transform spawnTransform, float speed)
     {
@@ -32,6 +38,7 @@ public class EnemyBullet : MonoBehaviour, IBullet
 
     private void Destroy()
     {
+        trail.Stop();
         gameObject.SetActive(false);
     }
 

@@ -15,16 +15,18 @@ MonoBehaviour:
   charInfo:
     CharStats:
       EnemyType: 0
-      Health: 10
-      Damage: 6
-      MinDamageMultiplier: 0.85
-      MaxDamageMultiplier: 1.25
+      Health: 8
+      MinHealthMultiplier: 0.9
+      MaxHealthMultiplier: 1.1
+      Damage: 10
+      MinDamageMultiplier: 0.8
+      MaxDamageMultiplier: 1.2
       BaseSpeed: 10
       ChaseSpeed: 15
       Xp: 10
       CanLockpick: 0
       UnpossessableProbability: 0.04
-      AttackCountdown: 0.6
+      AttackCountdown: 1.2
     CharStatesStats:
       distanceToFollowPlayer: 50
       distanceToStopFollowPlayer: 75

@@ -373,5 +373,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Size: {x: 29.651325, y: 3, z: 13.073364}
   m_Center: {x: -13.982668, y: 1, z: 28.71695}
-  m_Area: 0
+  m_Area: 1
   m_AffectedAgents: ffffffff

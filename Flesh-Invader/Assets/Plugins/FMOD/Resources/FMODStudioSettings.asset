@@ -415,10 +415,10 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   switchSettingsMigration: 1
-  HasSourceProject: 1
-  HasPlatforms: 1
+  HasSourceProject: 0
+  HasPlatforms: 0
   sourceProjectPath: C:/Users/Fabri/Desktop/FleshInvader/FleshInvader.fspro
-  sourceBankPath: C:/Users/Fabri/Desktop/FleshInvader/Build
+  sourceBankPath: FMODBanks/Desktop
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
@@ -427,7 +427,7 @@ MonoBehaviour:
   AutomaticSampleLoading: 0
   EncryptionKey: 
   ImportType: 0
-  TargetAssetPath: FMODBanks
+  TargetAssetPath: FMODBanks/Desktop
   TargetBankFolder: 
   EventLinkage: 0
   LoggingLevel: 2

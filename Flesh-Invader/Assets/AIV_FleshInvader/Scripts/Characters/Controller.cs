@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour, IPossessable
 {
+
+    #region FMOD
+    private const string enemyDeathEventName = "Death";
+    private const string enemyHurtEventName = "Hurt";
+    private const string playerHurtEventName = "Hurt";
+
+    private const string enemiesBankName = "Enemies";
+    private const string playerBankName = "Player";
+    #endregion
+
     #region Const
     private const string animatorDeadParameter = "Dead";
     private const float defaultPossesDamage = float.MaxValue;
+    private const string possessionVFXName = "Possession";
     #endregion
 
     #region References
@@ -26,6 +37,8 @@ public class Controller : MonoBehaviour, IPossessable
     private SetOverlay overlay;
     [SerializeField]
     private Material overlayMaterial;
+    [SerializeField]
+    private CharacterVFXMng characterVFXMng;
     #endregion //References
 
     #region PrivateAttributes
@@ -65,6 +78,8 @@ public class Controller : MonoBehaviour, IPossessable
         get { return combatManager; }
     }
     public SetOverlay Overlay { get { return overlay; } }
+
+    public CharacterVFXMng VFXMng { get { return characterVFXMng; } }
 
     public EnemyInfo CharacterInfo { get; set; }
 
@@ -185,9 +200,11 @@ public class Controller : MonoBehaviour, IPossessable
             if (playerStateHealth == null) { return; }
             if (playerStateHealth.DeadStatus) { return; }
             playerStateHealth.HealthReduce(damage.Damage);
+            AudioManager.Get().PlayOneShot(playerHurtEventName, playerBankName);
         }
         else
         {
+            AudioManager.Get().PlayOneShot(enemyHurtEventName, enemiesBankName);
             combatManager.OnControllerDamageTaken?.Invoke(damage);
         }
     }
@@ -200,6 +217,7 @@ public class Controller : MonoBehaviour, IPossessable
         playerStateInformation.PossessionSuccess();
         playerStateHealth.SetHealthForPossession();
         InternalOnPosses();
+        characterVFXMng.ActivateEffect(possessionVFXName);
     }
     // INTERNAL METHODS
     private void InternalOnPosses()
@@ -288,6 +306,7 @@ public class Controller : MonoBehaviour, IPossessable
     private void InternalOnDeath()
     {
         IsDead = true;
+        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemiesBankName);
         SetVelocity(Vector3.zero);
         characterPhysicsCollider.enabled = false;
         CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -300,11 +319,15 @@ public class Controller : MonoBehaviour, IPossessable
     }
     private void OnPlayerStateDeathAnimationEnd()
     {
+        InputManager.EnablePlayerMap(true);
         PlayerStateHealth.PlayerDeath();
     }
     private void OnPlayerStateDeathAnimationStart(EventArgs _)
     {
+        IsDead = true;
+        InputManager.EnablePlayerMap(false);
         UnpossessionUnregisterInputs();
+        AudioManager.Get().PlayOneShot(enemyDeathEventName, enemiesBankName);
         characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         characterPhysicsCollider.enabled = false;
         visual.SetAnimatorParameter(animatorDeadParameter, true);

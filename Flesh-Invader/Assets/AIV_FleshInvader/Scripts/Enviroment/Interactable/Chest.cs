@@ -12,10 +12,10 @@ public class Chest : InteractableBase, ICollectable
     [SerializeField]
     public uint collectibleID;
     #endregion
-    public uint CollectibleID => collectibleID;
 
     #region Variables
     PlayerStateMission missionController;
+    public uint CollectibleID => collectibleID;
 
     #endregion
 

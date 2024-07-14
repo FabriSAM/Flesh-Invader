@@ -6,9 +6,9 @@ using UnityEngine.UIElements;
 
 public class UI_EndScreen : MonoBehaviour {
 
+    #region InternalVariables
     [SerializeField]
     private Texture2D[] backgrounds;
-
 
     private VisualElement root;
     private VisualElement statistics;
@@ -21,7 +21,15 @@ public class UI_EndScreen : MonoBehaviour {
     private Label bulletsFired;
     private Button retry;
     private Button mainMenu;
+    #endregion
 
+    #region FMOD
+    private const string buttonClickEventName = "ButtonClick";
+    private const string buttonHoverEventName = "ButtonHover";
+    private const string buttonSoundBankName = "UI";
+    #endregion
+
+    #region Mono
     private void Awake() {
         root = GetComponent<UIDocument>().rootVisualElement.Q("root");
         root.style.display = DisplayStyle.None;
@@ -39,25 +47,33 @@ public class UI_EndScreen : MonoBehaviour {
 
     private void Start() {
         retry.clickable.clicked += delegate {
-            AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+            AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
+            AudioManager.Get().ChangeBackgroundMusic(BackgroundMusic.Gameplay);
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             InputManager.EnablePlayerMap(true);
-            InputManager.EnableUIMap(false);            
+
+            if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                if (SaveSystem.GameDataExists(0))
+                    SaveSystem.DeleteGameData(0);
+
+                SaveSystem.CreateGameData(0);
+                StaticLoading.ManageSceneLoading(false);
+
+                GlobalEventSystem.CastEvent(EventName.LoadGameEnded, EventArgsFactory.LoadGameEndedFactory(false));
+            }
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         };
         retry.RegisterCallback<MouseOverEvent>(onHoverSound);
         mainMenu.clickable.clicked += delegate {
-            AudioManager.Get().PlayOneShot("ButtonClick", "UI");
+            AudioManager.Get().PlayOneShot(buttonClickEventName, buttonSoundBankName);
             StopCoroutine("ChangeBorderColor");
             Time.timeScale = 1.0f;
             SceneManager.LoadScene(0, LoadSceneMode.Single);
         };
         mainMenu.RegisterCallback<MouseOverEvent>(onHoverSound);
-    }
-
-    private void onHoverSound(MouseOverEvent ev) {
-        AudioManager.Get().PlayOneShot("ButtonHover", "UI");
     }
 
     private void OnEnable() {
@@ -69,6 +85,12 @@ public class UI_EndScreen : MonoBehaviour {
         GlobalEventSystem.RemoveListener(EventName.PlayerDeath, OnPlayerDeath);
         GlobalEventSystem.RemoveListener(EventName.PlayerWin, OnPlayerWin);
     }
+    #endregion
+
+    #region Internal
+    private void onHoverSound(MouseOverEvent ev) {
+        AudioManager.Get().PlayOneShot(buttonHoverEventName, buttonSoundBankName);
+    }
 
     private void OnPlayerDeath(EventArgs message) {
         Time.timeScale = 0;
@@ -77,6 +99,7 @@ public class UI_EndScreen : MonoBehaviour {
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission failed!", Color.red, 0);
         ShowEndScreen();
+        ResetSaveIfExists();
     }
 
     private void OnPlayerWin(EventArgs message) {
@@ -85,11 +108,12 @@ public class UI_EndScreen : MonoBehaviour {
         WriteStatistics(statistics);
         SetSpecificEndScreenInfo("Mission success!", Color.green, 1);
         ShowEndScreen();
+        ResetSaveIfExists();
     }
 
     private void SwitchInputMap() {
         InputManager.EnablePlayerMap(false);
-        InputManager.EnableUIMap(true);
+        InputManager.EnableUIMap(false);
     }
 
     private void SetSpecificEndScreenInfo(string titleLabel, Color titleColor, int backgroundID) {
@@ -117,6 +141,17 @@ public class UI_EndScreen : MonoBehaviour {
         StartCoroutine("ChangeBorderColor");
     }
 
+    private void ResetSaveIfExists()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            if (SaveSystem.GameDataExists(0))
+                SaveSystem.DeleteGameData(0);
+        }
+    }
+    #endregion
+
+    #region Coroutine
     private IEnumerator ChangeBorderColor() {
         bool green = true;
         while (true) {
@@ -128,4 +163,5 @@ public class UI_EndScreen : MonoBehaviour {
             statistics.style.borderLeftColor = green ? Color.green : Color.red;
         }
     }
+    #endregion
 }
