@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf26f3daef0e364fa858200edf4542d, type: 3}
+  m_Name: Rogue
+  m_EditorClassIdentifier: 
+  charInfo:
+    CharStats:
+      EnemyType: 1
+      Health: 15
+      MinHealthMultiplier: 0.9
+      MaxHealthMultiplier: 1.1
+      Damage: 8
+      MinDamageMultiplier: 0.8
+      MaxDamageMultiplier: 1.2
+      BaseSpeed: 10
+      ChaseSpeed: 15
+      Xp: 10
+      CanLockpick: 1
+      UnpossessableProbability: 0.04
+      AttackCountdown: 1.2
+    CharStatesStats:
+      distanceToFollowPlayer: 50
+      distanceToStopFollowPlayer: 75
+      distanceToStartCombat: 4
+      distanceToStopCombat: 4.2
+      distanceToStartAttack: 2.5
+      distanceToStopAttack: 2.6
+      patrolAcceptableRadius: 5
+      patrolPointsGenerationRadius: 15
+      patrolPointNumber: 4
+      chaseSpeedMultiplier: 1.4
+      stutterTime: 2
+    CharNarrativeStats:
+      iconTextureName: RoguePortrait
+      colorName: RogueColor
+      enemyTypeDescription: Jailbird
+      baseAttackDescription: STAB STAB STAB!
+      passiveSkillDescription: Sleight of hand
