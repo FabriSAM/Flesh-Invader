@@ -2,7 +2,7 @@
 
 **Flesh Invader** is an exciting isometric low-poly bullet hell game where you play as an alien stranded on Earth. Your mission is to find the scattered pieces of your spaceship to return home. To stay alive, you must transfer from body to body by shooting a special projectile that allows you to possess the body you hit, replenishing your health and adopting their stats. The game also features an experience (XP) and player progression system.
 
-![Video_Gamplay_Trailer_Flesh_Invader-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/593184f3-d44d-4193-a7a9-eb69a0ff429d)
+![Video_Gamplay_Trailer_Flesh_Invader-ezgif com-optimize](https://github.com/user-attachments/assets/09c075ff-c9a0-4d6b-839e-b5321dea143b)
 
 ## Features
 
