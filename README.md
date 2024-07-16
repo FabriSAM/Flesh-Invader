@@ -24,7 +24,7 @@
 3. **Gain Experience:** Defeat enemies and complete objectives to earn XP.
 4. **Level Up:** Progress through levels to enhance your abilities and improve your stats.
 
-5. ## Screenshots
+## Screenshots
 
 ![Main menu](https://github.com/user-attachments/assets/bfcbbed2-4f8f-449d-817e-1976bc48abc1)
 ![Gameplay](https://github.com/user-attachments/assets/78c78f7f-d696-49a5-8461-c0ce61f059c2)
